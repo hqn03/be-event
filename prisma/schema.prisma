@@ -1,0 +1,270 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/mysql"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model VAI_TRO {
+    id_vai_tro  Int          @id @default(autoincrement())
+    ten_vai_tro String
+    mo_ta       String
+    NGUOI_DUNG  NGUOI_DUNG[]
+}
+
+enum ENUM_GIOI_TINH {
+    NAM
+    NU
+    KHAC
+}
+
+model NGUOI_DUNG {
+    id_nguoi_dung String         @id @default(uuid())
+    id_vai_tro    Int
+    ho_ten        String?
+    email         String         @unique
+    mat_khau      String
+    so_dien_thoai String?        @db.Char(10)
+    ngay_sinh     DateTime?      @db.Date
+    gioi_tinh     ENUM_GIOI_TINH @default(NAM)
+    da_xac_thuc   Boolean        @default(false)
+    ngay_tao      DateTime       @default(now())
+    ngay_cap_nhat DateTime       @updatedAt
+    ngay_xoa      DateTime?
+    vai_tro       VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
+
+    khach           KHACH?
+    nhanVien        NHAN_VIEN?
+    nhanViens       NHAN_VIEN[]         @relation("FK_ID_ADMIN")
+    tokenXacThucs   TOKEN_XAC_THUC[]
+    suKienPheDuyets SU_KIEN_PHE_DUYET[]
+}
+
+model TOKEN_XAC_THUC {
+    id_token          String     @id @default(cuid())
+    token             String     @unique
+    thoi_gian_het_han DateTime
+    id_nguoi_dung     String
+    nguoi_dung        NGUOI_DUNG @relation(fields: [id_nguoi_dung], references: [id_nguoi_dung])
+}
+
+model KHACH {
+    id            Int        @id @default(autoincrement())
+    ma_khach      String?    @unique @db.Char(7)
+    id_nguoi_dung String     @unique
+    datVe         DAT_VE[]
+    nguoi_dung    NGUOI_DUNG @relation(fields: [id_nguoi_dung], references: [id_nguoi_dung])
+}
+
+model NHAN_VIEN {
+    id            Int     @id @default(autoincrement())
+    ma_nhan_vien  String? @unique @db.Char(5)
+    id_nguoi_dung String  @unique
+    id_admin      String
+
+    nguoi_dung NGUOI_DUNG @relation(references: [id_nguoi_dung], fields: [id_nguoi_dung])
+    nguoi_tao  NGUOI_DUNG @relation("FK_ID_ADMIN", fields: [id_admin], references: [id_nguoi_dung])
+    suKiens    SU_KIEN[]
+}
+
+enum ENUM_SU_KIEN {
+    NHAP
+    DANG_DUYET
+    DA_DUYET
+    KET_THUC
+}
+
+model LOAI_SU_KIEN {
+    id               Int       @id @default(autoincrement())
+    ten_loai_su_kien String
+    duong_dan        String
+    suKiens          SU_KIEN[]
+    ngay_tao         DateTime  @default(now())
+    ngay_cap_nhat    DateTime  @updatedAt
+    ngay_xoa         DateTime?
+}
+
+model SU_KIEN {
+    id              Int          @id @default(autoincrement())
+    id_loai_su_kien Int
+    ma_su_kien      String?      @unique @db.Char(7)
+    ma_nhan_vien    String       @db.Char(5)
+    ten_su_kien     String
+    mo_ta           String       @db.Text
+    ngay_bat_dau    DateTime
+    ngay_ket_thuc   DateTime
+    dia_diem        String
+    kinh_do         Float        @db.Double
+    vi_do           Float        @db.Double
+    trang_thai      ENUM_SU_KIEN @default(NHAP)
+    hinh_anh        String
+    duong_dan       String       @unique
+    ngay_tao        DateTime     @default(now())
+    ngay_cap_nhat   DateTime     @updatedAt
+    ngay_xoa        DateTime?
+
+    loai_su_kien LOAI_SU_KIEN @relation(fields: [id_loai_su_kien], references: [id])
+    nguoi_tao    NHAN_VIEN    @relation(fields: [ma_nhan_vien], references: [ma_nhan_vien])
+
+    datVes          DAT_VE[]
+    suKienPheDuyets SU_KIEN_PHE_DUYET[]
+    phienSuKiens    PHIEN_SU_KIEN[]
+    ghes            GHE[]
+}
+
+enum TRANG_THAI_DUYET {
+    DUOC_PHE_DUYET
+    DANG_XU_LY
+    TU_CHOI
+}
+
+model SU_KIEN_PHE_DUYET {
+    id_su_kien_phe_duyet String  @id @default(nanoid())
+    ma_su_kien           String  @db.Char(7)
+    id_admin             String?
+
+    trang_thai TRANG_THAI_DUYET @default(DANG_XU_LY)
+    ghi_chu    String?          @db.Text
+    ngay_tao   DateTime         @default(now())
+    ngay_duyet DateTime         @updatedAt
+
+    su_kien    SU_KIEN     @relation(fields: [ma_su_kien], references: [ma_su_kien])
+    nguoiDuyet NGUOI_DUNG? @relation(fields: [id_admin], references: [id_nguoi_dung])
+}
+
+model PHIEN_SU_KIEN {
+    id_phien_su_kien String @id @default(nanoid())
+    ma_su_kien       String
+
+    thoi_gian_bat_dau     DateTime
+    thoi_gian_ket_thuc    DateTime
+    thoi_gian_mo_dat_ve   DateTime
+    thoi_gian_dong_dat_ve DateTime
+
+    su_kien SU_KIEN   @relation(fields: [ma_su_kien], references: [ma_su_kien])
+    loaiVes LOAI_VE[]
+    gheDats GHE_DAT[]
+}
+
+model LOAI_VE {
+    id_loai_ve       String  @id @default(nanoid())
+    id_phien_su_kien String
+    ten_ve           String
+    gia_ve           Decimal @db.Decimal(10, 0)
+    so_luong_con     Int
+    so_luong_mua_min Int     @db.TinyInt
+    so_luong_mua_max Int     @db.TinyInt
+
+    mo_ta         String            @db.Text
+    phien_su_kien PHIEN_SU_KIEN     @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien], onDelete: Cascade)
+    chiTietDatVe  CHI_TIET_DAT_VE[]
+}
+
+enum TRANG_THAI_DON_HANG {
+    CHO_THANH_TOAN
+    HOAN_TAT
+    HUY
+}
+
+model DAT_VE {
+    id          Int                 @id @default(autoincrement())
+    ma_don_hang String?             @unique @db.Char(10)
+    ma_khach    String              @db.Char(7)
+    ma_su_kien  String              @db.Char(7)
+    tong_tien   Decimal
+    ngay_tao    DateTime            @default(now())
+    het_han     DateTime
+    trang_thai  TRANG_THAI_DON_HANG @default(CHO_THANH_TOAN)
+
+    su_kien       SU_KIEN           @relation(fields: [ma_su_kien], references: [ma_su_kien])
+    nguoi_dat_ve  KHACH             @relation(fields: [ma_khach], references: [ma_khach])
+    chiTietDatVes CHI_TIET_DAT_VE[]
+    thanhToans    THANH_TOAN[]
+}
+
+model CHI_TIET_DAT_VE {
+    id_chi_tiet String  @id
+    ma_don_hang String  @db.Char(10)
+    id_loai_ve  String?
+    id_ghe_dat  String?
+    ma_ghe      String?
+    ten_loai_ve String
+    so_luong    Int     @db.TinyInt
+    don_gia     Decimal @db.Decimal(10, 0)
+    thanh_tien  Decimal @db.Decimal(10, 0)
+
+    datVe   DAT_VE   @relation(fields: [ma_don_hang], references: [ma_don_hang])
+    loai_ve LOAI_VE? @relation(fields: [id_loai_ve], references: [id_loai_ve])
+    ves     VE[]
+}
+
+enum TRANG_THAI_VE {
+    CHUA_CHECK_IN
+    DA_CHECK_IN
+}
+
+model VE {
+    id_ve          String        @id
+    id_chi_tiet    String
+    trang_thai     TRANG_THAI_VE @default(CHUA_CHECK_IN)
+    QR_code        String        @db.Text
+    ngay_phat_hanh DateTime      @default(now())
+    ngay_check_in  DateTime?
+
+    chiTietDatVe CHI_TIET_DAT_VE @relation(fields: [id_chi_tiet], references: [id_chi_tiet])
+}
+
+model GHE {
+    id         String   @id
+    hang_ghe   String
+    ma_ghe     String
+    loai       String
+    loai_ghe   String
+    gia        Decimal  @db.Decimal(10, 0)
+    ma_su_kien String
+    ngay_tao   DateTime @default(now())
+
+    suKien  SU_KIEN   @relation(fields: [ma_su_kien], references: [ma_su_kien])
+    gheDats GHE_DAT[]
+}
+
+enum TRANG_THAI_GHE {
+    CHUA_THANH_TOAN
+    THANH_TOAN
+}
+
+model GHE_DAT {
+    id               String        @id @default(nanoid())
+    id_ghe           String
+    id_phien_su_kien String
+    ghe              GHE           @relation(fields: [id_ghe], references: [id])
+    phien_su_kien    PHIEN_SU_KIEN @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
+
+    @@unique([id_ghe, id_phien_su_kien])
+}
+
+enum TRANG_THAI_THANH_TOAN {
+    THANH_CONG
+    THAT_BAI
+}
+
+model THANH_TOAN {
+    id              String                @id
+    ma_don_hang     String                @db.Char(10)
+    cong_thanh_toan String
+    ma_giao_dich    String
+    so_tien         Decimal               @db.Decimal(10, 0)
+    trang_thai      TRANG_THAI_THANH_TOAN
+    ngay_tao        DateTime              @default(now())
+
+    datVe DAT_VE @relation(fields: [ma_don_hang], references: [ma_don_hang])
+}
+

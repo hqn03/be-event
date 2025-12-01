@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+</head>
+<body style="font-family: sans-serif; padding: 20px">
+  <h2>Cảm ơn bạn đã đặt vé 🎟️</h2>
+  <p>Dưới đây là danh sách vé của bạn:</p>
+  
+  <% tickets.forEach(ticket => { %>
+    <div style="margin-bottom: 25px; text-align: center;">
+      <p><b>Mã vé:</b> <%= ticket.id_ve %></p>
+      <img src="<%= ticket.QR_code %>" style="width:180px; border:1px solid #ddd; border-radius:8px;" />
+    </div>
+  <% }) %>
+
+  <p style="margin-top: 30px;">Vui lòng đưa QR khi check-in.</p>
+</body>
+</html>

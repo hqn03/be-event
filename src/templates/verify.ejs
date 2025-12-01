@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác thực Email</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7fa;
+            padding: 20px;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #3a5fc6 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .email-header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .email-header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .email-body {
+            padding: 40px 30px;
+        }
+        
+        .greeting {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .content {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .verification-code {
+            background-color: #f8f9fa;
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .verification-code p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .code {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            letter-spacing: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .verify-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .verify-button a {
+            display: inline-block;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        
+        .verify-button a:hover {
+            transform: translateY(-2px);
+        }
+        
+        .divider {
+            height: 1px;
+            background-color: #e0e0e0;
+            margin: 30px 0;
+        }
+        
+        .info-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .info-box p {
+            font-size: 14px;
+            color: #856404;
+            margin: 0;
+        }
+        
+        .email-footer {
+            background-color: #f8f9fa;
+            padding: 30px;
+            text-align: center;
+            font-size: 13px;
+            color: #777;
+        }
+        
+        .email-footer p {
+            margin: 5px 0;
+        }
+        
+        .social-links {
+            margin: 20px 0;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            margin: 0 10px;
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .email-header h1 {
+                font-size: 24px;
+            }
+            
+            .email-body {
+                padding: 30px 20px;
+            }
+            
+            .code {
+                font-size: 28px;
+                letter-spacing: 3px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="email-header">
+            <h1>🔐 Xác Thực Email</h1>
+            <p>Chào mừng bạn đến với <%= companyName || 'Ứng dụng của chúng tôi' %></p>
+        </div>
+        
+        <!-- Body -->
+        <div class="email-body">
+            <div class="greeting">
+                Xin chào <strong><%= userName || 'bạn' %></strong>,
+            </div>
+            
+            <div class="content">
+                <p>Cảm ơn bạn đã đăng ký tài khoản! Để hoàn tất quá trình đăng ký và bắt đầu sử dụng dịch vụ của chúng tôi, vui lòng xác thực địa chỉ email của bạn.</p>
+            </div>
+            
+          
+            <!-- Verification Button -->
+            <div class="verify-button">
+                <a href="<%= verificationLink %>">Xác Thực Email</a>
+            </div>
+            
+            <div class="content">
+                <p>Hoặc copy và paste đường link sau vào trình duyệt:</p>
+                <p style="word-break: break-all; color: #667eea; font-size: 13px;"><%= verificationLink %></p>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <!-- Warning Box -->
+            <div class="info-box">
+                <p><strong>⚠️ Lưu ý:</strong> Nếu bạn không thực hiện yêu cầu này, vui lòng bỏ qua email này. Không chia sẻ mã xác thực với bất kỳ ai.</p>
+            </div>
+            
+            <div class="content" style="margin-top: 30px;">
+                <p>Nếu bạn có bất kỳ câu hỏi nào, đừng ngần ngại liên hệ với chúng tôi.</p>
+                <p style="margin-top: 20px;">Trân trọng,<br><strong>Đội ngũ <%= companyName || 'Hỗ trợ' %></strong></p>
+            </div>
+        </div> 
+    </div>
+</body>
+</html>
