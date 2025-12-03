@@ -115,7 +115,6 @@ model SU_KIEN {
   loai_su_kien LOAI_SU_KIEN @relation(fields: [id_loai_su_kien], references: [id])
   nguoi_tao    NHAN_VIEN    @relation(fields: [ma_nhan_vien], references: [ma_nhan_vien])
 
-  datVes          DAT_VE[]
   suKienPheDuyets SU_KIEN_PHE_DUYET[]
   phienSuKiens    PHIEN_SU_KIEN[]
   ghes            GHE[]
@@ -153,6 +152,7 @@ model PHIEN_SU_KIEN {
   su_kien SU_KIEN   @relation(fields: [ma_su_kien], references: [ma_su_kien])
   loaiVes LOAI_VE[]
   gheDats GHE_DAT[]
+  datVes  DAT_VE[]
 }
 
 model LOAI_VE {
@@ -176,16 +176,16 @@ enum TRANG_THAI_DON_HANG {
 }
 
 model DAT_VE {
-  id          Int                 @id @default(autoincrement())
-  ma_don_hang String?             @unique @db.Char(10)
-  ma_khach    String              @db.Char(7)
-  ma_su_kien  String              @db.Char(7)
-  tong_tien   Decimal
-  ngay_tao    DateTime            @default(now())
-  het_han     DateTime
-  trang_thai  TRANG_THAI_DON_HANG @default(CHO_THANH_TOAN)
+  id               Int                 @id @default(autoincrement())
+  ma_don_hang      String?             @unique @db.Char(10)
+  ma_khach         String              @db.Char(7)
+  id_phien_su_kien String
+  tong_tien        Decimal
+  ngay_tao         DateTime            @default(now())
+  het_han          DateTime
+  trang_thai       TRANG_THAI_DON_HANG @default(CHO_THANH_TOAN)
 
-  su_kien       SU_KIEN           @relation(fields: [ma_su_kien], references: [ma_su_kien])
+  phienSuKien   PHIEN_SU_KIEN     @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
   nguoi_dat_ve  KHACH             @relation(fields: [ma_khach], references: [ma_khach])
   chiTietDatVes CHI_TIET_DAT_VE[]
   thanhToans    THANH_TOAN[]
@@ -253,6 +253,7 @@ model GHE_DAT {
 }
 
 enum TRANG_THAI_THANH_TOAN {
+  DANG_XU_LY
   THANH_CONG
   THAT_BAI
 }
@@ -261,9 +262,8 @@ model THANH_TOAN {
   id              String                @id
   ma_don_hang     String                @db.Char(10)
   cong_thanh_toan String
-  ma_giao_dich    String
   so_tien         Decimal               @db.Decimal(10, 0)
-  trang_thai      TRANG_THAI_THANH_TOAN
+  trang_thai      TRANG_THAI_THANH_TOAN @default(DANG_XU_LY)
   ngay_tao        DateTime              @default(now())
 
   datVe DAT_VE @relation(fields: [ma_don_hang], references: [ma_don_hang])

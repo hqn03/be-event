@@ -20,6 +20,7 @@ import { VNPay } from "vnpay";
 import mailService, { transport } from "../services/mailService.js";
 import ejs from "ejs";
 import ticketRoute from "./ticketRoute.js";
+import paymentRoute from "./paymentRoute.js";
 
 const mysql = new MySQLClient();
 const router = Router();
@@ -36,6 +37,7 @@ router.use("/seats", seatRoute);
 router.use("/events", eventRoute);
 router.use("/orders", orderRoute);
 router.use("/tickets", ticketRoute);
+router.use("/payment", paymentRoute);
 
 const s3 = new S3Client({
   region: "auto",
@@ -155,15 +157,12 @@ router.get("/check-payment-vnpay", async (req, res) => {
         },
       });
 
-      // Lưu giao dịch vào thanh toán (payment)
-      await tx.tHANH_TOAN.create({
+      await tx.tHANH_TOAN.update({
+        where: {
+          id: vnp_TxnRef,
+        },
         data: {
-          id: nanoid(),
-          cong_thanh_toan: "VNPAY",
-          ma_giao_dich: vnp_TxnRef,
-          so_tien: vnp_Amount / 100,
           trang_thai: "THANH_CONG",
-          ma_don_hang: vnp_OrderInfo,
         },
       });
 
@@ -207,20 +206,17 @@ router.get("/check-payment-vnpay", async (req, res) => {
   } else {
     //THANH TOÁN THẤT BẠI
     await mysql.$transaction(async (tx) => {
-      // Lưu thanh toán thất bại
-      await tx.tHANH_TOAN.create({
+      await tx.tHANH_TOAN.update({
+        where: {
+          id: vnp_TxnRef,
+        },
         data: {
-          id: nanoid(),
-          cong_thanh_toan: "VNPAY",
-          ma_giao_dich: vnp_TxnRef,
-          so_tien: vnp_Amount / 100,
           trang_thai: "THAT_BAI",
-          ma_don_hang: vnp_OrderInfo,
         },
       });
 
       // Thay đổi trạng thái đơn hàng -> HỦY
-      await tx.dON_HANG.update({
+      await tx.dAT_VE.update({
         where: {
           ma_don_hang: vnp_OrderInfo,
         },
@@ -229,7 +225,7 @@ router.get("/check-payment-vnpay", async (req, res) => {
         },
       });
 
-      const chiTiets = await tx.cHI_TIET_DON_HANG.findMany({
+      const chiTiets = await tx.cHI_TIET_DAT_VE.findMany({
         where: {
           ma_don_hang: vnp_OrderInfo,
         },
@@ -260,7 +256,6 @@ router.get("/check-payment-vnpay", async (req, res) => {
       }
     });
 
-    console.log("❌ Thanh toán thất bại:", verify.message);
     res.redirect("http://localhost:5173");
   }
 });

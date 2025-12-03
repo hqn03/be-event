@@ -1,7 +1,7 @@
 import fs from "fs";
 
 const res = await fetch(
-  "https://api-v2.ticketbox.vn/search/v2/events?limit=20&page=1&categories=others"
+  "https://api-v2.ticketbox.vn/search/v2/events?limit=20&page=1&categories=music"
 ).then((res) => res.json());
 
 const results = res.data.results;
