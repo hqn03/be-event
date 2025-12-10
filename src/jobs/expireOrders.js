@@ -3,7 +3,7 @@ import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
 const mysql = new MySQLClient();
 
 export function startExpireOrders() {
-  // 1 phút mỗi ngày
+  // 5 phút mỗi ngày
   cron.schedule("*/5 * * * *", async () => {
     const now = new Date();
 

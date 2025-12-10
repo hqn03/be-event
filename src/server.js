@@ -5,9 +5,13 @@ import route from "./routes/index.js";
 import cors from "cors";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import { startExpireOrders } from "./jobs/expireOrders.js";
+import { closeEvent } from "./jobs/closeEvents.js";
 dotenv.config();
 
+// JOBs
 startExpireOrders();
+closeEvent();
+
 const app = express();
 
 app.use(

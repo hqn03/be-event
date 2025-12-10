@@ -68,6 +68,7 @@ const managerEventController = {
       const { id: ma_su_kien } = req.params;
       const user = req.user;
       const result = await managerEventService.getEvent({ ma_su_kien, user });
+      console.log(result);
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);

@@ -17,6 +17,7 @@ eventRoute.get("/", async (req, res) => {
                 gte: new Date(),
               },
               id_loai_su_kien: type.id,
+              trang_thai: "DA_DUYET",
             },
             take: 6,
           })
@@ -32,6 +33,39 @@ eventRoute.get("/", async (req, res) => {
 
     return res.status(200).json(result);
   } catch (error) {
+    return res.status(400).json(error.message);
+  }
+});
+
+eventRoute.get("/search", async (req, res) => {
+  try {
+    let { q, type } = req.query;
+
+    if (!type || type === "undefined") type = undefined;
+    if (!q || q === "undefined") q = undefined;
+
+    const events = await mysql.sU_KIEN.findMany({
+      where: {
+        trang_thai: {
+          in: ["DA_DUYET", "KET_THUC"],
+        },
+        ...(q && {
+          ten_su_kien: {
+            contains: q,
+          },
+        }),
+        ...(type && {
+          loai_su_kien: {
+            duong_dan: type,
+          },
+        }),
+      },
+      orderBy: [{ trang_thai: "asc" }, { ngay_ket_thuc: "desc" }],
+    });
+
+    return res.status(200).json(events);
+  } catch (error) {
+    console.log(error);
     return res.status(400).json(error.message);
   }
 });
