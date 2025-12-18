@@ -43,7 +43,7 @@ const authService = {
           data: {
             id_nguoi_dung: user.id_nguoi_dung,
             token: token,
-            thoi_gian_het_han: new Date(Date.now() + 10 * 60 * 1000), //hết hạn sau 10p
+            thoi_gian_het_han: new Date(Date.now() + 60 * 60 * 1000), //hết hạn sau 1h
           },
         });
 
@@ -55,7 +55,7 @@ const authService = {
         });
 
         mailService.send(user.email, "Xac thuc tai khoan", html);
-        return user;
+        return 1;
       });
       return createdUser;
     } catch (error) {
@@ -132,7 +132,7 @@ const authService = {
 
         await tx.kHACH.update({
           where: { id: customer.id },
-          data: { ma_khach: "KH" + customer.id.toString().padStart(8, "0") },
+          data: { ma_khach: "KH" + customer.id.toString().padStart(5, "0") },
         });
 
         return 1;

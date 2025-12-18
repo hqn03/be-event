@@ -209,7 +209,9 @@ model CHI_TIET_DAT_VE {
 
 enum TRANG_THAI_VE {
     CHUA_CHECK_IN
-    DA_CHECK_IN
+    CHECKED_IN
+    USED
+    EXPIRED
 }
 
 model VE {

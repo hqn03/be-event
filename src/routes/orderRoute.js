@@ -2,8 +2,9 @@ import { Router } from "express";
 import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
 import { nanoid } from "nanoid";
 // import { dateFormat, VNPay, VnpLocale } from "vnpay";
-import { formatTimeRange } from "../utils/datetime.js";
+import { formatTimeRange, toGMT7 } from "../utils/datetime.js";
 import PDFDocument from "pdfkit";
+import ExcelJS from "exceljs";
 
 const mysql = new MySQLClient();
 
@@ -246,6 +247,220 @@ orderRoute.get("/manager", async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(200).json(error);
+  }
+});
+
+orderRoute.get("/admin", async (req, res) => {
+  try {
+    const page = Math.max(parseInt(req.query.page) || 1, 1); // 1-based
+    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = (page - 1) * limit;
+
+    const { from, to, q } = req.query;
+
+    const where = { trang_thai: "HOAN_TAT" };
+
+    if (q) {
+      where.OR = [
+        { phienSuKien: { su_kien: { ten_su_kien: { contains: q } } } },
+        { phienSuKien: { su_kien: { ma_su_kien: { contains: q } } } },
+      ];
+    }
+
+    // filter date
+    if (from || to) {
+      where.ngay_tao = {};
+      if (from) where.ngay_tao.gte = new Date(from);
+      if (to) where.ngay_tao.lte = new Date(to);
+    }
+
+    // Đếm tổng bản ghi
+    const totalItems = await mysql.dAT_VE.count({ where });
+    const totalPages = Math.ceil(totalItems / limit);
+
+    // Lấy dữ liệu theo page
+    const items = await mysql.dAT_VE.findMany({
+      where,
+      skip,
+      take: limit,
+      orderBy: {
+        ngay_tao: "desc", // nên có
+      },
+      include: {
+        phienSuKien: {
+          select: {
+            su_kien: {
+              select: {
+                ten_su_kien: true,
+                ma_su_kien: true,
+                ma_nhan_vien: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      items,
+      page,
+      limit,
+      totalItems,
+      totalPages,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json(error);
+  }
+});
+
+orderRoute.get("/admin/summary-by-event", async (req, res) => {
+  try {
+    const { from, to } = req.query;
+
+    const where = { trang_thai: "HOAN_TAT" };
+
+    if (from || to) {
+      where.ngay_tao = {};
+      if (from) where.ngay_tao.gte = new Date(from);
+      if (to) where.ngay_tao.lte = new Date(to);
+    }
+
+    const grouped = await mysql.dAT_VE.groupBy({
+      by: ["id_phien_su_kien"],
+      where,
+      _sum: {
+        tong_tien: true,
+      },
+      _count: {
+        _all: true,
+      },
+    });
+
+    const phienIds = grouped.map((i) => i.id_phien_su_kien);
+
+    const phienMap = await mysql.pHIEN_SU_KIEN.findMany({
+      where: { id_phien_su_kien: { in: phienIds } },
+      select: {
+        id_phien_su_kien: true,
+        su_kien: { select: { ma_su_kien: true, ten_su_kien: true } },
+      },
+    });
+
+    const map = {};
+
+    grouped.forEach((g) => {
+      const phien = phienMap.find(
+        (p) => p.id_phien_su_kien === g.id_phien_su_kien
+      );
+      if (!phien) return;
+
+      const key = phien.su_kien.ma_su_kien;
+
+      if (!map[key]) {
+        map[key] = {
+          ma_su_kien: phien.su_kien.ma_su_kien,
+          ten_su_kien: phien.su_kien.ten_su_kien,
+          doanh_thu: 0,
+          so_don: 0,
+        };
+      }
+
+      map[key].doanh_thu += g._sum.tong_tien ?? 0;
+      map[key].so_don += g._count._all;
+    });
+
+    const result = Object.values(map);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(400).json(error);
+  }
+});
+
+orderRoute.get("/export-excel", async (req, res) => {
+  try {
+    const { from, to, q } = req.query;
+
+    const where = { trang_thai: "HOAN_TAT" };
+
+    if (q) {
+      where.OR = [
+        { phienSuKien: { su_kien: { ten_su_kien: { contains: q } } } },
+        { phienSuKien: { su_kien: { ma_su_kien: { contains: q } } } },
+      ];
+    }
+
+    // filter date
+    if (from || to) {
+      where.ngay_tao = {};
+      if (from) where.ngay_tao.gte = new Date(from);
+      if (to) where.ngay_tao.lte = new Date(to);
+    }
+
+    const data = await mysql.dAT_VE.findMany({
+      where,
+      orderBy: {
+        ngay_tao: "desc", // nên có
+      },
+      include: {
+        phienSuKien: {
+          select: {
+            su_kien: {
+              select: {
+                ten_su_kien: true,
+                ma_su_kien: true,
+                ma_nhan_vien: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const workbook = new ExcelJS.Workbook();
+    const sheet = workbook.addWorksheet("Dat_ve");
+
+    sheet.columns = [
+      { header: "Mã đơn", key: "ma_don_hang", width: 20 },
+      {
+        header: "Mã sự kiện",
+        key: "ma_su_kien",
+        width: 15,
+      },
+      { header: "Sự kiện", key: "ten_su_kien", width: 30 },
+      {
+        header: "Mã nhân viên",
+        key: "ma_nhan_vien",
+        width: 20,
+      },
+      { header: "Mã khách", key: "ma_khach", width: 20 },
+      { header: "Tổng tiền", key: "tong_tien", width: 20 },
+      { header: "Ngày tạo", key: "ngay_tao", width: 20 },
+    ];
+
+    const rows = data.map((i) => ({
+      ma_don_hang: i.ma_don_hang,
+      ma_su_kien: i.phienSuKien?.su_kien?.ma_su_kien,
+      ten_su_kien: i.phienSuKien?.su_kien?.ten_su_kien,
+      ma_nhan_vien: i.phienSuKien?.su_kien?.ma_nhan_vien,
+      ma_khach: i.ma_khach,
+      tong_tien: i.tong_tien,
+      ngay_tao: toGMT7(i.ngay_tao),
+    }));
+
+    sheet.addRows(rows);
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader("Content-Disposition", "attachment; filename=orders.xlsx");
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Export excel failed" });
   }
 });
 

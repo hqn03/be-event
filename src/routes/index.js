@@ -28,7 +28,6 @@ const router = Router();
 router.use("/auth", authRoute);
 router.use("/roles", roleRouter);
 router.use("/users", userRoute);
-// router.use("/events", );
 router.use("/manager/events", managerEventRoute);
 router.use("/event-types", eventTypeRoute);
 router.use("/sessions", sessionTicketRoute);

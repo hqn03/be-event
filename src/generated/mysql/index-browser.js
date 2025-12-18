@@ -421,7 +421,9 @@ exports.TRANG_THAI_DON_HANG = exports.$Enums.TRANG_THAI_DON_HANG = {
 
 exports.TRANG_THAI_VE = exports.$Enums.TRANG_THAI_VE = {
   CHUA_CHECK_IN: 'CHUA_CHECK_IN',
-  DA_CHECK_IN: 'DA_CHECK_IN'
+  CHECKED_IN: 'CHECKED_IN',
+  USED: 'USED',
+  EXPIRED: 'EXPIRED'
 };
 
 exports.TRANG_THAI_THANH_TOAN = exports.$Enums.TRANG_THAI_THANH_TOAN = {

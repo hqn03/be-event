@@ -137,7 +137,9 @@ export type TRANG_THAI_DON_HANG = (typeof TRANG_THAI_DON_HANG)[keyof typeof TRAN
 
 export const TRANG_THAI_VE: {
   CHUA_CHECK_IN: 'CHUA_CHECK_IN',
-  DA_CHECK_IN: 'DA_CHECK_IN'
+  CHECKED_IN: 'CHECKED_IN',
+  USED: 'USED',
+  EXPIRED: 'EXPIRED'
 };
 
 export type TRANG_THAI_VE = (typeof TRANG_THAI_VE)[keyof typeof TRANG_THAI_VE]

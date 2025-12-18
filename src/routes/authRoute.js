@@ -10,6 +10,6 @@ router.post("/sign-up", authController.signUp);
 
 router.get("/me", authController.getMe);
 
-// router.get("/verify", verifyAccount);
+router.get("/verify", authController.verifyAccount);
 
 export default router;

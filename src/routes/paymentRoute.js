@@ -2,7 +2,7 @@ import { Router } from "express";
 import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
 import { nanoid } from "nanoid";
 import { dateFormat, VNPay, VnpLocale } from "vnpay";
-import { toDataURL } from "qrcode";
+import QRCode from "qrcode";
 import ejs from "ejs";
 import { transport } from "../services/mailService.js";
 import { createInvoicePDF } from "./orderRoute.js";
@@ -24,7 +24,7 @@ const vnpay = new VNPay({
 const paymentRoute = Router();
 
 paymentRoute.post("/", async (req, res) => {
-  const { so_tien, ma_don_hang, cong_thanh_toan, het_han } = req.body;
+  const { so_tien, ma_don_hang, cong_thanh_toan, het_han, hoa_don } = req.body;
   try {
     const id_thanh_toan = nanoid();
     let paymentUrl;
@@ -34,8 +34,7 @@ paymentRoute.post("/", async (req, res) => {
         paymentUrl = vnpay.buildPaymentUrl({
           vnp_Amount: so_tien,
           vnp_IpAddr: "127.0.0.1",
-          vnp_ReturnUrl:
-            "http://localhost:3000/api/payment/check-payment-vnpay",
+          vnp_ReturnUrl: `http://localhost:3000/api/payment/check-payment-vnpay/?invoice=${hoa_don}`,
           vnp_TxnRef: id_thanh_toan,
           vnp_OrderInfo: ma_don_hang,
           vnp_Locale: VnpLocale.VN,
@@ -62,17 +61,27 @@ paymentRoute.post("/", async (req, res) => {
 });
 
 paymentRoute.get("/check-payment-vnpay", async (req, res) => {
+  const invoice = req.query.invoice === "true";
   const verify = vnpay.verifyReturnUrl(req.query);
   const { vnp_OrderInfo, vnp_TxnRef, vnp_Amount } = req.query;
+  const frontendUrl = process.env.FRONTEND_URL;
+
+  const tickets = [];
   if (verify.isSuccess) {
-    await mysql.$transaction(async (tx) => {
+    const order = await mysql.$transaction(async (tx) => {
       // Tìm hóa đơn
-      const order = await tx.dAT_VE.update({
+      await tx.dAT_VE.update({
         where: {
           ma_don_hang: vnp_OrderInfo,
         },
         data: {
           trang_thai: "HOAN_TAT",
+        },
+      });
+
+      const order = await tx.dAT_VE.findUnique({
+        where: {
+          ma_don_hang: vnp_OrderInfo,
         },
         include: {
           chiTietDatVes: true,
@@ -93,71 +102,70 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
         },
       });
 
-      // Từng chi tiết hóa đơn -> tạo vé
-      const tickets = [];
       for (const chiTiet of order.chiTietDatVes) {
         let gheDat = null;
         let loaiVe = null;
         if (chiTiet.id_ghe_dat) {
           gheDat = await mysql.gHE_DAT.findUnique({
-            where: {
-              id: chiTiet.id_ghe_dat,
-            },
-            include: {
-              ghe: true,
-            },
+            where: { id: chiTiet.id_ghe_dat },
+            include: { ghe: true },
           });
 
-          // Tạo vé
           const id_ve = nanoid();
-          const qrData = JSON.stringify({
-            id_ve,
-            verifyUrl: `http://localhost:5173/check-ticket/${id_ve}`,
-          });
 
-          const qrBase64 = await toDataURL(qrData);
+          const qr = await QRCode.toDataURL(
+            `${frontendUrl}/ticket?id=${id_ve}`
+          );
           const saved = await mysql.vE.create({
             data: {
               id_ve,
               ngay_phat_hanh: new Date(),
-              QR_code: qrBase64,
+              QR_code: qr,
               id_chi_tiet: chiTiet.id_chi_tiet,
             },
+            include: {
+              chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
+            },
           });
-          tickets.push(saved);
+          const { chiTietDatVe, ...rest } = saved;
+          tickets.push({
+            ...rest,
+            ten_loai_ve: chiTietDatVe.ten_loai_ve,
+            ma_ghe: chiTietDatVe.ma_ghe,
+          });
         }
 
         // Trừ stock nếu là vé + số lượng
         if (chiTiet.id_loai_ve) {
           loaiVe = await mysql.lOAI_VE.update({
-            where: {
-              id_loai_ve: chiTiet.id_loai_ve,
-            },
-            data: {
-              so_luong_con: {
-                decrement: chiTiet.so_luong,
-              },
-            },
+            where: { id_loai_ve: chiTiet.id_loai_ve },
+            data: { so_luong_con: { decrement: chiTiet.so_luong } },
           });
 
           for (let i = 1; i <= chiTiet.so_luong; i++) {
             // Tạo vé
             const id_ve = nanoid();
-            const qrData = JSON.stringify({
-              id_ve,
-              verifyUrl: `http://localhost:5173/check-ticket/${id_ve}`,
-            });
 
-            const qrBase64 = await toDataURL(qrData);
+            const qr = await QRCode.toDataURL(
+              `${frontendUrl}/ticket?id=${id_ve}`
+            );
             const saved = await mysql.vE.create({
               data: {
                 id_ve,
                 ngay_phat_hanh: new Date(),
-                QR_code: qrBase64,
+                QR_code: qr,
                 id_chi_tiet: chiTiet.id_chi_tiet,
               },
+              include: {
+                chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
+              },
             });
-            tickets.push(saved);
+            const { chiTietDatVe, ...rest } = saved;
+            tickets.push({
+              ...rest,
+              ten_loai_ve: chiTietDatVe.ten_loai_ve,
+              ma_ghe: chiTietDatVe.ma_ghe,
+            });
           }
         }
       }
@@ -167,11 +175,6 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
         data: { trang_thai: "THANH_CONG" },
       });
 
-      // Gửi mail
-      // const html = await ejs.renderFile("src/templates/tickets.ejs", {
-      //   tickets,
-      // });
-
       // Chuẩn bị attachments cho QR
       // const attachments = tickets.map((t) => ({
       //   filename: `ticket-${t.id_ve}.png`,
@@ -179,15 +182,13 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
       //   cid: t.id_ve, // để hiển thị inline
       // }));
 
-      // transport.sendMail({
-      //   from: "EVENT DAY NE",
-      //   to: user.nguoi_dung.email,
-      //   subject: "vé sự kiện của bạn",
-      //   html,
-      //   attachments,
-      // });
+      // if()
+      return order;
+    });
 
-      const data = {
+    let pdfBuffer = null;
+    if (invoice) {
+      const dataInvoice = {
         invoiceNo: order.ma_don_hang,
         event: order.phienSuKien.su_kien.ten_su_kien,
         time: formatTimeRange(
@@ -206,27 +207,45 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
       };
 
       const doc = new PDFDocument({ size: "A4", margin: 20 });
-      const pdfBuffer = await createInvoicePDF(doc, data);
+      pdfBuffer = await createInvoicePDF(doc, dataInvoice);
+    }
 
-      const html = await getEmailTemplate("camOnHoaDon.html");
-      const htmlContent = html
-        .replace("{{CUSTOMER}}", order.nguoi_dat_ve.nguoi_dung.ho_ten)
-        .replace("{{ORDER_ID}}", order.ma_don_hang);
+    // HTMLMail
+    const htmlData = {
+      ten_khach: order.nguoi_dat_ve.nguoi_dung.ho_ten,
+      ma_don_hang: order.ma_don_hang,
+      ten_su_kien: order.phienSuKien.su_kien.ten_su_kien,
+      thoi_gian: formatTimeRange(
+        order.phienSuKien.thoi_gian_bat_dau,
+        order.phienSuKien.thoi_gian_ket_thuc
+      ),
+      dia_diem: order.phienSuKien.su_kien.dia_diem,
+      tickets: tickets,
+    };
 
-      transport.sendMail({
-        from: "NHATEVENT",
-        to: order.nguoi_dat_ve.nguoi_dung.email,
-        subject: `Hóa đơn ${order.ma_don_hang}`,
-        html: htmlContent,
-        attachments: [
-          {
-            filename: `${order.ma_don_hang}.pdf`,
-            content: pdfBuffer,
-            contentType: "application/pdf",
-          },
-        ],
-      });
-    });
+    const htmlTickets = await ejs.renderFile(
+      "src/templates/tickets.ejs",
+      htmlData
+    );
+
+    const mailOptions = {
+      from: "EVENT DAY NE",
+      to: order.nguoi_dat_ve.nguoi_dung.email,
+      subject: "vé sự kiện của bạn",
+      html: htmlTickets,
+    };
+
+    if (pdfBuffer) {
+      mailOptions.attachments = [
+        {
+          filename: `${order.ma_don_hang}.pdf`,
+          content: pdfBuffer,
+          contentType: "application/pdf",
+        },
+      ];
+    }
+
+    transport.sendMail(mailOptions);
 
     return res.redirect(
       "http://localhost:5173/?status=success&msg=Dat+ve+thanh+cong"

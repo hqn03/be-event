@@ -10,6 +10,11 @@ export function formatTime(d) {
   }).format(new Date(d));
 }
 
+export const toGMT7 = (date) => {
+  if (!date) return "";
+  return new Date(date.getTime() + 7 * 60 * 60 * 1000);
+};
+
 export function formatTimeRange(start, end) {
   return `${formatTime(start)} - ${formatTime(end)} ngày ${formatDate(start)}`;
 }
