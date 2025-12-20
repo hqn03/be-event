@@ -218,7 +218,7 @@ model VE {
     id_ve          String        @id
     id_chi_tiet    String
     trang_thai     TRANG_THAI_VE @default(CHUA_CHECK_IN)
-    QR_code        String        @db.Text
+    QR_code        String?        @db.Text
     ngay_phat_hanh DateTime      @default(now())
     ngay_check_in  DateTime?
 
@@ -240,16 +240,18 @@ model GHE {
 }
 
 enum TRANG_THAI_GHE {
-    CHUA_THANH_TOAN
+    GIU_CHO
     THANH_TOAN
 }
 
 model GHE_DAT {
-    id               String        @id @default(nanoid())
+    id               String         @id @default(nanoid())
     id_ghe           String
     id_phien_su_kien String
-    ghe              GHE           @relation(fields: [id_ghe], references: [id])
-    phien_su_kien    PHIEN_SU_KIEN @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
+    trang_thai       TRANG_THAI_GHE @default(GIU_CHO)
+    ghe              GHE            @relation(fields: [id_ghe], references: [id])
+    het_han          DateTime?
+    phien_su_kien    PHIEN_SU_KIEN  @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
 
     @@unique([id_ghe, id_phien_su_kien])
 }

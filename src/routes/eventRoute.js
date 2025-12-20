@@ -133,13 +133,10 @@ eventRoute.get("/:slug", async (req, res) => {
 eventRoute.get("/:id/seats", async (req, res) => {
   try {
     const { id: ma_su_kien } = req.params;
+
     const result = await mysql.gHE.findMany({
-      where: {
-        ma_su_kien,
-      },
-      orderBy: {
-        ngay_tao: "asc",
-      },
+      where: { ma_su_kien },
+      orderBy: { ngay_tao: "asc" },
     });
     return res.status(200).json(result);
   } catch (error) {

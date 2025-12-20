@@ -66,109 +66,107 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
   const { vnp_OrderInfo, vnp_TxnRef, vnp_Amount } = req.query;
   const frontendUrl = process.env.FRONTEND_URL;
 
-  const tickets = [];
   if (verify.isSuccess) {
-    const order = await mysql.$transaction(async (tx) => {
+    const { ticketIds } = await mysql.$transaction(async (tx) => {
       // Tìm hóa đơn
-      await tx.dAT_VE.update({
-        where: {
-          ma_don_hang: vnp_OrderInfo,
-        },
-        data: {
-          trang_thai: "HOAN_TAT",
-        },
-      });
-
-      const order = await tx.dAT_VE.findUnique({
-        where: {
-          ma_don_hang: vnp_OrderInfo,
-        },
+      const order = await tx.dAT_VE.update({
+        where: { ma_don_hang: vnp_OrderInfo },
+        data: { trang_thai: "HOAN_TAT" },
         include: {
           chiTietDatVes: true,
-          phienSuKien: {
-            select: {
-              su_kien: { select: { ten_su_kien: true, dia_diem: true } },
-              thoi_gian_bat_dau: true,
-              thoi_gian_ket_thuc: true,
-            },
-          },
-          nguoi_dat_ve: {
-            select: {
-              nguoi_dung: {
-                select: { email: true, ho_ten: true, so_dien_thoai: true },
-              },
-            },
-          },
         },
       });
 
+      // for (const chiTiet of order.chiTietDatVes) {
+      //   let gheDat = null;
+      //   let loaiVe = null;
+      //   if (chiTiet.id_ghe_dat) {
+      //     gheDat = await mysql.gHE_DAT.findUnique({
+      //       where: { id: chiTiet.id_ghe_dat },
+      //       include: { ghe: true },
+      //     });
+
+      //     const id_ve = nanoid();
+
+      //     const qr = await QRCode.toDataURL(
+      //       `${frontendUrl}/ticket?id=${id_ve}`
+      //     );
+      //     const saved = await mysql.vE.create({
+      //       data: {
+      //         id_ve,
+      //         ngay_phat_hanh: new Date(),
+      //         QR_code: qr,
+      //         id_chi_tiet: chiTiet.id_chi_tiet,
+      //       },
+      //       include: {
+      //         chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
+      //       },
+      //     });
+      //     const { chiTietDatVe, ...rest } = saved;
+      //     tickets.push({
+      //       ...rest,
+      //       ten_loai_ve: chiTietDatVe.ten_loai_ve,
+      //       ma_ghe: chiTietDatVe.ma_ghe,
+      //     });
+      //   }
+
+      //   // Trừ stock nếu là vé + số lượng
+      //   if (chiTiet.id_loai_ve) {
+      //     loaiVe = await mysql.lOAI_VE.update({
+      //       where: { id_loai_ve: chiTiet.id_loai_ve },
+      //       data: { so_luong_con: { decrement: chiTiet.so_luong } },
+      //     });
+
+      //     for (let i = 1; i <= chiTiet.so_luong; i++) {
+      //       // Tạo vé
+      //       const id_ve = nanoid();
+
+      //       const qr = await QRCode.toDataURL(
+      //         `${frontendUrl}/ticket?id=${id_ve}`
+      //       );
+      //       const saved = await mysql.vE.create({
+      //         data: {
+      //           id_ve,
+      //           ngay_phat_hanh: new Date(),
+      //           QR_code: qr,
+      //           id_chi_tiet: chiTiet.id_chi_tiet,
+      //         },
+      //         include: {
+      //           chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
+      //         },
+      //       });
+      //       const { chiTietDatVe, ...rest } = saved;
+      //       tickets.push({
+      //         ...rest,
+      //         ten_loai_ve: chiTietDatVe.ten_loai_ve,
+      //         ma_ghe: chiTietDatVe.ma_ghe,
+      //       });
+      //     }
+      //   }
+      // }
+
+      const gheIds = order.chiTietDatVes
+        .map((ct) => ct.id_ghe_dat)
+        .filter(Boolean);
+      await tx.gHE_DAT.updateMany({
+        where: { id: { in: gheIds } },
+        data: { trang_thai: "THANH_TOAN" },
+      });
+
+      const ticketIds = [];
+      const data = [];
       for (const chiTiet of order.chiTietDatVes) {
-        let gheDat = null;
-        let loaiVe = null;
-        if (chiTiet.id_ghe_dat) {
-          gheDat = await mysql.gHE_DAT.findUnique({
-            where: { id: chiTiet.id_ghe_dat },
-            include: { ghe: true },
-          });
-
+        for (let i = 0; i < chiTiet.so_luong; i++) {
           const id_ve = nanoid();
-
-          const qr = await QRCode.toDataURL(
-            `${frontendUrl}/ticket?id=${id_ve}`
-          );
-          const saved = await mysql.vE.create({
-            data: {
-              id_ve,
-              ngay_phat_hanh: new Date(),
-              QR_code: qr,
-              id_chi_tiet: chiTiet.id_chi_tiet,
-            },
-            include: {
-              chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
-            },
+          ticketIds.push(id_ve);
+          data.push({
+            id_ve,
+            id_chi_tiet: chiTiet.id_chi_tiet,
+            ngay_phat_hanh: new Date(),
           });
-          const { chiTietDatVe, ...rest } = saved;
-          tickets.push({
-            ...rest,
-            ten_loai_ve: chiTietDatVe.ten_loai_ve,
-            ma_ghe: chiTietDatVe.ma_ghe,
-          });
-        }
-
-        // Trừ stock nếu là vé + số lượng
-        if (chiTiet.id_loai_ve) {
-          loaiVe = await mysql.lOAI_VE.update({
-            where: { id_loai_ve: chiTiet.id_loai_ve },
-            data: { so_luong_con: { decrement: chiTiet.so_luong } },
-          });
-
-          for (let i = 1; i <= chiTiet.so_luong; i++) {
-            // Tạo vé
-            const id_ve = nanoid();
-
-            const qr = await QRCode.toDataURL(
-              `${frontendUrl}/ticket?id=${id_ve}`
-            );
-            const saved = await mysql.vE.create({
-              data: {
-                id_ve,
-                ngay_phat_hanh: new Date(),
-                QR_code: qr,
-                id_chi_tiet: chiTiet.id_chi_tiet,
-              },
-              include: {
-                chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
-              },
-            });
-            const { chiTietDatVe, ...rest } = saved;
-            tickets.push({
-              ...rest,
-              ten_loai_ve: chiTietDatVe.ten_loai_ve,
-              ma_ghe: chiTietDatVe.ma_ghe,
-            });
-          }
         }
       }
+      await tx.vE.createMany({ data });
 
       await tx.tHANH_TOAN.update({
         where: { id: vnp_TxnRef },
@@ -183,9 +181,53 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
       // }));
 
       // if()
-      return order;
+      return { order, ticketIds };
     });
 
+    // CREATE QR
+    const tickets = await Promise.all(
+      ticketIds.map(async (id) => {
+        const qr = await QRCode.toDataURL(`${frontendUrl}/ticket?id=${id}`);
+        const { chiTietDatVe, ...rest } = await mysql.vE.update({
+          where: { id_ve: id },
+          data: { QR_code: qr },
+          include: {
+            chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
+          },
+        });
+
+        return {
+          ...rest,
+          ten_loai_ve: chiTietDatVe.ten_loai_ve,
+          ma_ghe: chiTietDatVe.ma_ghe,
+        };
+      })
+    );
+
+    const order = await mysql.dAT_VE.findUnique({
+      where: {
+        ma_don_hang: vnp_OrderInfo,
+      },
+      include: {
+        chiTietDatVes: true,
+        phienSuKien: {
+          select: {
+            su_kien: { select: { ten_su_kien: true, dia_diem: true } },
+            thoi_gian_bat_dau: true,
+            thoi_gian_ket_thuc: true,
+          },
+        },
+        nguoi_dat_ve: {
+          select: {
+            nguoi_dung: {
+              select: { email: true, ho_ten: true, so_dien_thoai: true },
+            },
+          },
+        },
+      },
+    });
+
+    // CREATE INVOICE
     let pdfBuffer = null;
     if (invoice) {
       const dataInvoice = {

@@ -13,7 +13,6 @@ const orderRoute = Router();
 orderRoute.post("/", async (req, res) => {
   try {
     const { eventId, sessionId, items } = req.body;
-    // console.log(req.body);
     const user = req.user;
 
     const order = await mysql.$transaction(async (tx) => {
@@ -30,12 +29,8 @@ orderRoute.post("/", async (req, res) => {
       // CHAR(10) = "DH" + 8 character
       const ma_don_hang = "DH" + donHang.id.toString().padStart(8, "0");
       await tx.dAT_VE.update({
-        where: {
-          id: donHang.id,
-        },
-        data: {
-          ma_don_hang,
-        },
+        where: { id: donHang.id },
+        data: { ma_don_hang },
       });
 
       // Đặt hàng = ghế
@@ -137,27 +132,25 @@ orderRoute.post("/", async (req, res) => {
                 id_phien_su_kien: sessionId,
               },
             },
-            include: {
-              ghe: true,
-            },
+            include: { ghe: true },
           });
 
           if (existing) {
             const error = new Error("Ghế đã được đặt");
-            error.seatId = seat.id;
+            error.seatId = existing.id_ghe;
             throw error;
           }
 
           const ghe = await tx.gHE.findUnique({
-            where: {
-              id: item.id,
-            },
+            where: { id: item.id },
           });
+
           gheDat = await tx.gHE_DAT.create({
             data: {
               id: nanoid(),
               id_ghe: item.id,
               id_phien_su_kien: sessionId,
+              het_han: donHang.het_han,
             },
           });
           item.don_gia = Number(ghe.gia);
@@ -168,21 +161,17 @@ orderRoute.post("/", async (req, res) => {
               so_luong_con: { gte: item.so_luong },
             },
           });
+
           if (!loaiVe) throw new Error("Không đủ vé");
+
           await tx.lOAI_VE.update({
-            where: {
-              id_loai_ve: loaiVe.id_loai_ve,
-            },
-            data: {
-              so_luong_con: {
-                decrement: item.so_luong,
-              },
-            },
+            where: { id_loai_ve: loaiVe.id_loai_ve },
+            data: { so_luong_con: { decrement: item.so_luong } },
           });
           item.don_gia = Number(loaiVe.gia_ve);
         }
 
-        const test = await tx.cHI_TIET_DAT_VE.create({
+        await tx.cHI_TIET_DAT_VE.create({
           data: {
             id_chi_tiet: nanoid(),
             don_gia: item.don_gia,
@@ -199,20 +188,14 @@ orderRoute.post("/", async (req, res) => {
         total = total + item.don_gia * item.so_luong;
       }
 
-      const result = await tx.dAT_VE.update({
-        where: {
-          ma_don_hang,
-        },
-        data: {
-          tong_tien: total,
-        },
+      return await tx.dAT_VE.update({
+        where: { ma_don_hang },
+        data: { tong_tien: total },
       });
-      return result;
     });
 
     return res.status(200).json(order);
   } catch (error) {
-    console.log(error);
     return res.status(400).json(error);
   }
 });
@@ -632,6 +615,41 @@ orderRoute.get("/:orderId/pdf-preview", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Failed to generate PDF" });
+  }
+});
+
+orderRoute.delete("/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+  const user = req.user;
+  try {
+    const datVe = await mysql.dAT_VE.update({
+      where: { ma_don_hang: orderId, ma_khach: user.id },
+      data: { trang_thai: "HUY" },
+      select: {
+        chiTietDatVes: true,
+      },
+    });
+
+    for (const ct of datVe.chiTietDatVes) {
+      // delete ghế
+      if (ct.id_ghe_dat) {
+        await mysql.gHE_DAT.deleteMany({
+          where: { id: ct.id_ghe_dat },
+        });
+      }
+
+      // trả lại số lượng vé
+      if (ct.id_loai_ve) {
+        await mysql.lOAI_VE.update({
+          where: { id_loai_ve: ct.id_loai_ve },
+          data: { so_luong_con: { increment: ct.so_luong } },
+        });
+      }
+    }
+
+    return res.status(200).json(1);
+  } catch (error) {
+    return res.status(500).json(error);
   }
 });
 

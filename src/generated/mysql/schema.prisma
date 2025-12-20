@@ -209,7 +209,9 @@ model CHI_TIET_DAT_VE {
 
 enum TRANG_THAI_VE {
   CHUA_CHECK_IN
-  DA_CHECK_IN
+  CHECKED_IN
+  USED
+  EXPIRED
 }
 
 model VE {
@@ -238,16 +240,17 @@ model GHE {
 }
 
 enum TRANG_THAI_GHE {
-  CHUA_THANH_TOAN
+  GIU_CHO
   THANH_TOAN
 }
 
 model GHE_DAT {
-  id               String        @id @default(nanoid())
+  id               String         @id @default(nanoid())
   id_ghe           String
   id_phien_su_kien String
-  ghe              GHE           @relation(fields: [id_ghe], references: [id])
-  phien_su_kien    PHIEN_SU_KIEN @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
+  trang_thai       TRANG_THAI_GHE @default(GIU_CHO)
+  ghe              GHE            @relation(fields: [id_ghe], references: [id])
+  phien_su_kien    PHIEN_SU_KIEN  @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
 
   @@unique([id_ghe, id_phien_su_kien])
 }

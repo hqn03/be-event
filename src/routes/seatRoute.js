@@ -59,12 +59,8 @@ seatRoute.get("/:eventId", async (req, res) => {
     const { eventId } = req.params;
 
     const result = await mysql.gHE.findMany({
-      where: {
-        ma_su_kien: eventId,
-      },
-      orderBy: {
-        ngay_tao: "asc",
-      },
+      where: { ma_su_kien: eventId },
+      orderBy: { ngay_tao: "asc" },
     });
 
     return res.status(200).json(result);

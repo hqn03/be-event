@@ -267,7 +267,9 @@ exports.Prisma.GHEScalarFieldEnum = {
 exports.Prisma.GHE_DATScalarFieldEnum = {
   id: 'id',
   id_ghe: 'id_ghe',
-  id_phien_su_kien: 'id_phien_su_kien'
+  id_phien_su_kien: 'id_phien_su_kien',
+  trang_thai: 'trang_thai',
+  het_han: 'het_han'
 };
 
 exports.Prisma.THANH_TOANScalarFieldEnum = {
@@ -424,6 +426,11 @@ exports.TRANG_THAI_VE = exports.$Enums.TRANG_THAI_VE = {
   CHECKED_IN: 'CHECKED_IN',
   USED: 'USED',
   EXPIRED: 'EXPIRED'
+};
+
+exports.TRANG_THAI_GHE = exports.$Enums.TRANG_THAI_GHE = {
+  GIU_CHO: 'GIU_CHO',
+  THANH_TOAN: 'THANH_TOAN'
 };
 
 exports.TRANG_THAI_THANH_TOAN = exports.$Enums.TRANG_THAI_THANH_TOAN = {

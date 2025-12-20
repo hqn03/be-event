@@ -3,8 +3,8 @@ import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
 const mysql = new MySQLClient();
 
 export function startExpireOrders() {
-  // 5 phút mỗi ngày
-  cron.schedule("*/5 * * * *", async () => {
+  // 1 phút
+  cron.schedule("* * * * *", async () => {
     const now = new Date();
 
     // Lấy danh sách hết hạn
@@ -27,7 +27,7 @@ export function startExpireOrders() {
           // delete ghế
           if (ct.id_ghe_dat) {
             tasks.push(
-              tx.gHE_DAT.delete({
+              tx.gHE_DAT.deleteMany({
                 where: { id: ct.id_ghe_dat },
               })
             );
@@ -38,9 +38,7 @@ export function startExpireOrders() {
             tasks.push(
               tx.lOAI_VE.update({
                 where: { id_loai_ve: ct.id_loai_ve },
-                data: {
-                  so_luong_con: { increment: ct.so_luong },
-                },
+                data: { so_luong_con: { increment: ct.so_luong } },
               })
             );
           }

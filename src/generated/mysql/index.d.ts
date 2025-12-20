@@ -146,7 +146,7 @@ export type TRANG_THAI_VE = (typeof TRANG_THAI_VE)[keyof typeof TRANG_THAI_VE]
 
 
 export const TRANG_THAI_GHE: {
-  CHUA_THANH_TOAN: 'CHUA_THANH_TOAN',
+  GIU_CHO: 'GIU_CHO',
   THANH_TOAN: 'THANH_TOAN'
 };
 
@@ -15120,7 +15120,7 @@ export namespace Prisma {
     id_ve: string
     id_chi_tiet: string
     trang_thai: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code: string | null
     ngay_phat_hanh: Date
     ngay_check_in: Date | null
     _count: VECountAggregateOutputType | null
@@ -15177,7 +15177,7 @@ export namespace Prisma {
       id_ve: string
       id_chi_tiet: string
       trang_thai: $Enums.TRANG_THAI_VE
-      QR_code: string
+      QR_code: string | null
       ngay_phat_hanh: Date
       ngay_check_in: Date | null
     }, ExtArgs["result"]["vE"]>
@@ -16957,18 +16957,24 @@ export namespace Prisma {
     id: string | null
     id_ghe: string | null
     id_phien_su_kien: string | null
+    trang_thai: $Enums.TRANG_THAI_GHE | null
+    het_han: Date | null
   }
 
   export type GHE_DATMaxAggregateOutputType = {
     id: string | null
     id_ghe: string | null
     id_phien_su_kien: string | null
+    trang_thai: $Enums.TRANG_THAI_GHE | null
+    het_han: Date | null
   }
 
   export type GHE_DATCountAggregateOutputType = {
     id: number
     id_ghe: number
     id_phien_su_kien: number
+    trang_thai: number
+    het_han: number
     _all: number
   }
 
@@ -16977,18 +16983,24 @@ export namespace Prisma {
     id?: true
     id_ghe?: true
     id_phien_su_kien?: true
+    trang_thai?: true
+    het_han?: true
   }
 
   export type GHE_DATMaxAggregateInputType = {
     id?: true
     id_ghe?: true
     id_phien_su_kien?: true
+    trang_thai?: true
+    het_han?: true
   }
 
   export type GHE_DATCountAggregateInputType = {
     id?: true
     id_ghe?: true
     id_phien_su_kien?: true
+    trang_thai?: true
+    het_han?: true
     _all?: true
   }
 
@@ -17068,6 +17080,8 @@ export namespace Prisma {
     id: string
     id_ghe: string
     id_phien_su_kien: string
+    trang_thai: $Enums.TRANG_THAI_GHE
+    het_han: Date | null
     _count: GHE_DATCountAggregateOutputType | null
     _min: GHE_DATMinAggregateOutputType | null
     _max: GHE_DATMaxAggregateOutputType | null
@@ -17091,6 +17105,8 @@ export namespace Prisma {
     id?: boolean
     id_ghe?: boolean
     id_phien_su_kien?: boolean
+    trang_thai?: boolean
+    het_han?: boolean
     ghe?: boolean | GHEDefaultArgs<ExtArgs>
     phien_su_kien?: boolean | PHIEN_SU_KIENDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gHE_DAT"]>
@@ -17101,9 +17117,11 @@ export namespace Prisma {
     id?: boolean
     id_ghe?: boolean
     id_phien_su_kien?: boolean
+    trang_thai?: boolean
+    het_han?: boolean
   }
 
-  export type GHE_DATOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "id_ghe" | "id_phien_su_kien", ExtArgs["result"]["gHE_DAT"]>
+  export type GHE_DATOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "id_ghe" | "id_phien_su_kien" | "trang_thai" | "het_han", ExtArgs["result"]["gHE_DAT"]>
   export type GHE_DATInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ghe?: boolean | GHEDefaultArgs<ExtArgs>
     phien_su_kien?: boolean | PHIEN_SU_KIENDefaultArgs<ExtArgs>
@@ -17119,6 +17137,8 @@ export namespace Prisma {
       id: string
       id_ghe: string
       id_phien_su_kien: string
+      trang_thai: $Enums.TRANG_THAI_GHE
+      het_han: Date | null
     }, ExtArgs["result"]["gHE_DAT"]>
     composites: {}
   }
@@ -17493,6 +17513,8 @@ export namespace Prisma {
     readonly id: FieldRef<"GHE_DAT", 'String'>
     readonly id_ghe: FieldRef<"GHE_DAT", 'String'>
     readonly id_phien_su_kien: FieldRef<"GHE_DAT", 'String'>
+    readonly trang_thai: FieldRef<"GHE_DAT", 'TRANG_THAI_GHE'>
+    readonly het_han: FieldRef<"GHE_DAT", 'DateTime'>
   }
     
 
@@ -19030,7 +19052,9 @@ export namespace Prisma {
   export const GHE_DATScalarFieldEnum: {
     id: 'id',
     id_ghe: 'id_ghe',
-    id_phien_su_kien: 'id_phien_su_kien'
+    id_phien_su_kien: 'id_phien_su_kien',
+    trang_thai: 'trang_thai',
+    het_han: 'het_han'
   };
 
   export type GHE_DATScalarFieldEnum = (typeof GHE_DATScalarFieldEnum)[keyof typeof GHE_DATScalarFieldEnum]
@@ -19297,6 +19321,13 @@ export namespace Prisma {
    * Reference to a field of type 'TRANG_THAI_VE'
    */
   export type EnumTRANG_THAI_VEFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TRANG_THAI_VE'>
+    
+
+
+  /**
+   * Reference to a field of type 'TRANG_THAI_GHE'
+   */
+  export type EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TRANG_THAI_GHE'>
     
 
 
@@ -20208,7 +20239,7 @@ export namespace Prisma {
     id_ve?: StringFilter<"VE"> | string
     id_chi_tiet?: StringFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringFilter<"VE"> | string
+    QR_code?: StringNullableFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableFilter<"VE"> | Date | string | null
     chiTietDatVe?: XOR<CHI_TIET_DAT_VEScalarRelationFilter, CHI_TIET_DAT_VEWhereInput>
@@ -20218,7 +20249,7 @@ export namespace Prisma {
     id_ve?: SortOrder
     id_chi_tiet?: SortOrder
     trang_thai?: SortOrder
-    QR_code?: SortOrder
+    QR_code?: SortOrderInput | SortOrder
     ngay_phat_hanh?: SortOrder
     ngay_check_in?: SortOrderInput | SortOrder
     chiTietDatVe?: CHI_TIET_DAT_VEOrderByWithRelationInput
@@ -20232,7 +20263,7 @@ export namespace Prisma {
     NOT?: VEWhereInput | VEWhereInput[]
     id_chi_tiet?: StringFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringFilter<"VE"> | string
+    QR_code?: StringNullableFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableFilter<"VE"> | Date | string | null
     chiTietDatVe?: XOR<CHI_TIET_DAT_VEScalarRelationFilter, CHI_TIET_DAT_VEWhereInput>
@@ -20242,7 +20273,7 @@ export namespace Prisma {
     id_ve?: SortOrder
     id_chi_tiet?: SortOrder
     trang_thai?: SortOrder
-    QR_code?: SortOrder
+    QR_code?: SortOrderInput | SortOrder
     ngay_phat_hanh?: SortOrder
     ngay_check_in?: SortOrderInput | SortOrder
     _count?: VECountOrderByAggregateInput
@@ -20257,7 +20288,7 @@ export namespace Prisma {
     id_ve?: StringWithAggregatesFilter<"VE"> | string
     id_chi_tiet?: StringWithAggregatesFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEWithAggregatesFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringWithAggregatesFilter<"VE"> | string
+    QR_code?: StringNullableWithAggregatesFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeWithAggregatesFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableWithAggregatesFilter<"VE"> | Date | string | null
   }
@@ -20345,6 +20376,8 @@ export namespace Prisma {
     id?: StringFilter<"GHE_DAT"> | string
     id_ghe?: StringFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableFilter<"GHE_DAT"> | Date | string | null
     ghe?: XOR<GHEScalarRelationFilter, GHEWhereInput>
     phien_su_kien?: XOR<PHIEN_SU_KIENScalarRelationFilter, PHIEN_SU_KIENWhereInput>
   }
@@ -20353,6 +20386,8 @@ export namespace Prisma {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrderInput | SortOrder
     ghe?: GHEOrderByWithRelationInput
     phien_su_kien?: PHIEN_SU_KIENOrderByWithRelationInput
     _relevance?: GHE_DATOrderByRelevanceInput
@@ -20366,6 +20401,8 @@ export namespace Prisma {
     NOT?: GHE_DATWhereInput | GHE_DATWhereInput[]
     id_ghe?: StringFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableFilter<"GHE_DAT"> | Date | string | null
     ghe?: XOR<GHEScalarRelationFilter, GHEWhereInput>
     phien_su_kien?: XOR<PHIEN_SU_KIENScalarRelationFilter, PHIEN_SU_KIENWhereInput>
   }, "id" | "id_ghe_id_phien_su_kien">
@@ -20374,6 +20411,8 @@ export namespace Prisma {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrderInput | SortOrder
     _count?: GHE_DATCountOrderByAggregateInput
     _max?: GHE_DATMaxOrderByAggregateInput
     _min?: GHE_DATMinOrderByAggregateInput
@@ -20386,6 +20425,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"GHE_DAT"> | string
     id_ghe?: StringWithAggregatesFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringWithAggregatesFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEWithAggregatesFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableWithAggregatesFilter<"GHE_DAT"> | Date | string | null
   }
 
   export type THANH_TOANWhereInput = {
@@ -21358,7 +21399,7 @@ export namespace Prisma {
   export type VECreateInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
     chiTietDatVe: CHI_TIET_DAT_VECreateNestedOneWithoutVesInput
@@ -21368,7 +21409,7 @@ export namespace Prisma {
     id_ve: string
     id_chi_tiet: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -21376,7 +21417,7 @@ export namespace Prisma {
   export type VEUpdateInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chiTietDatVe?: CHI_TIET_DAT_VEUpdateOneRequiredWithoutVesNestedInput
@@ -21386,7 +21427,7 @@ export namespace Prisma {
     id_ve?: StringFieldUpdateOperationsInput | string
     id_chi_tiet?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21395,7 +21436,7 @@ export namespace Prisma {
     id_ve: string
     id_chi_tiet: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -21403,7 +21444,7 @@ export namespace Prisma {
   export type VEUpdateManyMutationInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21412,7 +21453,7 @@ export namespace Prisma {
     id_ve?: StringFieldUpdateOperationsInput | string
     id_chi_tiet?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21499,6 +21540,8 @@ export namespace Prisma {
 
   export type GHE_DATCreateInput = {
     id?: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
     ghe: GHECreateNestedOneWithoutGheDatsInput
     phien_su_kien: PHIEN_SU_KIENCreateNestedOneWithoutGheDatsInput
   }
@@ -21507,10 +21550,14 @@ export namespace Prisma {
     id?: string
     id_ghe: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ghe?: GHEUpdateOneRequiredWithoutGheDatsNestedInput
     phien_su_kien?: PHIEN_SU_KIENUpdateOneRequiredWithoutGheDatsNestedInput
   }
@@ -21519,22 +21566,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATCreateManyInput = {
     id?: string
     id_ghe: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type THANH_TOANCreateInput = {
@@ -22705,6 +22760,13 @@ export namespace Prisma {
     gia?: SortOrder
   }
 
+  export type EnumTRANG_THAI_GHEFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+  }
+
   export type GHEScalarRelationFilter = {
     is?: GHEWhereInput
     isNot?: GHEWhereInput
@@ -22725,18 +22787,34 @@ export namespace Prisma {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrder
   }
 
   export type GHE_DATMaxOrderByAggregateInput = {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrder
   }
 
   export type GHE_DATMinOrderByAggregateInput = {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrder
+  }
+
+  export type EnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
+    _max?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
   }
 
   export type EnumTRANG_THAI_THANH_TOANFilter<$PrismaModel = never> = {
@@ -23935,6 +24013,10 @@ export namespace Prisma {
     connect?: PHIEN_SU_KIENWhereUniqueInput
   }
 
+  export type EnumTRANG_THAI_GHEFieldUpdateOperationsInput = {
+    set?: $Enums.TRANG_THAI_GHE
+  }
+
   export type GHEUpdateOneRequiredWithoutGheDatsNestedInput = {
     create?: XOR<GHECreateWithoutGheDatsInput, GHEUncheckedCreateWithoutGheDatsInput>
     connectOrCreate?: GHECreateOrConnectWithoutGheDatsInput
@@ -24273,6 +24355,23 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTRANG_THAI_VEFilter<$PrismaModel>
     _max?: NestedEnumTRANG_THAI_VEFilter<$PrismaModel>
+  }
+
+  export type NestedEnumTRANG_THAI_GHEFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+  }
+
+  export type NestedEnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
+    _max?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
   }
 
   export type NestedEnumTRANG_THAI_THANH_TOANFilter<$PrismaModel = never> = {
@@ -25772,12 +25871,16 @@ export namespace Prisma {
 
   export type GHE_DATCreateWithoutPhien_su_kienInput = {
     id?: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
     ghe: GHECreateNestedOneWithoutGheDatsInput
   }
 
   export type GHE_DATUncheckedCreateWithoutPhien_su_kienInput = {
     id?: string
     id_ghe: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATCreateOrConnectWithoutPhien_su_kienInput = {
@@ -25930,6 +26033,8 @@ export namespace Prisma {
     id?: StringFilter<"GHE_DAT"> | string
     id_ghe?: StringFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableFilter<"GHE_DAT"> | Date | string | null
   }
 
   export type DAT_VEUpsertWithWhereUniqueWithoutPhienSuKienInput = {
@@ -26333,7 +26438,7 @@ export namespace Prisma {
   export type VECreateWithoutChiTietDatVeInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -26341,7 +26446,7 @@ export namespace Prisma {
   export type VEUncheckedCreateWithoutChiTietDatVeInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -26446,7 +26551,7 @@ export namespace Prisma {
     id_ve?: StringFilter<"VE"> | string
     id_chi_tiet?: StringFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringFilter<"VE"> | string
+    QR_code?: StringNullableFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableFilter<"VE"> | Date | string | null
   }
@@ -26565,12 +26670,16 @@ export namespace Prisma {
 
   export type GHE_DATCreateWithoutGheInput = {
     id?: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
     phien_su_kien: PHIEN_SU_KIENCreateNestedOneWithoutGheDatsInput
   }
 
   export type GHE_DATUncheckedCreateWithoutGheInput = {
     id?: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATCreateOrConnectWithoutGheInput = {
@@ -27320,6 +27429,8 @@ export namespace Prisma {
   export type GHE_DATCreateManyPhien_su_kienInput = {
     id?: string
     id_ghe: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type DAT_VECreateManyPhienSuKienInput = {
@@ -27366,17 +27477,23 @@ export namespace Prisma {
 
   export type GHE_DATUpdateWithoutPhien_su_kienInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ghe?: GHEUpdateOneRequiredWithoutGheDatsNestedInput
   }
 
   export type GHE_DATUncheckedUpdateWithoutPhien_su_kienInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATUncheckedUpdateManyWithoutPhien_su_kienInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type DAT_VEUpdateWithoutPhienSuKienInput = {
@@ -27539,7 +27656,7 @@ export namespace Prisma {
   export type VECreateManyChiTietDatVeInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -27547,7 +27664,7 @@ export namespace Prisma {
   export type VEUpdateWithoutChiTietDatVeInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -27555,7 +27672,7 @@ export namespace Prisma {
   export type VEUncheckedUpdateWithoutChiTietDatVeInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -27563,7 +27680,7 @@ export namespace Prisma {
   export type VEUncheckedUpdateManyWithoutChiTietDatVeInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -27571,21 +27688,29 @@ export namespace Prisma {
   export type GHE_DATCreateManyGheInput = {
     id?: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATUpdateWithoutGheInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phien_su_kien?: PHIEN_SU_KIENUpdateOneRequiredWithoutGheDatsNestedInput
   }
 
   export type GHE_DATUncheckedUpdateWithoutGheInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATUncheckedUpdateManyWithoutGheInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 
