@@ -17,7 +17,7 @@ eventRoute.get("/", async (req, res) => {
                 gte: new Date(),
               },
               id_loai_su_kien: type.id,
-              trang_thai: "DA_DUYET",
+              trang_thai: "SAP_DIEN_RA",
             },
             take: 6,
           })

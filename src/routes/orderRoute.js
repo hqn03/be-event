@@ -481,8 +481,18 @@ orderRoute.get("/:orderId", async (req, res) => {
         thanhToans: true,
       },
     });
+    if (order.trang_thai === "HOAN_TAT") {
+      throw new Error("Đơn đặt vé đã hoàn tất");
+    }
+    if (order.trang_thai === "HUY") {
+      throw new Error("Đơn đặt vé đã bị hủy");
+    }
+
     return res.status(200).json(order);
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error.message);
+  }
 });
 
 orderRoute.get("/:orderId/pdf-preview", async (req, res) => {

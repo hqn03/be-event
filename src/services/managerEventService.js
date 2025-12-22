@@ -101,7 +101,7 @@ const managerEventService = {
       throw new Error("Không tìm thấy sự kiện");
     }
 
-    if (["NHAP", "DANG_DUYET"].includes(event.trang_thai)) {
+    if (["NHAP", "DANG_XU_LY"].includes(event.trang_thai)) {
       console.log("[EVENT SERVICE] GET EVENT");
     }
 
@@ -144,7 +144,7 @@ const managerEventService = {
       return await tx.sU_KIEN.update({
         where: { ma_su_kien: idEvent },
         data: {
-          trang_thai: "DANG_DUYET",
+          trang_thai: "DANG_XU_LY",
         },
         select: {
           trang_thai: true,

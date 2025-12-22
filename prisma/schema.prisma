@@ -80,6 +80,9 @@ model NHAN_VIEN {
 enum ENUM_SU_KIEN {
     NHAP
     DANG_DUYET
+    DANG_XU_LY
+    SAP_DIEN_RA
+    DANG_DIEN_RA
     DA_DUYET
     KET_THUC
 }

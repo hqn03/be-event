@@ -407,6 +407,9 @@ exports.ENUM_GIOI_TINH = exports.$Enums.ENUM_GIOI_TINH = {
 exports.ENUM_SU_KIEN = exports.$Enums.ENUM_SU_KIEN = {
   NHAP: 'NHAP',
   DANG_DUYET: 'DANG_DUYET',
+  DANG_XU_LY: 'DANG_XU_LY',
+  SAP_DIEN_RA: 'SAP_DIEN_RA',
+  DANG_DIEN_RA: 'DANG_DIEN_RA',
   DA_DUYET: 'DA_DUYET',
   KET_THUC: 'KET_THUC'
 };
