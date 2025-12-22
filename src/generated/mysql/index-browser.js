@@ -137,6 +137,7 @@ exports.Prisma.NGUOI_DUNGScalarFieldEnum = {
   ngay_sinh: 'ngay_sinh',
   gioi_tinh: 'gioi_tinh',
   da_xac_thuc: 'da_xac_thuc',
+  anh_dai_dien: 'anh_dai_dien',
   ngay_tao: 'ngay_tao',
   ngay_cap_nhat: 'ngay_cap_nhat',
   ngay_xoa: 'ngay_xoa'
@@ -301,7 +302,8 @@ exports.Prisma.NGUOI_DUNGOrderByRelevanceFieldEnum = {
   ho_ten: 'ho_ten',
   email: 'email',
   mat_khau: 'mat_khau',
-  so_dien_thoai: 'so_dien_thoai'
+  so_dien_thoai: 'so_dien_thoai',
+  anh_dai_dien: 'anh_dai_dien'
 };
 
 exports.Prisma.TOKEN_XAC_THUCOrderByRelevanceFieldEnum = {

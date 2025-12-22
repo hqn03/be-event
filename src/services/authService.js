@@ -4,6 +4,7 @@ import crypto from "crypto";
 import ejs from "ejs";
 import mailService from "./mailService.js";
 import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
+import { email } from "zod";
 const mysql = new MySQLClient();
 
 const saltRounds = 10;
@@ -66,12 +67,7 @@ const authService = {
   async login(data) {
     const user = await mysql.nGUOI_DUNG.findUnique({
       where: { email: data.email },
-      select: {
-        id_nguoi_dung: true,
-        email: true,
-        mat_khau: true,
-        da_xac_thuc: true,
-        ho_ten: true,
+      include: {
         vai_tro: true,
         nhanVien: true,
         khach: true,
@@ -87,11 +83,18 @@ const authService = {
     }
 
     const payload = {
-      email: user.email,
-      fullname: user.ho_ten,
       sub: user.id_nguoi_dung,
       role: user.vai_tro.ten_vai_tro,
       id: user.nhanVien?.ma_nhan_vien || user.khach?.ma_khach,
+    };
+
+    const userData = {
+      ...payload,
+      ho_ten: user.ho_ten,
+      email: user.email,
+      so_dien_thoai: user.so_dien_thoai,
+      gioi_tinh: user.gioi_tinh,
+      ngay_sinh: user.ngay_sinh,
     };
 
     const access_token = jwt.sign(payload, process.env.ACCESS_KEY, {
@@ -99,7 +102,7 @@ const authService = {
     });
 
     return {
-      user: payload,
+      user: userData,
       access_token,
     };
   },

@@ -18,3 +18,6 @@ export const toGMT7 = (date) => {
 export function formatTimeRange(start, end) {
   return `${formatTime(start)} - ${formatTime(end)} ngày ${formatDate(start)}`;
 }
+
+export const calcAge = (dob) =>
+  new Date().getFullYear() - new Date(dob).getFullYear();

@@ -38,6 +38,63 @@ router.use("/orders", orderRoute);
 router.use("/tickets", ticketRoute);
 router.use("/payment", paymentRoute);
 
+router.get("/me", async (req, res) => {
+  try {
+    const user = req.user;
+    const me = await mysql.nGUOI_DUNG
+      .findUnique({
+        where: { id_nguoi_dung: user.sub },
+        include: {
+          khach: true,
+          nhanVien: true,
+          vai_tro: true,
+        },
+      })
+      .then((value) => ({
+        email: value.email,
+        gioi_tinh: value.gioi_tinh,
+        ho_ten: value.ho_ten,
+        ngay_sinh: value.ngay_sinh,
+        so_dien_thoai: value.so_dien_thoai,
+        role: value.vai_tro.ten_vai_tro,
+        id: value.nhanVien?.ma_nhan_vien || value.khach?.ma_khach,
+        anh_dai_dien: value.anh_dai_dien,
+      }));
+
+    return res.status(200).json(me);
+  } catch (error) {}
+});
+router.put("/me", async (req, res) => {
+  try {
+    const user = req.user;
+    const body = req.body;
+
+    const test = await mysql.nGUOI_DUNG
+      .update({
+        where: { id_nguoi_dung: user.sub },
+        data: body,
+        include: {
+          khach: true,
+          nhanVien: true,
+          vai_tro: true,
+        },
+      })
+      .then((value) => ({
+        email: value.email,
+        gioi_tinh: value.gioi_tinh,
+        ho_ten: value.ho_ten,
+        ngay_sinh: value.ngay_sinh,
+        so_dien_thoai: value.so_dien_thoai,
+        role: value.vai_tro.ten_vai_tro,
+        id: value.nhanVien?.ma_nhan_vien || value.khach?.ma_khach,
+      }));
+
+    return res.status(200).json(test);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 const s3 = new S3Client({
   region: "auto",
   endpoint: "https://668f0b6ae2f941f596942e6f6777164e.r2.cloudflarestorage.com",

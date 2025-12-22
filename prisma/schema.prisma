@@ -37,6 +37,7 @@ model NGUOI_DUNG {
     ngay_sinh     DateTime?      @db.Date
     gioi_tinh     ENUM_GIOI_TINH @default(NAM)
     da_xac_thuc   Boolean        @default(false)
+    anh_dai_dien  String?        @db.Text
     ngay_tao      DateTime       @default(now())
     ngay_cap_nhat DateTime       @updatedAt
     ngay_xoa      DateTime?
@@ -218,7 +219,7 @@ model VE {
     id_ve          String        @id
     id_chi_tiet    String
     trang_thai     TRANG_THAI_VE @default(CHUA_CHECK_IN)
-    QR_code        String?        @db.Text
+    QR_code        String?       @db.Text
     ngay_phat_hanh DateTime      @default(now())
     ngay_check_in  DateTime?
 

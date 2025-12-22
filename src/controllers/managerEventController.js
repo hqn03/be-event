@@ -36,12 +36,7 @@ const managerEventController = {
         ...data,
         user,
       });
-      return res.status(200).json(
-        successResponse({
-          data: result,
-          message: "Cập nhật thông tin sự kiện thành công",
-        })
-      );
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json(errorResponse({}));
@@ -68,7 +63,6 @@ const managerEventController = {
       const { id: ma_su_kien } = req.params;
       const user = req.user;
       const result = await managerEventService.getEvent({ ma_su_kien, user });
-      console.log(result);
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);
