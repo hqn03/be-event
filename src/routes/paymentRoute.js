@@ -68,86 +68,16 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
 
   if (verify.isSuccess) {
     const { ticketIds } = await mysql.$transaction(async (tx) => {
-      // Tìm hóa đơn
       const order = await tx.dAT_VE.update({
         where: { ma_don_hang: vnp_OrderInfo },
         data: { trang_thai: "HOAN_TAT" },
-        include: {
-          chiTietDatVes: true,
-        },
+        include: { chiTietDatVes: true },
       });
-
-      // for (const chiTiet of order.chiTietDatVes) {
-      //   let gheDat = null;
-      //   let loaiVe = null;
-      //   if (chiTiet.id_ghe_dat) {
-      //     gheDat = await mysql.gHE_DAT.findUnique({
-      //       where: { id: chiTiet.id_ghe_dat },
-      //       include: { ghe: true },
-      //     });
-
-      //     const id_ve = nanoid();
-
-      //     const qr = await QRCode.toDataURL(
-      //       `${frontendUrl}/ticket?id=${id_ve}`
-      //     );
-      //     const saved = await mysql.vE.create({
-      //       data: {
-      //         id_ve,
-      //         ngay_phat_hanh: new Date(),
-      //         QR_code: qr,
-      //         id_chi_tiet: chiTiet.id_chi_tiet,
-      //       },
-      //       include: {
-      //         chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
-      //       },
-      //     });
-      //     const { chiTietDatVe, ...rest } = saved;
-      //     tickets.push({
-      //       ...rest,
-      //       ten_loai_ve: chiTietDatVe.ten_loai_ve,
-      //       ma_ghe: chiTietDatVe.ma_ghe,
-      //     });
-      //   }
-
-      //   // Trừ stock nếu là vé + số lượng
-      //   if (chiTiet.id_loai_ve) {
-      //     loaiVe = await mysql.lOAI_VE.update({
-      //       where: { id_loai_ve: chiTiet.id_loai_ve },
-      //       data: { so_luong_con: { decrement: chiTiet.so_luong } },
-      //     });
-
-      //     for (let i = 1; i <= chiTiet.so_luong; i++) {
-      //       // Tạo vé
-      //       const id_ve = nanoid();
-
-      //       const qr = await QRCode.toDataURL(
-      //         `${frontendUrl}/ticket?id=${id_ve}`
-      //       );
-      //       const saved = await mysql.vE.create({
-      //         data: {
-      //           id_ve,
-      //           ngay_phat_hanh: new Date(),
-      //           QR_code: qr,
-      //           id_chi_tiet: chiTiet.id_chi_tiet,
-      //         },
-      //         include: {
-      //           chiTietDatVe: { select: { ten_loai_ve: true, ma_ghe: true } },
-      //         },
-      //       });
-      //       const { chiTietDatVe, ...rest } = saved;
-      //       tickets.push({
-      //         ...rest,
-      //         ten_loai_ve: chiTietDatVe.ten_loai_ve,
-      //         ma_ghe: chiTietDatVe.ma_ghe,
-      //       });
-      //     }
-      //   }
-      // }
 
       const gheIds = order.chiTietDatVes
         .map((ct) => ct.id_ghe_dat)
         .filter(Boolean);
+
       await tx.gHE_DAT.updateMany({
         where: { id: { in: gheIds } },
         data: { trang_thai: "THANH_TOAN" },
@@ -173,14 +103,6 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
         data: { trang_thai: "THANH_CONG" },
       });
 
-      // Chuẩn bị attachments cho QR
-      // const attachments = tickets.map((t) => ({
-      //   filename: `ticket-${t.id_ve}.png`,
-      //   content: Buffer.from(t.QR_code, "base64"),
-      //   cid: t.id_ve, // để hiển thị inline
-      // }));
-
-      // if()
       return { order, ticketIds };
     });
 
@@ -270,21 +192,29 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
       htmlData
     );
 
+    const ticketDoc = new PDFDocument({ size: "A4", margin: 20 });
+    const ticketPdfBuffer = await createTicketPDF(ticketDoc, htmlData);
+
     const mailOptions = {
       from: "EVENT DAY NE",
       to: order.nguoi_dat_ve.nguoi_dung.email,
       subject: "vé sự kiện của bạn",
       html: htmlTickets,
+      attachments: [
+        {
+          filename: `DanhSachVe_${order.ma_don_hang}.pdf`,
+          content: ticketPdfBuffer,
+          contentType: "application/pdf",
+        },
+      ],
     };
 
     if (pdfBuffer) {
-      mailOptions.attachments = [
-        {
-          filename: `${order.ma_don_hang}.pdf`,
-          content: pdfBuffer,
-          contentType: "application/pdf",
-        },
-      ];
+      mailOptions.attachments.push({
+        filename: `HoaDon_${order.ma_don_hang}.pdf`,
+        content: pdfBuffer,
+        contentType: "application/pdf",
+      });
     }
 
     transport.sendMail(mailOptions);
@@ -310,3 +240,50 @@ paymentRoute.get("/check-payment-vnpay", async (req, res) => {
 });
 
 export default paymentRoute;
+
+function createTicketPDF(doc, data) {
+  doc.restore();
+  let chunks = [];
+  doc.on("data", (d) => chunks.push(d));
+
+  const done = new Promise((resolve) => {
+    doc.on("end", () => resolve(Buffer.concat(chunks)));
+  });
+
+  doc.registerFont("Inter", "src/fonts/Inter_18pt-Regular.ttf");
+  doc.font("Inter");
+  for (const ticket of data.tickets) {
+    const startY = doc.y;
+
+    // Khung vé
+    doc.rect(40, startY, 515, 140).stroke();
+
+    doc.y = startY + 15;
+    doc.x = 50;
+    doc
+      .fontSize(14)
+      .text(data.ten_su_kien, { width: 330 })
+      .moveDown(0.5)
+      .fontSize(10)
+      .text(`Thời gian: ${data.thoi_gian}`)
+      .moveDown(0.3)
+      .text(`Địa điểm: ${data.dia_diem}`, { width: 330 })
+      .moveDown(0.3)
+      .text(`Loại vé: ${ticket.ten_loai_ve}`)
+      .moveDown(0.3)
+      .text(`Ghế: ${ticket.ma_ghe || "Không"}`);
+
+    // QR
+    const qrBuffer = Buffer.from(
+      ticket.QR_code.replace(/^data:image\/png;base64,/, ""),
+      "base64"
+    );
+    doc.image(qrBuffer, 420, startY + 15, { width: 120 });
+
+    // Vé tiếp theo (đẩy doc.y xuống dưới khung)
+    doc.y = startY + 140;
+  }
+  doc.end();
+
+  return done;
+}

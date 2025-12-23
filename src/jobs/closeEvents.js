@@ -9,19 +9,10 @@ export function closeEvent() {
       const now = new Date();
 
       await mysql.sU_KIEN.updateMany({
-        where: {
-          trang_thai: "DA_DUYET",
-          ngay_ket_thuc: {
-            lt: now,
-          },
-        },
-        data: {
-          trang_thai: "KET_THUC",
-        },
+        where: { trang_thai: "SAP_DIEN_RA", ngay_ket_thuc: { lt: now } },
+        data: { trang_thai: "KET_THUC" },
       });
     },
-    {
-      timezone: "Asia/Ho_Chi_Minh",
-    }
+    { timezone: "Asia/Ho_Chi_Minh" }
   );
 }

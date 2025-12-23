@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
+import {
+  PrismaClient as MySQLClient,
+  Prisma,
+} from "../generated/mysql/index.js";
 import { nanoid } from "nanoid";
 // import { dateFormat, VNPay, VnpLocale } from "vnpay";
 import { formatTimeRange, toGMT7 } from "../utils/datetime.js";
@@ -299,64 +302,41 @@ orderRoute.get("/admin", async (req, res) => {
 
 orderRoute.get("/admin/summary-by-event", async (req, res) => {
   try {
-    const { from, to } = req.query;
+    const { from, to, q } = req.query;
 
-    const where = { trang_thai: "HOAN_TAT" };
+    const test = await mysql.$queryRaw`
+    SELECT 
+  sk.ma_su_kien,
+  sk.ten_su_kien,
+  COALESCE(SUM(dv.tong_tien), 0) AS tong_doanh_thu
+FROM su_kien sk
+JOIN phien_su_kien psk
+  ON sk.ma_su_kien = psk.ma_su_kien
+JOIN dat_ve dv
+  ON dv.id_phien_su_kien = psk.id_phien_su_kien
+  AND dv.trang_thai = 'HOAN_TAT'
+  ${
+    from && to
+      ? Prisma.sql`AND dv.ngay_tao BETWEEN ${from} AND ${to} `
+      : Prisma.empty
+  }
+WHERE 1=1
+${
+  q
+    ? Prisma.sql`
+      AND (
+        sk.ma_su_kien LIKE CONCAT('%', ${q}, '%')
+        OR sk.ten_su_kien LIKE CONCAT('%', ${q}, '%')
+      )
+    `
+    : Prisma.empty
+}
+GROUP BY sk.ma_su_kien, sk.ten_su_kien
+ORDER BY tong_doanh_thu DESC;`;
 
-    if (from || to) {
-      where.ngay_tao = {};
-      if (from) where.ngay_tao.gte = new Date(from);
-      if (to) where.ngay_tao.lte = new Date(to);
-    }
-
-    const grouped = await mysql.dAT_VE.groupBy({
-      by: ["id_phien_su_kien"],
-      where,
-      _sum: {
-        tong_tien: true,
-      },
-      _count: {
-        _all: true,
-      },
-    });
-
-    const phienIds = grouped.map((i) => i.id_phien_su_kien);
-
-    const phienMap = await mysql.pHIEN_SU_KIEN.findMany({
-      where: { id_phien_su_kien: { in: phienIds } },
-      select: {
-        id_phien_su_kien: true,
-        su_kien: { select: { ma_su_kien: true, ten_su_kien: true } },
-      },
-    });
-
-    const map = {};
-
-    grouped.forEach((g) => {
-      const phien = phienMap.find(
-        (p) => p.id_phien_su_kien === g.id_phien_su_kien
-      );
-      if (!phien) return;
-
-      const key = phien.su_kien.ma_su_kien;
-
-      if (!map[key]) {
-        map[key] = {
-          ma_su_kien: phien.su_kien.ma_su_kien,
-          ten_su_kien: phien.su_kien.ten_su_kien,
-          doanh_thu: 0,
-          so_don: 0,
-        };
-      }
-
-      map[key].doanh_thu += g._sum.tong_tien ?? 0;
-      map[key].so_don += g._count._all;
-    });
-
-    const result = Object.values(map);
-
-    return res.status(200).json(result);
+    return res.status(200).json(test);
   } catch (error) {
+    console.log(error);
     return res.status(400).json(error);
   }
 });
@@ -364,7 +344,6 @@ orderRoute.get("/admin/summary-by-event", async (req, res) => {
 orderRoute.get("/export-excel", async (req, res) => {
   try {
     const { from, to, q } = req.query;
-
     const where = { trang_thai: "HOAN_TAT" };
 
     if (q) {
@@ -428,7 +407,7 @@ orderRoute.get("/export-excel", async (req, res) => {
       ten_su_kien: i.phienSuKien?.su_kien?.ten_su_kien,
       ma_nhan_vien: i.phienSuKien?.su_kien?.ma_nhan_vien,
       ma_khach: i.ma_khach,
-      tong_tien: i.tong_tien,
+      tong_tien: Number(i.tong_tien),
       ngay_tao: toGMT7(i.ngay_tao),
     }));
 
@@ -530,7 +509,7 @@ orderRoute.get("/:orderId/pdf-preview", async (req, res) => {
     //   .map((_, i) => {
     //     const item = order.chiTietDatVes[i];
 
-    //     return `
+    //     return `;
     //   <tr>
     //     <td style="text-align:center">${i + 1}</td>
     //     <td>${
