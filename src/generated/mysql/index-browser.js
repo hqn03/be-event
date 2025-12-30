@@ -137,6 +137,7 @@ exports.Prisma.NGUOI_DUNGScalarFieldEnum = {
   ngay_sinh: 'ngay_sinh',
   gioi_tinh: 'gioi_tinh',
   da_xac_thuc: 'da_xac_thuc',
+  dang_hoat_dong: 'dang_hoat_dong',
   anh_dai_dien: 'anh_dai_dien',
   ngay_tao: 'ngay_tao',
   ngay_cap_nhat: 'ngay_cap_nhat',

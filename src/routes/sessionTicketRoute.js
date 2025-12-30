@@ -14,9 +14,7 @@ sessionTicketRoute.delete("/:sessionId", async (req, res) => {
   try {
     const { sessionId } = req.params;
     const result = await mysql.pHIEN_SU_KIEN.delete({
-      where: {
-        id_phien_su_kien: sessionId,
-      },
+      where: { id_phien_su_kien: sessionId },
     });
     return res.status(200).json(result);
   } catch (error) {

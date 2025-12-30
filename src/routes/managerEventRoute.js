@@ -281,18 +281,47 @@ managerEventRoute.get("/:eventId/reports/orders-by-day", async (req, res) => {
       return res.status(200).json([]);
     }
 
+    // const result = await mysql.$queryRaw`
+    // SELECT DATE(dv.ngay_tao) AS date,
+    //   COUNT(DISTINCT dv.ma_don_hang) AS so_don,
+    //   SUM(ct.so_luong)AS so_ve,
+    //   SUM(dv.tong_tien) AS doanh_thu
+    // FROM DAT_VE dv
+    // JOIN CHI_TIET_DAT_VE ct
+    //   ON ct.ma_don_hang = dv.ma_don_hang
+    // WHERE dv.id_phien_su_kien IN (${Prisma.join(phienIds)})
+    //   AND dv.trang_thai = 'HOAN_TAT'
+    // GROUP BY DATE(dv.ngay_tao)
+    // ORDER BY date ASC;`;
     const result = await mysql.$queryRaw`
-    SELECT DATE(dv.ngay_tao) AS date,
-      COUNT(DISTINCT dv.ma_don_hang) AS so_don,
-      SUM(ct.so_luong)AS so_ve,
-      SUM(dv.tong_tien) AS doanh_thu
+    WITH RECURSIVE dates AS (
+  SELECT DATE(MIN(dv.ngay_tao)) AS d
+  FROM DAT_VE dv
+  WHERE dv.id_phien_su_kien IN (${Prisma.join(phienIds)})
+  UNION ALL
+  SELECT DATE_ADD(d, INTERVAL 1 DAY)
+  FROM dates
+  WHERE d < (
+    SELECT DATE(MAX(dv.ngay_tao))
     FROM DAT_VE dv
-    JOIN CHI_TIET_DAT_VE ct
-      ON ct.ma_don_hang = dv.ma_don_hang
     WHERE dv.id_phien_su_kien IN (${Prisma.join(phienIds)})
-      AND dv.trang_thai = 'HOAN_TAT'
-    GROUP BY DATE(dv.ngay_tao)
-    ORDER BY date ASC;`;
+  )
+)
+SELECT 
+  dates.d AS date,
+  COUNT(DISTINCT dv.ma_don_hang) AS so_don,
+  COALESCE(SUM(ct.so_luong), 0) AS so_ve,
+  COALESCE(SUM(dv.tong_tien), 0) AS doanh_thu
+FROM dates
+LEFT JOIN DAT_VE dv
+  ON DATE(dv.ngay_tao) = dates.d
+  AND dv.trang_thai = 'HOAN_TAT'
+  AND dv.id_phien_su_kien IN (${Prisma.join(phienIds)})
+LEFT JOIN CHI_TIET_DAT_VE ct
+  ON ct.ma_don_hang = dv.ma_don_hang
+GROUP BY dates.d
+ORDER BY dates.d;
+`;
 
     const safe = result.map((r) => ({
       ngay: formatDate(r.date),

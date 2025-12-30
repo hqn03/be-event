@@ -3598,6 +3598,7 @@ export namespace Prisma {
     ngay_sinh: Date | null
     gioi_tinh: $Enums.ENUM_GIOI_TINH | null
     da_xac_thuc: boolean | null
+    dang_hoat_dong: boolean | null
     anh_dai_dien: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
@@ -3614,6 +3615,7 @@ export namespace Prisma {
     ngay_sinh: Date | null
     gioi_tinh: $Enums.ENUM_GIOI_TINH | null
     da_xac_thuc: boolean | null
+    dang_hoat_dong: boolean | null
     anh_dai_dien: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
@@ -3630,6 +3632,7 @@ export namespace Prisma {
     ngay_sinh: number
     gioi_tinh: number
     da_xac_thuc: number
+    dang_hoat_dong: number
     anh_dai_dien: number
     ngay_tao: number
     ngay_cap_nhat: number
@@ -3656,6 +3659,7 @@ export namespace Prisma {
     ngay_sinh?: true
     gioi_tinh?: true
     da_xac_thuc?: true
+    dang_hoat_dong?: true
     anh_dai_dien?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
@@ -3672,6 +3676,7 @@ export namespace Prisma {
     ngay_sinh?: true
     gioi_tinh?: true
     da_xac_thuc?: true
+    dang_hoat_dong?: true
     anh_dai_dien?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
@@ -3688,6 +3693,7 @@ export namespace Prisma {
     ngay_sinh?: true
     gioi_tinh?: true
     da_xac_thuc?: true
+    dang_hoat_dong?: true
     anh_dai_dien?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
@@ -3791,6 +3797,7 @@ export namespace Prisma {
     ngay_sinh: Date | null
     gioi_tinh: $Enums.ENUM_GIOI_TINH
     da_xac_thuc: boolean
+    dang_hoat_dong: boolean
     anh_dai_dien: string | null
     ngay_tao: Date
     ngay_cap_nhat: Date
@@ -3826,6 +3833,7 @@ export namespace Prisma {
     ngay_sinh?: boolean
     gioi_tinh?: boolean
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
@@ -3851,13 +3859,14 @@ export namespace Prisma {
     ngay_sinh?: boolean
     gioi_tinh?: boolean
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
   }
 
-  export type NGUOI_DUNGOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_nguoi_dung" | "id_vai_tro" | "ho_ten" | "email" | "mat_khau" | "so_dien_thoai" | "ngay_sinh" | "gioi_tinh" | "da_xac_thuc" | "anh_dai_dien" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["nGUOI_DUNG"]>
+  export type NGUOI_DUNGOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_nguoi_dung" | "id_vai_tro" | "ho_ten" | "email" | "mat_khau" | "so_dien_thoai" | "ngay_sinh" | "gioi_tinh" | "da_xac_thuc" | "dang_hoat_dong" | "anh_dai_dien" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["nGUOI_DUNG"]>
   export type NGUOI_DUNGInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vai_tro?: boolean | VAI_TRODefaultArgs<ExtArgs>
     khach?: boolean | NGUOI_DUNG$khachArgs<ExtArgs>
@@ -3888,6 +3897,7 @@ export namespace Prisma {
       ngay_sinh: Date | null
       gioi_tinh: $Enums.ENUM_GIOI_TINH
       da_xac_thuc: boolean
+      dang_hoat_dong: boolean
       anh_dai_dien: string | null
       ngay_tao: Date
       ngay_cap_nhat: Date
@@ -4276,6 +4286,7 @@ export namespace Prisma {
     readonly ngay_sinh: FieldRef<"NGUOI_DUNG", 'DateTime'>
     readonly gioi_tinh: FieldRef<"NGUOI_DUNG", 'ENUM_GIOI_TINH'>
     readonly da_xac_thuc: FieldRef<"NGUOI_DUNG", 'Boolean'>
+    readonly dang_hoat_dong: FieldRef<"NGUOI_DUNG", 'Boolean'>
     readonly anh_dai_dien: FieldRef<"NGUOI_DUNG", 'String'>
     readonly ngay_tao: FieldRef<"NGUOI_DUNG", 'DateTime'>
     readonly ngay_cap_nhat: FieldRef<"NGUOI_DUNG", 'DateTime'>
@@ -18897,6 +18908,7 @@ export namespace Prisma {
     ngay_sinh: 'ngay_sinh',
     gioi_tinh: 'gioi_tinh',
     da_xac_thuc: 'da_xac_thuc',
+    dang_hoat_dong: 'dang_hoat_dong',
     anh_dai_dien: 'anh_dai_dien',
     ngay_tao: 'ngay_tao',
     ngay_cap_nhat: 'ngay_cap_nhat',
@@ -19418,6 +19430,7 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolFilter<"NGUOI_DUNG"> | boolean
     anh_dai_dien?: StringNullableFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
@@ -19440,6 +19453,7 @@ export namespace Prisma {
     ngay_sinh?: SortOrderInput | SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
     anh_dai_dien?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
@@ -19466,6 +19480,7 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolFilter<"NGUOI_DUNG"> | boolean
     anh_dai_dien?: StringNullableFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
@@ -19488,6 +19503,7 @@ export namespace Prisma {
     ngay_sinh?: SortOrderInput | SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
     anh_dai_dien?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
@@ -19512,6 +19528,7 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableWithAggregatesFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHWithAggregatesFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolWithAggregatesFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolWithAggregatesFilter<"NGUOI_DUNG"> | boolean
     anh_dai_dien?: StringNullableWithAggregatesFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeWithAggregatesFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeWithAggregatesFilter<"NGUOI_DUNG"> | Date | string
@@ -20565,6 +20582,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -20587,6 +20605,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -20607,6 +20626,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20629,6 +20649,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20650,6 +20671,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -20665,6 +20687,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -20681,6 +20704,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21899,6 +21923,7 @@ export namespace Prisma {
     ngay_sinh?: SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
     anh_dai_dien?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
@@ -21919,6 +21944,7 @@ export namespace Prisma {
     ngay_sinh?: SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
     anh_dai_dien?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
@@ -21935,6 +21961,7 @@ export namespace Prisma {
     ngay_sinh?: SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
     anh_dai_dien?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
@@ -24431,6 +24458,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -24451,6 +24479,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -24501,6 +24530,7 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolFilter<"NGUOI_DUNG"> | boolean
     anh_dai_dien?: StringNullableFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
@@ -24788,6 +24818,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -24809,6 +24840,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -24844,6 +24876,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24865,6 +24898,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24917,6 +24951,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -24938,6 +24973,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25003,6 +25039,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25024,6 +25061,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25043,6 +25081,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25064,6 +25103,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25088,6 +25128,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25109,6 +25150,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25197,6 +25239,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25218,6 +25261,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25248,6 +25292,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25269,6 +25314,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25702,6 +25748,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25723,6 +25770,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -25812,6 +25860,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25833,6 +25882,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27007,6 +27057,7 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
     anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
@@ -27022,6 +27073,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27042,6 +27094,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27062,6 +27115,7 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
     anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string

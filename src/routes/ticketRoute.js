@@ -56,6 +56,74 @@ const getTicket = async (id) => {
   };
 };
 
+ticketRoute.get("/", async (req, res) => {
+  try {
+    const user = req.user;
+    const test = await mysql.dAT_VE
+      .findMany({
+        where: { nguoi_dat_ve: { ma_khach: user.id }, trang_thai: "HOAN_TAT" },
+        select: {
+          phienSuKien: {
+            select: {
+              su_kien: { select: { ten_su_kien: true, dia_diem: true } },
+              thoi_gian_bat_dau: true,
+              thoi_gian_ket_thuc: true,
+            },
+          },
+          id_phien_su_kien: true,
+          ma_don_hang: true,
+          chiTietDatVes: {
+            include: { ves: { select: { QR_code: true } } },
+          },
+        },
+      })
+      .then((values) =>
+        values.map((i) => {
+          const dataout = {
+            ten_su_kien: i.phienSuKien.su_kien.ten_su_kien,
+            thoi_gian: formatTimeRange(
+              i.phienSuKien.thoi_gian_bat_dau,
+              i.phienSuKien.thoi_gian_ket_thuc
+            ),
+            dia_diem: i.phienSuKien.su_kien.dia_diem,
+            id_phien_su_kien: i.id_phien_su_kien,
+            ma_don_hang: i.ma_don_hang,
+          };
+          const ves = [];
+          if (i.chiTietDatVes[0].ma_ghe === null) {
+            for (const chiTiet of i.chiTietDatVes) {
+              for (const ve of chiTiet.ves) {
+                ves.push({
+                  ma_ghe: "Không",
+                  don_gia: chiTiet.don_gia,
+                  ten_loai_ve: chiTiet.ten_loai_ve,
+                  QR_code: ve.QR_code,
+                });
+              }
+            }
+          } else {
+            for (const chiTiet of i.chiTietDatVes) {
+              ves.push({
+                ma_ghe: chiTiet.ma_ghe,
+                don_gia: chiTiet.don_gia,
+                ten_loai_ve: chiTiet.ten_loai_ve,
+                QR_code: chiTiet.ves[0].QR_code,
+              });
+            }
+          }
+          dataout.ves = ves;
+
+          return dataout;
+        })
+      );
+
+    return res.status(200).json(test);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error);
+  }
+});
+
 ticketRoute.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;

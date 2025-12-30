@@ -28,20 +28,21 @@ enum ENUM_GIOI_TINH {
 }
 
 model NGUOI_DUNG {
-    id_nguoi_dung String         @id @default(uuid())
-    id_vai_tro    Int
-    ho_ten        String?
-    email         String         @unique
-    mat_khau      String
-    so_dien_thoai String?        @db.Char(10)
-    ngay_sinh     DateTime?      @db.Date
-    gioi_tinh     ENUM_GIOI_TINH @default(NAM)
-    da_xac_thuc   Boolean        @default(false)
-    anh_dai_dien  String?        @db.Text
-    ngay_tao      DateTime       @default(now())
-    ngay_cap_nhat DateTime       @updatedAt
-    ngay_xoa      DateTime?
-    vai_tro       VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
+    id_nguoi_dung  String         @id @default(uuid())
+    id_vai_tro     Int
+    ho_ten         String?
+    email          String         @unique
+    mat_khau       String
+    so_dien_thoai  String?        @db.Char(10)
+    ngay_sinh      DateTime?      @db.Date
+    gioi_tinh      ENUM_GIOI_TINH @default(NAM)
+    da_xac_thuc    Boolean        @default(false)
+    dang_hoat_dong Boolean        @default(true)
+    anh_dai_dien   String?        @db.Text
+    ngay_tao       DateTime       @default(now())
+    ngay_cap_nhat  DateTime       @updatedAt
+    ngay_xoa       DateTime?
+    vai_tro        VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
 
     khach           KHACH?
     nhanVien        NHAN_VIEN?

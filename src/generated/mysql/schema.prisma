@@ -28,19 +28,21 @@ enum ENUM_GIOI_TINH {
 }
 
 model NGUOI_DUNG {
-  id_nguoi_dung String         @id @default(uuid())
-  id_vai_tro    Int
-  ho_ten        String?
-  email         String         @unique
-  mat_khau      String
-  so_dien_thoai String?        @db.Char(10)
-  ngay_sinh     DateTime?      @db.Date
-  gioi_tinh     ENUM_GIOI_TINH @default(NAM)
-  da_xac_thuc   Boolean        @default(false)
-  ngay_tao      DateTime       @default(now())
-  ngay_cap_nhat DateTime       @updatedAt
-  ngay_xoa      DateTime?
-  vai_tro       VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
+  id_nguoi_dung  String         @id @default(uuid())
+  id_vai_tro     Int
+  ho_ten         String?
+  email          String         @unique
+  mat_khau       String
+  so_dien_thoai  String?        @db.Char(10)
+  ngay_sinh      DateTime?      @db.Date
+  gioi_tinh      ENUM_GIOI_TINH @default(NAM)
+  da_xac_thuc    Boolean        @default(false)
+  dang_hoat_dong Boolean        @default(true)
+  anh_dai_dien   String?        @db.Text
+  ngay_tao       DateTime       @default(now())
+  ngay_cap_nhat  DateTime       @updatedAt
+  ngay_xoa       DateTime?
+  vai_tro        VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
 
   khach           KHACH?
   nhanVien        NHAN_VIEN?
@@ -79,6 +81,9 @@ model NHAN_VIEN {
 enum ENUM_SU_KIEN {
   NHAP
   DANG_DUYET
+  DANG_XU_LY
+  SAP_DIEN_RA
+  DANG_DIEN_RA
   DA_DUYET
   KET_THUC
 }
@@ -218,7 +223,7 @@ model VE {
   id_ve          String        @id
   id_chi_tiet    String
   trang_thai     TRANG_THAI_VE @default(CHUA_CHECK_IN)
-  QR_code        String        @db.Text
+  QR_code        String?       @db.Text
   ngay_phat_hanh DateTime      @default(now())
   ngay_check_in  DateTime?
 
@@ -250,6 +255,7 @@ model GHE_DAT {
   id_phien_su_kien String
   trang_thai       TRANG_THAI_GHE @default(GIU_CHO)
   ghe              GHE            @relation(fields: [id_ghe], references: [id])
+  het_han          DateTime?
   phien_su_kien    PHIEN_SU_KIEN  @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
 
   @@unique([id_ghe, id_phien_su_kien])
