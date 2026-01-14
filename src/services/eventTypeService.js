@@ -10,23 +10,21 @@ const eventTypeService = {
     });
   },
 
-  async createEventType({ ten_loai_su_kien, duong_dan }) {
+  async createEventType({ ten_loai_su_kien, duong_dan, mo_ta }) {
     const baseSlug = slugify(ten_loai_su_kien, { lower: true });
-    const uniqueSlug = `${baseSlug}-${nanoid(5)}`;
     return await mysql.lOAI_SU_KIEN.create({
       data: {
         ten_loai_su_kien,
-        duong_dan: duong_dan || uniqueSlug,
+        duong_dan: duong_dan || baseSlug,
+        mo_ta: mo_ta,
       },
     });
   },
 
-  async updateEventType({ id, ten_loai_su_kien, duong_dan }) {
-    const baseSlug = slugify(ten_loai_su_kien, { lower: true });
-    const uniqueSlug = `${baseSlug}-${nanoid(5)}`;
+  async updateEventType({ id, ten_loai_su_kien, duong_dan, mo_ta }) {
     return await mysql.lOAI_SU_KIEN.update({
       where: { id },
-      data: { ten_loai_su_kien, duong_dan: duong_dan || uniqueSlug },
+      data: { ten_loai_su_kien, duong_dan: duong_dan, mo_ta },
     });
   },
 

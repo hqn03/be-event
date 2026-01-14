@@ -168,6 +168,7 @@ exports.Prisma.LOAI_SU_KIENScalarFieldEnum = {
   id: 'id',
   ten_loai_su_kien: 'ten_loai_su_kien',
   duong_dan: 'duong_dan',
+  mo_ta: 'mo_ta',
   ngay_tao: 'ngay_tao',
   ngay_cap_nhat: 'ngay_cap_nhat',
   ngay_xoa: 'ngay_xoa'
@@ -326,7 +327,8 @@ exports.Prisma.NHAN_VIENOrderByRelevanceFieldEnum = {
 
 exports.Prisma.LOAI_SU_KIENOrderByRelevanceFieldEnum = {
   ten_loai_su_kien: 'ten_loai_su_kien',
-  duong_dan: 'duong_dan'
+  duong_dan: 'duong_dan',
+  mo_ta: 'mo_ta'
 };
 
 exports.Prisma.SU_KIENOrderByRelevanceFieldEnum = {

@@ -5,7 +5,7 @@ import {
 } from "../generated/mysql/index.js";
 import { nanoid } from "nanoid";
 // import { dateFormat, VNPay, VnpLocale } from "vnpay";
-import { formatTimeRange, toGMT7 } from "../utils/datetime.js";
+import { formatDate, formatTimeRange, toGMT7 } from "../utils/datetime.js";
 import PDFDocument from "pdfkit";
 import ExcelJS from "exceljs";
 
@@ -238,14 +238,15 @@ orderRoute.get("/manager", async (req, res) => {
 
 orderRoute.get("/admin", async (req, res) => {
   try {
+    const isAll = req.query.limit === "all";
     const page = Math.max(parseInt(req.query.page) || 1, 1); // 1-based
-    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
-    const skip = (page - 1) * limit;
+    const limit = isAll
+      ? undefined
+      : Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = isAll ? undefined : (page - 1) * limit;
 
     const { from, to, q } = req.query;
-
-    const where = { trang_thai: "HOAN_TAT" };
-
+    const where = {};
     if (q) {
       where.OR = [
         { phienSuKien: { su_kien: { ten_su_kien: { contains: q } } } },
@@ -265,28 +266,30 @@ orderRoute.get("/admin", async (req, res) => {
     const totalPages = Math.ceil(totalItems / limit);
 
     // Lấy dữ liệu theo page
-    const items = await mysql.dAT_VE.findMany({
-      where,
-      skip,
-      take: limit,
-      orderBy: {
-        ngay_tao: "desc", // nên có
-      },
-      include: {
-        phienSuKien: {
-          select: {
-            su_kien: {
-              select: {
-                ten_su_kien: true,
-                ma_su_kien: true,
-                ma_nhan_vien: true,
+    const items = await mysql.dAT_VE
+      .findMany({
+        where,
+        ...(isAll ? {} : { skip, take: limit }),
+        orderBy: {
+          ngay_tao: "asc",
+        },
+        include: {
+          phienSuKien: {
+            select: {
+              su_kien: {
+                select: {
+                  ten_su_kien: true,
+                  ma_su_kien: true,
+                  ma_nhan_vien: true,
+                },
               },
             },
           },
         },
-      },
-    });
-
+      })
+      .then((values) =>
+        values.map((i) => ({ ...i, ngay_tao: formatDate(i.ngay_tao) }))
+      );
     return res.status(200).json({
       items,
       page,
@@ -318,6 +321,10 @@ JOIN dat_ve dv
   ${
     from && to
       ? Prisma.sql`AND dv.ngay_tao BETWEEN ${from} AND ${to} `
+      : from
+      ? Prisma.sql`AND dv.ngay_tao >= ${from}`
+      : to
+      ? Prisma.sql`AND dv.ngay_tao <= ${to}`
       : Prisma.empty
   }
 WHERE 1=1

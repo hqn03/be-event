@@ -93,7 +93,9 @@ const managerEventService = {
           },
         },
         loai_su_kien: true,
-        ghes: true,
+        ghes: {
+          orderBy: { ngay_tao: "asc" },
+        },
       },
     });
 

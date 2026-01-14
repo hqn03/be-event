@@ -92,6 +92,7 @@ model LOAI_SU_KIEN {
     id               Int       @id @default(autoincrement())
     ten_loai_su_kien String
     duong_dan        String
+    mo_ta            String?
     suKiens          SU_KIEN[]
     ngay_tao         DateTime  @default(now())
     ngay_cap_nhat    DateTime  @updatedAt

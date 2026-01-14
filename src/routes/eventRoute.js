@@ -13,13 +13,12 @@ eventRoute.get("/", async (req, res) => {
         mysql.sU_KIEN
           .findMany({
             where: {
-              ngay_ket_thuc: {
-                gte: new Date(),
-              },
+              ngay_ket_thuc: { gte: new Date() },
               id_loai_su_kien: type.id,
               trang_thai: "SAP_DIEN_RA",
             },
-            take: 6,
+            take: 3,
+            orderBy: { ngay_bat_dau: "asc" },
           })
           .then((events) => {
             return {

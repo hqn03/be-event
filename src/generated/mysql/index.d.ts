@@ -7661,6 +7661,7 @@ export namespace Prisma {
     id: number | null
     ten_loai_su_kien: string | null
     duong_dan: string | null
+    mo_ta: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
     ngay_xoa: Date | null
@@ -7670,6 +7671,7 @@ export namespace Prisma {
     id: number | null
     ten_loai_su_kien: string | null
     duong_dan: string | null
+    mo_ta: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
     ngay_xoa: Date | null
@@ -7679,6 +7681,7 @@ export namespace Prisma {
     id: number
     ten_loai_su_kien: number
     duong_dan: number
+    mo_ta: number
     ngay_tao: number
     ngay_cap_nhat: number
     ngay_xoa: number
@@ -7698,6 +7701,7 @@ export namespace Prisma {
     id?: true
     ten_loai_su_kien?: true
     duong_dan?: true
+    mo_ta?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -7707,6 +7711,7 @@ export namespace Prisma {
     id?: true
     ten_loai_su_kien?: true
     duong_dan?: true
+    mo_ta?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -7716,6 +7721,7 @@ export namespace Prisma {
     id?: true
     ten_loai_su_kien?: true
     duong_dan?: true
+    mo_ta?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -7812,6 +7818,7 @@ export namespace Prisma {
     id: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta: string | null
     ngay_tao: Date
     ngay_cap_nhat: Date
     ngay_xoa: Date | null
@@ -7840,6 +7847,7 @@ export namespace Prisma {
     id?: boolean
     ten_loai_su_kien?: boolean
     duong_dan?: boolean
+    mo_ta?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
@@ -7853,12 +7861,13 @@ export namespace Prisma {
     id?: boolean
     ten_loai_su_kien?: boolean
     duong_dan?: boolean
+    mo_ta?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
   }
 
-  export type LOAI_SU_KIENOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ten_loai_su_kien" | "duong_dan" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["lOAI_SU_KIEN"]>
+  export type LOAI_SU_KIENOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ten_loai_su_kien" | "duong_dan" | "mo_ta" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["lOAI_SU_KIEN"]>
   export type LOAI_SU_KIENInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     suKiens?: boolean | LOAI_SU_KIEN$suKiensArgs<ExtArgs>
     _count?: boolean | LOAI_SU_KIENCountOutputTypeDefaultArgs<ExtArgs>
@@ -7873,6 +7882,7 @@ export namespace Prisma {
       id: number
       ten_loai_su_kien: string
       duong_dan: string
+      mo_ta: string | null
       ngay_tao: Date
       ngay_cap_nhat: Date
       ngay_xoa: Date | null
@@ -8249,6 +8259,7 @@ export namespace Prisma {
     readonly id: FieldRef<"LOAI_SU_KIEN", 'Int'>
     readonly ten_loai_su_kien: FieldRef<"LOAI_SU_KIEN", 'String'>
     readonly duong_dan: FieldRef<"LOAI_SU_KIEN", 'String'>
+    readonly mo_ta: FieldRef<"LOAI_SU_KIEN", 'String'>
     readonly ngay_tao: FieldRef<"LOAI_SU_KIEN", 'DateTime'>
     readonly ngay_cap_nhat: FieldRef<"LOAI_SU_KIEN", 'DateTime'>
     readonly ngay_xoa: FieldRef<"LOAI_SU_KIEN", 'DateTime'>
@@ -18951,6 +18962,7 @@ export namespace Prisma {
     id: 'id',
     ten_loai_su_kien: 'ten_loai_su_kien',
     duong_dan: 'duong_dan',
+    mo_ta: 'mo_ta',
     ngay_tao: 'ngay_tao',
     ngay_cap_nhat: 'ngay_cap_nhat',
     ngay_xoa: 'ngay_xoa'
@@ -19163,7 +19175,8 @@ export namespace Prisma {
 
   export const LOAI_SU_KIENOrderByRelevanceFieldEnum: {
     ten_loai_su_kien: 'ten_loai_su_kien',
-    duong_dan: 'duong_dan'
+    duong_dan: 'duong_dan',
+    mo_ta: 'mo_ta'
   };
 
   export type LOAI_SU_KIENOrderByRelevanceFieldEnum = (typeof LOAI_SU_KIENOrderByRelevanceFieldEnum)[keyof typeof LOAI_SU_KIENOrderByRelevanceFieldEnum]
@@ -19703,6 +19716,7 @@ export namespace Prisma {
     id?: IntFilter<"LOAI_SU_KIEN"> | number
     ten_loai_su_kien?: StringFilter<"LOAI_SU_KIEN"> | string
     duong_dan?: StringFilter<"LOAI_SU_KIEN"> | string
+    mo_ta?: StringNullableFilter<"LOAI_SU_KIEN"> | string | null
     ngay_tao?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"LOAI_SU_KIEN"> | Date | string | null
@@ -19713,6 +19727,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrderInput | SortOrder
@@ -19727,6 +19742,7 @@ export namespace Prisma {
     NOT?: LOAI_SU_KIENWhereInput | LOAI_SU_KIENWhereInput[]
     ten_loai_su_kien?: StringFilter<"LOAI_SU_KIEN"> | string
     duong_dan?: StringFilter<"LOAI_SU_KIEN"> | string
+    mo_ta?: StringNullableFilter<"LOAI_SU_KIEN"> | string | null
     ngay_tao?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"LOAI_SU_KIEN"> | Date | string | null
@@ -19737,6 +19753,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrderInput | SortOrder
@@ -19754,6 +19771,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"LOAI_SU_KIEN"> | number
     ten_loai_su_kien?: StringWithAggregatesFilter<"LOAI_SU_KIEN"> | string
     duong_dan?: StringWithAggregatesFilter<"LOAI_SU_KIEN"> | string
+    mo_ta?: StringNullableWithAggregatesFilter<"LOAI_SU_KIEN"> | string | null
     ngay_tao?: DateTimeWithAggregatesFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_cap_nhat?: DateTimeWithAggregatesFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_xoa?: DateTimeNullableWithAggregatesFilter<"LOAI_SU_KIEN"> | Date | string | null
@@ -20852,6 +20870,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENCreateInput = {
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20862,6 +20881,7 @@ export namespace Prisma {
     id?: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20871,6 +20891,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENUpdateInput = {
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20881,6 +20902,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20891,6 +20913,7 @@ export namespace Prisma {
     id?: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20899,6 +20922,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENUpdateManyMutationInput = {
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20908,6 +20932,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -22165,6 +22190,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -22178,6 +22204,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -22187,6 +22214,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -25436,6 +25464,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENCreateWithoutSuKiensInput = {
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25445,6 +25474,7 @@ export namespace Prisma {
     id?: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25579,6 +25609,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENUpdateWithoutSuKiensInput = {
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25588,6 +25619,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

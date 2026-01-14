@@ -21,6 +21,7 @@ import mailService, { transport } from "../services/mailService.js";
 import ejs from "ejs";
 import ticketRoute from "./ticketRoute.js";
 import paymentRoute from "./paymentRoute.js";
+import adminRoute from "./admin/index.js";
 
 const mysql = new MySQLClient();
 const router = Router();
@@ -37,6 +38,7 @@ router.use("/events", eventRoute);
 router.use("/orders", orderRoute);
 router.use("/tickets", ticketRoute);
 router.use("/payment", paymentRoute);
+router.use("/admin", adminRoute);
 
 router.get("/me", async (req, res) => {
   try {

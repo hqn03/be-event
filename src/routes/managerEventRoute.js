@@ -14,6 +14,24 @@ managerEventRoute.post("/", managerEventController.createEvent);
 
 managerEventRoute.get("/", managerEventController.getEvents);
 
+managerEventRoute.get("/events-approval", async (req, res) => {
+  try {
+    const user = req.user;
+    const result = await mysql.sU_KIEN_PHE_DUYET.findMany({
+      where: { su_kien: { ma_nhan_vien: user.id } },
+      include: {
+        nguoiDuyet: { select: { ho_ten: true } },
+        su_kien: { select: { ten_su_kien: true } },
+      },
+    });
+
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json("error");
+  }
+});
+
 managerEventRoute.put("/:id", managerEventController.updateEvent);
 
 managerEventRoute.get("/:id", managerEventController.getEvent);
@@ -198,9 +216,12 @@ managerEventRoute.put("/:eventId/seats", async (req, res) => {
 
 managerEventRoute.get("/:eventId/orders", async (req, res) => {
   try {
+    const isAll = req.query.limit === "all";
     const page = Math.max(parseInt(req.query.page) || 1, 1); // 1-based
-    const limit = Math.max(parseInt(req.query.limit) || 10, 1);
-    const skip = (page - 1) * limit;
+    const limit = isAll
+      ? undefined
+      : Math.max(parseInt(req.query.limit) || 10, 1);
+    const skip = isAll ? undefined : (page - 1) * limit;
 
     const { eventId } = req.params;
     const { from, to } = req.query;
@@ -223,13 +244,11 @@ managerEventRoute.get("/:eventId/orders", async (req, res) => {
 
     // Đếm tổng bản ghi
     const totalItems = await mysql.dAT_VE.count({ where });
-    console.log(totalItems);
     const totalPages = Math.ceil(totalItems / limit);
 
     const items = await mysql.dAT_VE
       .findMany({
-        skip,
-        take: limit,
+        ...(isAll ? {} : { skip, take: limit }),
         orderBy: {
           ngay_tao: "desc",
         },

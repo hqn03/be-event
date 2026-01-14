@@ -74,12 +74,8 @@ seatRoute.get("/:sessionId/ordered", async (req, res) => {
   try {
     const { sessionId } = req.params;
     const result = await mysql.gHE_DAT.findMany({
-      where: {
-        id_phien_su_kien: sessionId,
-      },
-      select: {
-        id_ghe: true,
-      },
+      where: { id_phien_su_kien: sessionId },
+      select: { id_ghe: true },
     });
     const finalResult = result.map((i) => i.id_ghe);
     return res.status(200).json(finalResult);
