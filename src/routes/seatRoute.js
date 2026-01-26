@@ -59,12 +59,8 @@ seatRoute.get("/:eventId", async (req, res) => {
     const { eventId } = req.params;
 
     const result = await mysql.gHE.findMany({
-      where: {
-        ma_su_kien: eventId,
-      },
-      orderBy: {
-        ngay_tao: "asc",
-      },
+      where: { ma_su_kien: eventId },
+      orderBy: { ngay_tao: "asc" },
     });
 
     return res.status(200).json(result);
@@ -78,12 +74,8 @@ seatRoute.get("/:sessionId/ordered", async (req, res) => {
   try {
     const { sessionId } = req.params;
     const result = await mysql.gHE_DAT.findMany({
-      where: {
-        id_phien_su_kien: sessionId,
-      },
-      select: {
-        id_ghe: true,
-      },
+      where: { id_phien_su_kien: sessionId },
+      select: { id_ghe: true },
     });
     const finalResult = result.map((i) => i.id_ghe);
     return res.status(200).json(finalResult);

@@ -110,6 +110,9 @@ export type ENUM_GIOI_TINH = (typeof ENUM_GIOI_TINH)[keyof typeof ENUM_GIOI_TINH
 export const ENUM_SU_KIEN: {
   NHAP: 'NHAP',
   DANG_DUYET: 'DANG_DUYET',
+  DANG_XU_LY: 'DANG_XU_LY',
+  SAP_DIEN_RA: 'SAP_DIEN_RA',
+  DANG_DIEN_RA: 'DANG_DIEN_RA',
   DA_DUYET: 'DA_DUYET',
   KET_THUC: 'KET_THUC'
 };
@@ -137,14 +140,16 @@ export type TRANG_THAI_DON_HANG = (typeof TRANG_THAI_DON_HANG)[keyof typeof TRAN
 
 export const TRANG_THAI_VE: {
   CHUA_CHECK_IN: 'CHUA_CHECK_IN',
-  DA_CHECK_IN: 'DA_CHECK_IN'
+  CHECKED_IN: 'CHECKED_IN',
+  USED: 'USED',
+  EXPIRED: 'EXPIRED'
 };
 
 export type TRANG_THAI_VE = (typeof TRANG_THAI_VE)[keyof typeof TRANG_THAI_VE]
 
 
 export const TRANG_THAI_GHE: {
-  CHUA_THANH_TOAN: 'CHUA_THANH_TOAN',
+  GIU_CHO: 'GIU_CHO',
   THANH_TOAN: 'THANH_TOAN'
 };
 
@@ -152,6 +157,7 @@ export type TRANG_THAI_GHE = (typeof TRANG_THAI_GHE)[keyof typeof TRANG_THAI_GHE
 
 
 export const TRANG_THAI_THANH_TOAN: {
+  DANG_XU_LY: 'DANG_XU_LY',
   THANH_CONG: 'THANH_CONG',
   THAT_BAI: 'THAT_BAI'
 };
@@ -2365,14 +2371,12 @@ export namespace Prisma {
    */
 
   export type SU_KIENCountOutputType = {
-    datVes: number
     suKienPheDuyets: number
     phienSuKiens: number
     ghes: number
   }
 
   export type SU_KIENCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    datVes?: boolean | SU_KIENCountOutputTypeCountDatVesArgs
     suKienPheDuyets?: boolean | SU_KIENCountOutputTypeCountSuKienPheDuyetsArgs
     phienSuKiens?: boolean | SU_KIENCountOutputTypeCountPhienSuKiensArgs
     ghes?: boolean | SU_KIENCountOutputTypeCountGhesArgs
@@ -2387,13 +2391,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the SU_KIENCountOutputType
      */
     select?: SU_KIENCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * SU_KIENCountOutputType without action
-   */
-  export type SU_KIENCountOutputTypeCountDatVesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: DAT_VEWhereInput
   }
 
   /**
@@ -2425,11 +2422,13 @@ export namespace Prisma {
   export type PHIEN_SU_KIENCountOutputType = {
     loaiVes: number
     gheDats: number
+    datVes: number
   }
 
   export type PHIEN_SU_KIENCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loaiVes?: boolean | PHIEN_SU_KIENCountOutputTypeCountLoaiVesArgs
     gheDats?: boolean | PHIEN_SU_KIENCountOutputTypeCountGheDatsArgs
+    datVes?: boolean | PHIEN_SU_KIENCountOutputTypeCountDatVesArgs
   }
 
   // Custom InputTypes
@@ -2455,6 +2454,13 @@ export namespace Prisma {
    */
   export type PHIEN_SU_KIENCountOutputTypeCountGheDatsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: GHE_DATWhereInput
+  }
+
+  /**
+   * PHIEN_SU_KIENCountOutputType without action
+   */
+  export type PHIEN_SU_KIENCountOutputTypeCountDatVesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DAT_VEWhereInput
   }
 
 
@@ -3592,6 +3598,8 @@ export namespace Prisma {
     ngay_sinh: Date | null
     gioi_tinh: $Enums.ENUM_GIOI_TINH | null
     da_xac_thuc: boolean | null
+    dang_hoat_dong: boolean | null
+    anh_dai_dien: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
     ngay_xoa: Date | null
@@ -3607,6 +3615,8 @@ export namespace Prisma {
     ngay_sinh: Date | null
     gioi_tinh: $Enums.ENUM_GIOI_TINH | null
     da_xac_thuc: boolean | null
+    dang_hoat_dong: boolean | null
+    anh_dai_dien: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
     ngay_xoa: Date | null
@@ -3622,6 +3632,8 @@ export namespace Prisma {
     ngay_sinh: number
     gioi_tinh: number
     da_xac_thuc: number
+    dang_hoat_dong: number
+    anh_dai_dien: number
     ngay_tao: number
     ngay_cap_nhat: number
     ngay_xoa: number
@@ -3647,6 +3659,8 @@ export namespace Prisma {
     ngay_sinh?: true
     gioi_tinh?: true
     da_xac_thuc?: true
+    dang_hoat_dong?: true
+    anh_dai_dien?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -3662,6 +3676,8 @@ export namespace Prisma {
     ngay_sinh?: true
     gioi_tinh?: true
     da_xac_thuc?: true
+    dang_hoat_dong?: true
+    anh_dai_dien?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -3677,6 +3693,8 @@ export namespace Prisma {
     ngay_sinh?: true
     gioi_tinh?: true
     da_xac_thuc?: true
+    dang_hoat_dong?: true
+    anh_dai_dien?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -3779,6 +3797,8 @@ export namespace Prisma {
     ngay_sinh: Date | null
     gioi_tinh: $Enums.ENUM_GIOI_TINH
     da_xac_thuc: boolean
+    dang_hoat_dong: boolean
+    anh_dai_dien: string | null
     ngay_tao: Date
     ngay_cap_nhat: Date
     ngay_xoa: Date | null
@@ -3813,6 +3833,8 @@ export namespace Prisma {
     ngay_sinh?: boolean
     gioi_tinh?: boolean
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
@@ -3837,12 +3859,14 @@ export namespace Prisma {
     ngay_sinh?: boolean
     gioi_tinh?: boolean
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
   }
 
-  export type NGUOI_DUNGOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_nguoi_dung" | "id_vai_tro" | "ho_ten" | "email" | "mat_khau" | "so_dien_thoai" | "ngay_sinh" | "gioi_tinh" | "da_xac_thuc" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["nGUOI_DUNG"]>
+  export type NGUOI_DUNGOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id_nguoi_dung" | "id_vai_tro" | "ho_ten" | "email" | "mat_khau" | "so_dien_thoai" | "ngay_sinh" | "gioi_tinh" | "da_xac_thuc" | "dang_hoat_dong" | "anh_dai_dien" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["nGUOI_DUNG"]>
   export type NGUOI_DUNGInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vai_tro?: boolean | VAI_TRODefaultArgs<ExtArgs>
     khach?: boolean | NGUOI_DUNG$khachArgs<ExtArgs>
@@ -3873,6 +3897,8 @@ export namespace Prisma {
       ngay_sinh: Date | null
       gioi_tinh: $Enums.ENUM_GIOI_TINH
       da_xac_thuc: boolean
+      dang_hoat_dong: boolean
+      anh_dai_dien: string | null
       ngay_tao: Date
       ngay_cap_nhat: Date
       ngay_xoa: Date | null
@@ -4260,6 +4286,8 @@ export namespace Prisma {
     readonly ngay_sinh: FieldRef<"NGUOI_DUNG", 'DateTime'>
     readonly gioi_tinh: FieldRef<"NGUOI_DUNG", 'ENUM_GIOI_TINH'>
     readonly da_xac_thuc: FieldRef<"NGUOI_DUNG", 'Boolean'>
+    readonly dang_hoat_dong: FieldRef<"NGUOI_DUNG", 'Boolean'>
+    readonly anh_dai_dien: FieldRef<"NGUOI_DUNG", 'String'>
     readonly ngay_tao: FieldRef<"NGUOI_DUNG", 'DateTime'>
     readonly ngay_cap_nhat: FieldRef<"NGUOI_DUNG", 'DateTime'>
     readonly ngay_xoa: FieldRef<"NGUOI_DUNG", 'DateTime'>
@@ -7633,6 +7661,7 @@ export namespace Prisma {
     id: number | null
     ten_loai_su_kien: string | null
     duong_dan: string | null
+    mo_ta: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
     ngay_xoa: Date | null
@@ -7642,6 +7671,7 @@ export namespace Prisma {
     id: number | null
     ten_loai_su_kien: string | null
     duong_dan: string | null
+    mo_ta: string | null
     ngay_tao: Date | null
     ngay_cap_nhat: Date | null
     ngay_xoa: Date | null
@@ -7651,6 +7681,7 @@ export namespace Prisma {
     id: number
     ten_loai_su_kien: number
     duong_dan: number
+    mo_ta: number
     ngay_tao: number
     ngay_cap_nhat: number
     ngay_xoa: number
@@ -7670,6 +7701,7 @@ export namespace Prisma {
     id?: true
     ten_loai_su_kien?: true
     duong_dan?: true
+    mo_ta?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -7679,6 +7711,7 @@ export namespace Prisma {
     id?: true
     ten_loai_su_kien?: true
     duong_dan?: true
+    mo_ta?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -7688,6 +7721,7 @@ export namespace Prisma {
     id?: true
     ten_loai_su_kien?: true
     duong_dan?: true
+    mo_ta?: true
     ngay_tao?: true
     ngay_cap_nhat?: true
     ngay_xoa?: true
@@ -7784,6 +7818,7 @@ export namespace Prisma {
     id: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta: string | null
     ngay_tao: Date
     ngay_cap_nhat: Date
     ngay_xoa: Date | null
@@ -7812,6 +7847,7 @@ export namespace Prisma {
     id?: boolean
     ten_loai_su_kien?: boolean
     duong_dan?: boolean
+    mo_ta?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
@@ -7825,12 +7861,13 @@ export namespace Prisma {
     id?: boolean
     ten_loai_su_kien?: boolean
     duong_dan?: boolean
+    mo_ta?: boolean
     ngay_tao?: boolean
     ngay_cap_nhat?: boolean
     ngay_xoa?: boolean
   }
 
-  export type LOAI_SU_KIENOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ten_loai_su_kien" | "duong_dan" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["lOAI_SU_KIEN"]>
+  export type LOAI_SU_KIENOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ten_loai_su_kien" | "duong_dan" | "mo_ta" | "ngay_tao" | "ngay_cap_nhat" | "ngay_xoa", ExtArgs["result"]["lOAI_SU_KIEN"]>
   export type LOAI_SU_KIENInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     suKiens?: boolean | LOAI_SU_KIEN$suKiensArgs<ExtArgs>
     _count?: boolean | LOAI_SU_KIENCountOutputTypeDefaultArgs<ExtArgs>
@@ -7845,6 +7882,7 @@ export namespace Prisma {
       id: number
       ten_loai_su_kien: string
       duong_dan: string
+      mo_ta: string | null
       ngay_tao: Date
       ngay_cap_nhat: Date
       ngay_xoa: Date | null
@@ -8221,6 +8259,7 @@ export namespace Prisma {
     readonly id: FieldRef<"LOAI_SU_KIEN", 'Int'>
     readonly ten_loai_su_kien: FieldRef<"LOAI_SU_KIEN", 'String'>
     readonly duong_dan: FieldRef<"LOAI_SU_KIEN", 'String'>
+    readonly mo_ta: FieldRef<"LOAI_SU_KIEN", 'String'>
     readonly ngay_tao: FieldRef<"LOAI_SU_KIEN", 'DateTime'>
     readonly ngay_cap_nhat: FieldRef<"LOAI_SU_KIEN", 'DateTime'>
     readonly ngay_xoa: FieldRef<"LOAI_SU_KIEN", 'DateTime'>
@@ -8917,7 +8956,6 @@ export namespace Prisma {
     ngay_xoa?: boolean
     loai_su_kien?: boolean | LOAI_SU_KIENDefaultArgs<ExtArgs>
     nguoi_tao?: boolean | NHAN_VIENDefaultArgs<ExtArgs>
-    datVes?: boolean | SU_KIEN$datVesArgs<ExtArgs>
     suKienPheDuyets?: boolean | SU_KIEN$suKienPheDuyetsArgs<ExtArgs>
     phienSuKiens?: boolean | SU_KIEN$phienSuKiensArgs<ExtArgs>
     ghes?: boolean | SU_KIEN$ghesArgs<ExtArgs>
@@ -8950,7 +8988,6 @@ export namespace Prisma {
   export type SU_KIENInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     loai_su_kien?: boolean | LOAI_SU_KIENDefaultArgs<ExtArgs>
     nguoi_tao?: boolean | NHAN_VIENDefaultArgs<ExtArgs>
-    datVes?: boolean | SU_KIEN$datVesArgs<ExtArgs>
     suKienPheDuyets?: boolean | SU_KIEN$suKienPheDuyetsArgs<ExtArgs>
     phienSuKiens?: boolean | SU_KIEN$phienSuKiensArgs<ExtArgs>
     ghes?: boolean | SU_KIEN$ghesArgs<ExtArgs>
@@ -8962,7 +8999,6 @@ export namespace Prisma {
     objects: {
       loai_su_kien: Prisma.$LOAI_SU_KIENPayload<ExtArgs>
       nguoi_tao: Prisma.$NHAN_VIENPayload<ExtArgs>
-      datVes: Prisma.$DAT_VEPayload<ExtArgs>[]
       suKienPheDuyets: Prisma.$SU_KIEN_PHE_DUYETPayload<ExtArgs>[]
       phienSuKiens: Prisma.$PHIEN_SU_KIENPayload<ExtArgs>[]
       ghes: Prisma.$GHEPayload<ExtArgs>[]
@@ -9327,7 +9363,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     loai_su_kien<T extends LOAI_SU_KIENDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LOAI_SU_KIENDefaultArgs<ExtArgs>>): Prisma__LOAI_SU_KIENClient<$Result.GetResult<Prisma.$LOAI_SU_KIENPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     nguoi_tao<T extends NHAN_VIENDefaultArgs<ExtArgs> = {}>(args?: Subset<T, NHAN_VIENDefaultArgs<ExtArgs>>): Prisma__NHAN_VIENClient<$Result.GetResult<Prisma.$NHAN_VIENPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    datVes<T extends SU_KIEN$datVesArgs<ExtArgs> = {}>(args?: Subset<T, SU_KIEN$datVesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DAT_VEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     suKienPheDuyets<T extends SU_KIEN$suKienPheDuyetsArgs<ExtArgs> = {}>(args?: Subset<T, SU_KIEN$suKienPheDuyetsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SU_KIEN_PHE_DUYETPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     phienSuKiens<T extends SU_KIEN$phienSuKiensArgs<ExtArgs> = {}>(args?: Subset<T, SU_KIEN$phienSuKiensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PHIEN_SU_KIENPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     ghes<T extends SU_KIEN$ghesArgs<ExtArgs> = {}>(args?: Subset<T, SU_KIEN$ghesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GHEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -9717,30 +9752,6 @@ export namespace Prisma {
      * Limit how many SU_KIENS to delete.
      */
     limit?: number
-  }
-
-  /**
-   * SU_KIEN.datVes
-   */
-  export type SU_KIEN$datVesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the DAT_VE
-     */
-    select?: DAT_VESelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the DAT_VE
-     */
-    omit?: DAT_VEOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: DAT_VEInclude<ExtArgs> | null
-    where?: DAT_VEWhereInput
-    orderBy?: DAT_VEOrderByWithRelationInput | DAT_VEOrderByWithRelationInput[]
-    cursor?: DAT_VEWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: DAT_VEScalarFieldEnum | DAT_VEScalarFieldEnum[]
   }
 
   /**
@@ -10983,6 +10994,7 @@ export namespace Prisma {
     su_kien?: boolean | SU_KIENDefaultArgs<ExtArgs>
     loaiVes?: boolean | PHIEN_SU_KIEN$loaiVesArgs<ExtArgs>
     gheDats?: boolean | PHIEN_SU_KIEN$gheDatsArgs<ExtArgs>
+    datVes?: boolean | PHIEN_SU_KIEN$datVesArgs<ExtArgs>
     _count?: boolean | PHIEN_SU_KIENCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["pHIEN_SU_KIEN"]>
 
@@ -11002,6 +11014,7 @@ export namespace Prisma {
     su_kien?: boolean | SU_KIENDefaultArgs<ExtArgs>
     loaiVes?: boolean | PHIEN_SU_KIEN$loaiVesArgs<ExtArgs>
     gheDats?: boolean | PHIEN_SU_KIEN$gheDatsArgs<ExtArgs>
+    datVes?: boolean | PHIEN_SU_KIEN$datVesArgs<ExtArgs>
     _count?: boolean | PHIEN_SU_KIENCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -11011,6 +11024,7 @@ export namespace Prisma {
       su_kien: Prisma.$SU_KIENPayload<ExtArgs>
       loaiVes: Prisma.$LOAI_VEPayload<ExtArgs>[]
       gheDats: Prisma.$GHE_DATPayload<ExtArgs>[]
+      datVes: Prisma.$DAT_VEPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id_phien_su_kien: string
@@ -11362,6 +11376,7 @@ export namespace Prisma {
     su_kien<T extends SU_KIENDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SU_KIENDefaultArgs<ExtArgs>>): Prisma__SU_KIENClient<$Result.GetResult<Prisma.$SU_KIENPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     loaiVes<T extends PHIEN_SU_KIEN$loaiVesArgs<ExtArgs> = {}>(args?: Subset<T, PHIEN_SU_KIEN$loaiVesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LOAI_VEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     gheDats<T extends PHIEN_SU_KIEN$gheDatsArgs<ExtArgs> = {}>(args?: Subset<T, PHIEN_SU_KIEN$gheDatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$GHE_DATPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    datVes<T extends PHIEN_SU_KIEN$datVesArgs<ExtArgs> = {}>(args?: Subset<T, PHIEN_SU_KIEN$datVesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DAT_VEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -11785,6 +11800,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: GHE_DATScalarFieldEnum | GHE_DATScalarFieldEnum[]
+  }
+
+  /**
+   * PHIEN_SU_KIEN.datVes
+   */
+  export type PHIEN_SU_KIEN$datVesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the DAT_VE
+     */
+    select?: DAT_VESelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the DAT_VE
+     */
+    omit?: DAT_VEOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DAT_VEInclude<ExtArgs> | null
+    where?: DAT_VEWhereInput
+    orderBy?: DAT_VEOrderByWithRelationInput | DAT_VEOrderByWithRelationInput[]
+    cursor?: DAT_VEWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DAT_VEScalarFieldEnum | DAT_VEScalarFieldEnum[]
   }
 
   /**
@@ -12870,7 +12909,7 @@ export namespace Prisma {
     id: number | null
     ma_don_hang: string | null
     ma_khach: string | null
-    ma_su_kien: string | null
+    id_phien_su_kien: string | null
     tong_tien: Decimal | null
     ngay_tao: Date | null
     het_han: Date | null
@@ -12881,7 +12920,7 @@ export namespace Prisma {
     id: number | null
     ma_don_hang: string | null
     ma_khach: string | null
-    ma_su_kien: string | null
+    id_phien_su_kien: string | null
     tong_tien: Decimal | null
     ngay_tao: Date | null
     het_han: Date | null
@@ -12892,7 +12931,7 @@ export namespace Prisma {
     id: number
     ma_don_hang: number
     ma_khach: number
-    ma_su_kien: number
+    id_phien_su_kien: number
     tong_tien: number
     ngay_tao: number
     het_han: number
@@ -12915,7 +12954,7 @@ export namespace Prisma {
     id?: true
     ma_don_hang?: true
     ma_khach?: true
-    ma_su_kien?: true
+    id_phien_su_kien?: true
     tong_tien?: true
     ngay_tao?: true
     het_han?: true
@@ -12926,7 +12965,7 @@ export namespace Prisma {
     id?: true
     ma_don_hang?: true
     ma_khach?: true
-    ma_su_kien?: true
+    id_phien_su_kien?: true
     tong_tien?: true
     ngay_tao?: true
     het_han?: true
@@ -12937,7 +12976,7 @@ export namespace Prisma {
     id?: true
     ma_don_hang?: true
     ma_khach?: true
-    ma_su_kien?: true
+    id_phien_su_kien?: true
     tong_tien?: true
     ngay_tao?: true
     het_han?: true
@@ -13035,7 +13074,7 @@ export namespace Prisma {
     id: number
     ma_don_hang: string | null
     ma_khach: string
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal
     ngay_tao: Date
     het_han: Date
@@ -13065,12 +13104,12 @@ export namespace Prisma {
     id?: boolean
     ma_don_hang?: boolean
     ma_khach?: boolean
-    ma_su_kien?: boolean
+    id_phien_su_kien?: boolean
     tong_tien?: boolean
     ngay_tao?: boolean
     het_han?: boolean
     trang_thai?: boolean
-    su_kien?: boolean | SU_KIENDefaultArgs<ExtArgs>
+    phienSuKien?: boolean | PHIEN_SU_KIENDefaultArgs<ExtArgs>
     nguoi_dat_ve?: boolean | KHACHDefaultArgs<ExtArgs>
     chiTietDatVes?: boolean | DAT_VE$chiTietDatVesArgs<ExtArgs>
     thanhToans?: boolean | DAT_VE$thanhToansArgs<ExtArgs>
@@ -13083,16 +13122,16 @@ export namespace Prisma {
     id?: boolean
     ma_don_hang?: boolean
     ma_khach?: boolean
-    ma_su_kien?: boolean
+    id_phien_su_kien?: boolean
     tong_tien?: boolean
     ngay_tao?: boolean
     het_han?: boolean
     trang_thai?: boolean
   }
 
-  export type DAT_VEOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ma_don_hang" | "ma_khach" | "ma_su_kien" | "tong_tien" | "ngay_tao" | "het_han" | "trang_thai", ExtArgs["result"]["dAT_VE"]>
+  export type DAT_VEOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ma_don_hang" | "ma_khach" | "id_phien_su_kien" | "tong_tien" | "ngay_tao" | "het_han" | "trang_thai", ExtArgs["result"]["dAT_VE"]>
   export type DAT_VEInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    su_kien?: boolean | SU_KIENDefaultArgs<ExtArgs>
+    phienSuKien?: boolean | PHIEN_SU_KIENDefaultArgs<ExtArgs>
     nguoi_dat_ve?: boolean | KHACHDefaultArgs<ExtArgs>
     chiTietDatVes?: boolean | DAT_VE$chiTietDatVesArgs<ExtArgs>
     thanhToans?: boolean | DAT_VE$thanhToansArgs<ExtArgs>
@@ -13102,7 +13141,7 @@ export namespace Prisma {
   export type $DAT_VEPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "DAT_VE"
     objects: {
-      su_kien: Prisma.$SU_KIENPayload<ExtArgs>
+      phienSuKien: Prisma.$PHIEN_SU_KIENPayload<ExtArgs>
       nguoi_dat_ve: Prisma.$KHACHPayload<ExtArgs>
       chiTietDatVes: Prisma.$CHI_TIET_DAT_VEPayload<ExtArgs>[]
       thanhToans: Prisma.$THANH_TOANPayload<ExtArgs>[]
@@ -13111,7 +13150,7 @@ export namespace Prisma {
       id: number
       ma_don_hang: string | null
       ma_khach: string
-      ma_su_kien: string
+      id_phien_su_kien: string
       tong_tien: Prisma.Decimal
       ngay_tao: Date
       het_han: Date
@@ -13456,7 +13495,7 @@ export namespace Prisma {
    */
   export interface Prisma__DAT_VEClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    su_kien<T extends SU_KIENDefaultArgs<ExtArgs> = {}>(args?: Subset<T, SU_KIENDefaultArgs<ExtArgs>>): Prisma__SU_KIENClient<$Result.GetResult<Prisma.$SU_KIENPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    phienSuKien<T extends PHIEN_SU_KIENDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PHIEN_SU_KIENDefaultArgs<ExtArgs>>): Prisma__PHIEN_SU_KIENClient<$Result.GetResult<Prisma.$PHIEN_SU_KIENPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     nguoi_dat_ve<T extends KHACHDefaultArgs<ExtArgs> = {}>(args?: Subset<T, KHACHDefaultArgs<ExtArgs>>): Prisma__KHACHClient<$Result.GetResult<Prisma.$KHACHPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     chiTietDatVes<T extends DAT_VE$chiTietDatVesArgs<ExtArgs> = {}>(args?: Subset<T, DAT_VE$chiTietDatVesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CHI_TIET_DAT_VEPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     thanhToans<T extends DAT_VE$thanhToansArgs<ExtArgs> = {}>(args?: Subset<T, DAT_VE$thanhToansArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$THANH_TOANPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -13492,7 +13531,7 @@ export namespace Prisma {
     readonly id: FieldRef<"DAT_VE", 'Int'>
     readonly ma_don_hang: FieldRef<"DAT_VE", 'String'>
     readonly ma_khach: FieldRef<"DAT_VE", 'String'>
-    readonly ma_su_kien: FieldRef<"DAT_VE", 'String'>
+    readonly id_phien_su_kien: FieldRef<"DAT_VE", 'String'>
     readonly tong_tien: FieldRef<"DAT_VE", 'Decimal'>
     readonly ngay_tao: FieldRef<"DAT_VE", 'DateTime'>
     readonly het_han: FieldRef<"DAT_VE", 'DateTime'>
@@ -15117,7 +15156,7 @@ export namespace Prisma {
     id_ve: string
     id_chi_tiet: string
     trang_thai: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code: string | null
     ngay_phat_hanh: Date
     ngay_check_in: Date | null
     _count: VECountAggregateOutputType | null
@@ -15174,7 +15213,7 @@ export namespace Prisma {
       id_ve: string
       id_chi_tiet: string
       trang_thai: $Enums.TRANG_THAI_VE
-      QR_code: string
+      QR_code: string | null
       ngay_phat_hanh: Date
       ngay_check_in: Date | null
     }, ExtArgs["result"]["vE"]>
@@ -16954,18 +16993,24 @@ export namespace Prisma {
     id: string | null
     id_ghe: string | null
     id_phien_su_kien: string | null
+    trang_thai: $Enums.TRANG_THAI_GHE | null
+    het_han: Date | null
   }
 
   export type GHE_DATMaxAggregateOutputType = {
     id: string | null
     id_ghe: string | null
     id_phien_su_kien: string | null
+    trang_thai: $Enums.TRANG_THAI_GHE | null
+    het_han: Date | null
   }
 
   export type GHE_DATCountAggregateOutputType = {
     id: number
     id_ghe: number
     id_phien_su_kien: number
+    trang_thai: number
+    het_han: number
     _all: number
   }
 
@@ -16974,18 +17019,24 @@ export namespace Prisma {
     id?: true
     id_ghe?: true
     id_phien_su_kien?: true
+    trang_thai?: true
+    het_han?: true
   }
 
   export type GHE_DATMaxAggregateInputType = {
     id?: true
     id_ghe?: true
     id_phien_su_kien?: true
+    trang_thai?: true
+    het_han?: true
   }
 
   export type GHE_DATCountAggregateInputType = {
     id?: true
     id_ghe?: true
     id_phien_su_kien?: true
+    trang_thai?: true
+    het_han?: true
     _all?: true
   }
 
@@ -17065,6 +17116,8 @@ export namespace Prisma {
     id: string
     id_ghe: string
     id_phien_su_kien: string
+    trang_thai: $Enums.TRANG_THAI_GHE
+    het_han: Date | null
     _count: GHE_DATCountAggregateOutputType | null
     _min: GHE_DATMinAggregateOutputType | null
     _max: GHE_DATMaxAggregateOutputType | null
@@ -17088,6 +17141,8 @@ export namespace Prisma {
     id?: boolean
     id_ghe?: boolean
     id_phien_su_kien?: boolean
+    trang_thai?: boolean
+    het_han?: boolean
     ghe?: boolean | GHEDefaultArgs<ExtArgs>
     phien_su_kien?: boolean | PHIEN_SU_KIENDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["gHE_DAT"]>
@@ -17098,9 +17153,11 @@ export namespace Prisma {
     id?: boolean
     id_ghe?: boolean
     id_phien_su_kien?: boolean
+    trang_thai?: boolean
+    het_han?: boolean
   }
 
-  export type GHE_DATOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "id_ghe" | "id_phien_su_kien", ExtArgs["result"]["gHE_DAT"]>
+  export type GHE_DATOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "id_ghe" | "id_phien_su_kien" | "trang_thai" | "het_han", ExtArgs["result"]["gHE_DAT"]>
   export type GHE_DATInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     ghe?: boolean | GHEDefaultArgs<ExtArgs>
     phien_su_kien?: boolean | PHIEN_SU_KIENDefaultArgs<ExtArgs>
@@ -17116,6 +17173,8 @@ export namespace Prisma {
       id: string
       id_ghe: string
       id_phien_su_kien: string
+      trang_thai: $Enums.TRANG_THAI_GHE
+      het_han: Date | null
     }, ExtArgs["result"]["gHE_DAT"]>
     composites: {}
   }
@@ -17490,6 +17549,8 @@ export namespace Prisma {
     readonly id: FieldRef<"GHE_DAT", 'String'>
     readonly id_ghe: FieldRef<"GHE_DAT", 'String'>
     readonly id_phien_su_kien: FieldRef<"GHE_DAT", 'String'>
+    readonly trang_thai: FieldRef<"GHE_DAT", 'TRANG_THAI_GHE'>
+    readonly het_han: FieldRef<"GHE_DAT", 'DateTime'>
   }
     
 
@@ -17875,7 +17936,6 @@ export namespace Prisma {
     id: string | null
     ma_don_hang: string | null
     cong_thanh_toan: string | null
-    ma_giao_dich: string | null
     so_tien: Decimal | null
     trang_thai: $Enums.TRANG_THAI_THANH_TOAN | null
     ngay_tao: Date | null
@@ -17885,7 +17945,6 @@ export namespace Prisma {
     id: string | null
     ma_don_hang: string | null
     cong_thanh_toan: string | null
-    ma_giao_dich: string | null
     so_tien: Decimal | null
     trang_thai: $Enums.TRANG_THAI_THANH_TOAN | null
     ngay_tao: Date | null
@@ -17895,7 +17954,6 @@ export namespace Prisma {
     id: number
     ma_don_hang: number
     cong_thanh_toan: number
-    ma_giao_dich: number
     so_tien: number
     trang_thai: number
     ngay_tao: number
@@ -17915,7 +17973,6 @@ export namespace Prisma {
     id?: true
     ma_don_hang?: true
     cong_thanh_toan?: true
-    ma_giao_dich?: true
     so_tien?: true
     trang_thai?: true
     ngay_tao?: true
@@ -17925,7 +17982,6 @@ export namespace Prisma {
     id?: true
     ma_don_hang?: true
     cong_thanh_toan?: true
-    ma_giao_dich?: true
     so_tien?: true
     trang_thai?: true
     ngay_tao?: true
@@ -17935,7 +17991,6 @@ export namespace Prisma {
     id?: true
     ma_don_hang?: true
     cong_thanh_toan?: true
-    ma_giao_dich?: true
     so_tien?: true
     trang_thai?: true
     ngay_tao?: true
@@ -18032,7 +18087,6 @@ export namespace Prisma {
     id: string
     ma_don_hang: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal
     trang_thai: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao: Date
@@ -18061,7 +18115,6 @@ export namespace Prisma {
     id?: boolean
     ma_don_hang?: boolean
     cong_thanh_toan?: boolean
-    ma_giao_dich?: boolean
     so_tien?: boolean
     trang_thai?: boolean
     ngay_tao?: boolean
@@ -18074,13 +18127,12 @@ export namespace Prisma {
     id?: boolean
     ma_don_hang?: boolean
     cong_thanh_toan?: boolean
-    ma_giao_dich?: boolean
     so_tien?: boolean
     trang_thai?: boolean
     ngay_tao?: boolean
   }
 
-  export type THANH_TOANOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ma_don_hang" | "cong_thanh_toan" | "ma_giao_dich" | "so_tien" | "trang_thai" | "ngay_tao", ExtArgs["result"]["tHANH_TOAN"]>
+  export type THANH_TOANOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ma_don_hang" | "cong_thanh_toan" | "so_tien" | "trang_thai" | "ngay_tao", ExtArgs["result"]["tHANH_TOAN"]>
   export type THANH_TOANInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     datVe?: boolean | DAT_VEDefaultArgs<ExtArgs>
   }
@@ -18094,7 +18146,6 @@ export namespace Prisma {
       id: string
       ma_don_hang: string
       cong_thanh_toan: string
-      ma_giao_dich: string
       so_tien: Prisma.Decimal
       trang_thai: $Enums.TRANG_THAI_THANH_TOAN
       ngay_tao: Date
@@ -18471,7 +18522,6 @@ export namespace Prisma {
     readonly id: FieldRef<"THANH_TOAN", 'String'>
     readonly ma_don_hang: FieldRef<"THANH_TOAN", 'String'>
     readonly cong_thanh_toan: FieldRef<"THANH_TOAN", 'String'>
-    readonly ma_giao_dich: FieldRef<"THANH_TOAN", 'String'>
     readonly so_tien: FieldRef<"THANH_TOAN", 'Decimal'>
     readonly trang_thai: FieldRef<"THANH_TOAN", 'TRANG_THAI_THANH_TOAN'>
     readonly ngay_tao: FieldRef<"THANH_TOAN", 'DateTime'>
@@ -18869,6 +18919,8 @@ export namespace Prisma {
     ngay_sinh: 'ngay_sinh',
     gioi_tinh: 'gioi_tinh',
     da_xac_thuc: 'da_xac_thuc',
+    dang_hoat_dong: 'dang_hoat_dong',
+    anh_dai_dien: 'anh_dai_dien',
     ngay_tao: 'ngay_tao',
     ngay_cap_nhat: 'ngay_cap_nhat',
     ngay_xoa: 'ngay_xoa'
@@ -18910,6 +18962,7 @@ export namespace Prisma {
     id: 'id',
     ten_loai_su_kien: 'ten_loai_su_kien',
     duong_dan: 'duong_dan',
+    mo_ta: 'mo_ta',
     ngay_tao: 'ngay_tao',
     ngay_cap_nhat: 'ngay_cap_nhat',
     ngay_xoa: 'ngay_xoa'
@@ -18984,7 +19037,7 @@ export namespace Prisma {
     id: 'id',
     ma_don_hang: 'ma_don_hang',
     ma_khach: 'ma_khach',
-    ma_su_kien: 'ma_su_kien',
+    id_phien_su_kien: 'id_phien_su_kien',
     tong_tien: 'tong_tien',
     ngay_tao: 'ngay_tao',
     het_han: 'het_han',
@@ -19038,7 +19091,9 @@ export namespace Prisma {
   export const GHE_DATScalarFieldEnum: {
     id: 'id',
     id_ghe: 'id_ghe',
-    id_phien_su_kien: 'id_phien_su_kien'
+    id_phien_su_kien: 'id_phien_su_kien',
+    trang_thai: 'trang_thai',
+    het_han: 'het_han'
   };
 
   export type GHE_DATScalarFieldEnum = (typeof GHE_DATScalarFieldEnum)[keyof typeof GHE_DATScalarFieldEnum]
@@ -19048,7 +19103,6 @@ export namespace Prisma {
     id: 'id',
     ma_don_hang: 'ma_don_hang',
     cong_thanh_toan: 'cong_thanh_toan',
-    ma_giao_dich: 'ma_giao_dich',
     so_tien: 'so_tien',
     trang_thai: 'trang_thai',
     ngay_tao: 'ngay_tao'
@@ -19086,7 +19140,8 @@ export namespace Prisma {
     ho_ten: 'ho_ten',
     email: 'email',
     mat_khau: 'mat_khau',
-    so_dien_thoai: 'so_dien_thoai'
+    so_dien_thoai: 'so_dien_thoai',
+    anh_dai_dien: 'anh_dai_dien'
   };
 
   export type NGUOI_DUNGOrderByRelevanceFieldEnum = (typeof NGUOI_DUNGOrderByRelevanceFieldEnum)[keyof typeof NGUOI_DUNGOrderByRelevanceFieldEnum]
@@ -19120,7 +19175,8 @@ export namespace Prisma {
 
   export const LOAI_SU_KIENOrderByRelevanceFieldEnum: {
     ten_loai_su_kien: 'ten_loai_su_kien',
-    duong_dan: 'duong_dan'
+    duong_dan: 'duong_dan',
+    mo_ta: 'mo_ta'
   };
 
   export type LOAI_SU_KIENOrderByRelevanceFieldEnum = (typeof LOAI_SU_KIENOrderByRelevanceFieldEnum)[keyof typeof LOAI_SU_KIENOrderByRelevanceFieldEnum]
@@ -19170,7 +19226,7 @@ export namespace Prisma {
   export const DAT_VEOrderByRelevanceFieldEnum: {
     ma_don_hang: 'ma_don_hang',
     ma_khach: 'ma_khach',
-    ma_su_kien: 'ma_su_kien'
+    id_phien_su_kien: 'id_phien_su_kien'
   };
 
   export type DAT_VEOrderByRelevanceFieldEnum = (typeof DAT_VEOrderByRelevanceFieldEnum)[keyof typeof DAT_VEOrderByRelevanceFieldEnum]
@@ -19221,8 +19277,7 @@ export namespace Prisma {
   export const THANH_TOANOrderByRelevanceFieldEnum: {
     id: 'id',
     ma_don_hang: 'ma_don_hang',
-    cong_thanh_toan: 'cong_thanh_toan',
-    ma_giao_dich: 'ma_giao_dich'
+    cong_thanh_toan: 'cong_thanh_toan'
   };
 
   export type THANH_TOANOrderByRelevanceFieldEnum = (typeof THANH_TOANOrderByRelevanceFieldEnum)[keyof typeof THANH_TOANOrderByRelevanceFieldEnum]
@@ -19311,6 +19366,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'TRANG_THAI_GHE'
+   */
+  export type EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TRANG_THAI_GHE'>
+    
+
+
+  /**
    * Reference to a field of type 'TRANG_THAI_THANH_TOAN'
    */
   export type EnumTRANG_THAI_THANH_TOANFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TRANG_THAI_THANH_TOAN'>
@@ -19381,6 +19443,8 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolFilter<"NGUOI_DUNG"> | boolean
+    anh_dai_dien?: StringNullableFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
@@ -19402,6 +19466,8 @@ export namespace Prisma {
     ngay_sinh?: SortOrderInput | SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
+    anh_dai_dien?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrderInput | SortOrder
@@ -19427,6 +19493,8 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolFilter<"NGUOI_DUNG"> | boolean
+    anh_dai_dien?: StringNullableFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
@@ -19448,6 +19516,8 @@ export namespace Prisma {
     ngay_sinh?: SortOrderInput | SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
+    anh_dai_dien?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrderInput | SortOrder
@@ -19471,6 +19541,8 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableWithAggregatesFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHWithAggregatesFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolWithAggregatesFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolWithAggregatesFilter<"NGUOI_DUNG"> | boolean
+    anh_dai_dien?: StringNullableWithAggregatesFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeWithAggregatesFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeWithAggregatesFilter<"NGUOI_DUNG"> | Date | string
     ngay_xoa?: DateTimeNullableWithAggregatesFilter<"NGUOI_DUNG"> | Date | string | null
@@ -19644,6 +19716,7 @@ export namespace Prisma {
     id?: IntFilter<"LOAI_SU_KIEN"> | number
     ten_loai_su_kien?: StringFilter<"LOAI_SU_KIEN"> | string
     duong_dan?: StringFilter<"LOAI_SU_KIEN"> | string
+    mo_ta?: StringNullableFilter<"LOAI_SU_KIEN"> | string | null
     ngay_tao?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"LOAI_SU_KIEN"> | Date | string | null
@@ -19654,6 +19727,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrderInput | SortOrder
@@ -19668,6 +19742,7 @@ export namespace Prisma {
     NOT?: LOAI_SU_KIENWhereInput | LOAI_SU_KIENWhereInput[]
     ten_loai_su_kien?: StringFilter<"LOAI_SU_KIEN"> | string
     duong_dan?: StringFilter<"LOAI_SU_KIEN"> | string
+    mo_ta?: StringNullableFilter<"LOAI_SU_KIEN"> | string | null
     ngay_tao?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"LOAI_SU_KIEN"> | Date | string | null
@@ -19678,6 +19753,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrderInput | SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrderInput | SortOrder
@@ -19695,6 +19771,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"LOAI_SU_KIEN"> | number
     ten_loai_su_kien?: StringWithAggregatesFilter<"LOAI_SU_KIEN"> | string
     duong_dan?: StringWithAggregatesFilter<"LOAI_SU_KIEN"> | string
+    mo_ta?: StringNullableWithAggregatesFilter<"LOAI_SU_KIEN"> | string | null
     ngay_tao?: DateTimeWithAggregatesFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_cap_nhat?: DateTimeWithAggregatesFilter<"LOAI_SU_KIEN"> | Date | string
     ngay_xoa?: DateTimeNullableWithAggregatesFilter<"LOAI_SU_KIEN"> | Date | string | null
@@ -19723,7 +19800,6 @@ export namespace Prisma {
     ngay_xoa?: DateTimeNullableFilter<"SU_KIEN"> | Date | string | null
     loai_su_kien?: XOR<LOAI_SU_KIENScalarRelationFilter, LOAI_SU_KIENWhereInput>
     nguoi_tao?: XOR<NHAN_VIENScalarRelationFilter, NHAN_VIENWhereInput>
-    datVes?: DAT_VEListRelationFilter
     suKienPheDuyets?: SU_KIEN_PHE_DUYETListRelationFilter
     phienSuKiens?: PHIEN_SU_KIENListRelationFilter
     ghes?: GHEListRelationFilter
@@ -19749,7 +19825,6 @@ export namespace Prisma {
     ngay_xoa?: SortOrderInput | SortOrder
     loai_su_kien?: LOAI_SU_KIENOrderByWithRelationInput
     nguoi_tao?: NHAN_VIENOrderByWithRelationInput
-    datVes?: DAT_VEOrderByRelationAggregateInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETOrderByRelationAggregateInput
     phienSuKiens?: PHIEN_SU_KIENOrderByRelationAggregateInput
     ghes?: GHEOrderByRelationAggregateInput
@@ -19779,7 +19854,6 @@ export namespace Prisma {
     ngay_xoa?: DateTimeNullableFilter<"SU_KIEN"> | Date | string | null
     loai_su_kien?: XOR<LOAI_SU_KIENScalarRelationFilter, LOAI_SU_KIENWhereInput>
     nguoi_tao?: XOR<NHAN_VIENScalarRelationFilter, NHAN_VIENWhereInput>
-    datVes?: DAT_VEListRelationFilter
     suKienPheDuyets?: SU_KIEN_PHE_DUYETListRelationFilter
     phienSuKiens?: PHIEN_SU_KIENListRelationFilter
     ghes?: GHEListRelationFilter
@@ -19915,6 +19989,7 @@ export namespace Prisma {
     su_kien?: XOR<SU_KIENScalarRelationFilter, SU_KIENWhereInput>
     loaiVes?: LOAI_VEListRelationFilter
     gheDats?: GHE_DATListRelationFilter
+    datVes?: DAT_VEListRelationFilter
   }
 
   export type PHIEN_SU_KIENOrderByWithRelationInput = {
@@ -19927,6 +20002,7 @@ export namespace Prisma {
     su_kien?: SU_KIENOrderByWithRelationInput
     loaiVes?: LOAI_VEOrderByRelationAggregateInput
     gheDats?: GHE_DATOrderByRelationAggregateInput
+    datVes?: DAT_VEOrderByRelationAggregateInput
     _relevance?: PHIEN_SU_KIENOrderByRelevanceInput
   }
 
@@ -19943,6 +20019,7 @@ export namespace Prisma {
     su_kien?: XOR<SU_KIENScalarRelationFilter, SU_KIENWhereInput>
     loaiVes?: LOAI_VEListRelationFilter
     gheDats?: GHE_DATListRelationFilter
+    datVes?: DAT_VEListRelationFilter
   }, "id_phien_su_kien">
 
   export type PHIEN_SU_KIENOrderByWithAggregationInput = {
@@ -20052,12 +20129,12 @@ export namespace Prisma {
     id?: IntFilter<"DAT_VE"> | number
     ma_don_hang?: StringNullableFilter<"DAT_VE"> | string | null
     ma_khach?: StringFilter<"DAT_VE"> | string
-    ma_su_kien?: StringFilter<"DAT_VE"> | string
+    id_phien_su_kien?: StringFilter<"DAT_VE"> | string
     tong_tien?: DecimalFilter<"DAT_VE"> | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFilter<"DAT_VE"> | Date | string
     het_han?: DateTimeFilter<"DAT_VE"> | Date | string
     trang_thai?: EnumTRANG_THAI_DON_HANGFilter<"DAT_VE"> | $Enums.TRANG_THAI_DON_HANG
-    su_kien?: XOR<SU_KIENScalarRelationFilter, SU_KIENWhereInput>
+    phienSuKien?: XOR<PHIEN_SU_KIENScalarRelationFilter, PHIEN_SU_KIENWhereInput>
     nguoi_dat_ve?: XOR<KHACHScalarRelationFilter, KHACHWhereInput>
     chiTietDatVes?: CHI_TIET_DAT_VEListRelationFilter
     thanhToans?: THANH_TOANListRelationFilter
@@ -20067,12 +20144,12 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrderInput | SortOrder
     ma_khach?: SortOrder
-    ma_su_kien?: SortOrder
+    id_phien_su_kien?: SortOrder
     tong_tien?: SortOrder
     ngay_tao?: SortOrder
     het_han?: SortOrder
     trang_thai?: SortOrder
-    su_kien?: SU_KIENOrderByWithRelationInput
+    phienSuKien?: PHIEN_SU_KIENOrderByWithRelationInput
     nguoi_dat_ve?: KHACHOrderByWithRelationInput
     chiTietDatVes?: CHI_TIET_DAT_VEOrderByRelationAggregateInput
     thanhToans?: THANH_TOANOrderByRelationAggregateInput
@@ -20086,12 +20163,12 @@ export namespace Prisma {
     OR?: DAT_VEWhereInput[]
     NOT?: DAT_VEWhereInput | DAT_VEWhereInput[]
     ma_khach?: StringFilter<"DAT_VE"> | string
-    ma_su_kien?: StringFilter<"DAT_VE"> | string
+    id_phien_su_kien?: StringFilter<"DAT_VE"> | string
     tong_tien?: DecimalFilter<"DAT_VE"> | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFilter<"DAT_VE"> | Date | string
     het_han?: DateTimeFilter<"DAT_VE"> | Date | string
     trang_thai?: EnumTRANG_THAI_DON_HANGFilter<"DAT_VE"> | $Enums.TRANG_THAI_DON_HANG
-    su_kien?: XOR<SU_KIENScalarRelationFilter, SU_KIENWhereInput>
+    phienSuKien?: XOR<PHIEN_SU_KIENScalarRelationFilter, PHIEN_SU_KIENWhereInput>
     nguoi_dat_ve?: XOR<KHACHScalarRelationFilter, KHACHWhereInput>
     chiTietDatVes?: CHI_TIET_DAT_VEListRelationFilter
     thanhToans?: THANH_TOANListRelationFilter
@@ -20101,7 +20178,7 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrderInput | SortOrder
     ma_khach?: SortOrder
-    ma_su_kien?: SortOrder
+    id_phien_su_kien?: SortOrder
     tong_tien?: SortOrder
     ngay_tao?: SortOrder
     het_han?: SortOrder
@@ -20120,7 +20197,7 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"DAT_VE"> | number
     ma_don_hang?: StringNullableWithAggregatesFilter<"DAT_VE"> | string | null
     ma_khach?: StringWithAggregatesFilter<"DAT_VE"> | string
-    ma_su_kien?: StringWithAggregatesFilter<"DAT_VE"> | string
+    id_phien_su_kien?: StringWithAggregatesFilter<"DAT_VE"> | string
     tong_tien?: DecimalWithAggregatesFilter<"DAT_VE"> | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeWithAggregatesFilter<"DAT_VE"> | Date | string
     het_han?: DateTimeWithAggregatesFilter<"DAT_VE"> | Date | string
@@ -20218,7 +20295,7 @@ export namespace Prisma {
     id_ve?: StringFilter<"VE"> | string
     id_chi_tiet?: StringFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringFilter<"VE"> | string
+    QR_code?: StringNullableFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableFilter<"VE"> | Date | string | null
     chiTietDatVe?: XOR<CHI_TIET_DAT_VEScalarRelationFilter, CHI_TIET_DAT_VEWhereInput>
@@ -20228,7 +20305,7 @@ export namespace Prisma {
     id_ve?: SortOrder
     id_chi_tiet?: SortOrder
     trang_thai?: SortOrder
-    QR_code?: SortOrder
+    QR_code?: SortOrderInput | SortOrder
     ngay_phat_hanh?: SortOrder
     ngay_check_in?: SortOrderInput | SortOrder
     chiTietDatVe?: CHI_TIET_DAT_VEOrderByWithRelationInput
@@ -20242,7 +20319,7 @@ export namespace Prisma {
     NOT?: VEWhereInput | VEWhereInput[]
     id_chi_tiet?: StringFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringFilter<"VE"> | string
+    QR_code?: StringNullableFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableFilter<"VE"> | Date | string | null
     chiTietDatVe?: XOR<CHI_TIET_DAT_VEScalarRelationFilter, CHI_TIET_DAT_VEWhereInput>
@@ -20252,7 +20329,7 @@ export namespace Prisma {
     id_ve?: SortOrder
     id_chi_tiet?: SortOrder
     trang_thai?: SortOrder
-    QR_code?: SortOrder
+    QR_code?: SortOrderInput | SortOrder
     ngay_phat_hanh?: SortOrder
     ngay_check_in?: SortOrderInput | SortOrder
     _count?: VECountOrderByAggregateInput
@@ -20267,7 +20344,7 @@ export namespace Prisma {
     id_ve?: StringWithAggregatesFilter<"VE"> | string
     id_chi_tiet?: StringWithAggregatesFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEWithAggregatesFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringWithAggregatesFilter<"VE"> | string
+    QR_code?: StringNullableWithAggregatesFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeWithAggregatesFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableWithAggregatesFilter<"VE"> | Date | string | null
   }
@@ -20355,6 +20432,8 @@ export namespace Prisma {
     id?: StringFilter<"GHE_DAT"> | string
     id_ghe?: StringFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableFilter<"GHE_DAT"> | Date | string | null
     ghe?: XOR<GHEScalarRelationFilter, GHEWhereInput>
     phien_su_kien?: XOR<PHIEN_SU_KIENScalarRelationFilter, PHIEN_SU_KIENWhereInput>
   }
@@ -20363,6 +20442,8 @@ export namespace Prisma {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrderInput | SortOrder
     ghe?: GHEOrderByWithRelationInput
     phien_su_kien?: PHIEN_SU_KIENOrderByWithRelationInput
     _relevance?: GHE_DATOrderByRelevanceInput
@@ -20376,6 +20457,8 @@ export namespace Prisma {
     NOT?: GHE_DATWhereInput | GHE_DATWhereInput[]
     id_ghe?: StringFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableFilter<"GHE_DAT"> | Date | string | null
     ghe?: XOR<GHEScalarRelationFilter, GHEWhereInput>
     phien_su_kien?: XOR<PHIEN_SU_KIENScalarRelationFilter, PHIEN_SU_KIENWhereInput>
   }, "id" | "id_ghe_id_phien_su_kien">
@@ -20384,6 +20467,8 @@ export namespace Prisma {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrderInput | SortOrder
     _count?: GHE_DATCountOrderByAggregateInput
     _max?: GHE_DATMaxOrderByAggregateInput
     _min?: GHE_DATMinOrderByAggregateInput
@@ -20396,6 +20481,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"GHE_DAT"> | string
     id_ghe?: StringWithAggregatesFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringWithAggregatesFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEWithAggregatesFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableWithAggregatesFilter<"GHE_DAT"> | Date | string | null
   }
 
   export type THANH_TOANWhereInput = {
@@ -20405,7 +20492,6 @@ export namespace Prisma {
     id?: StringFilter<"THANH_TOAN"> | string
     ma_don_hang?: StringFilter<"THANH_TOAN"> | string
     cong_thanh_toan?: StringFilter<"THANH_TOAN"> | string
-    ma_giao_dich?: StringFilter<"THANH_TOAN"> | string
     so_tien?: DecimalFilter<"THANH_TOAN"> | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFilter<"THANH_TOAN"> | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFilter<"THANH_TOAN"> | Date | string
@@ -20416,7 +20502,6 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     cong_thanh_toan?: SortOrder
-    ma_giao_dich?: SortOrder
     so_tien?: SortOrder
     trang_thai?: SortOrder
     ngay_tao?: SortOrder
@@ -20431,7 +20516,6 @@ export namespace Prisma {
     NOT?: THANH_TOANWhereInput | THANH_TOANWhereInput[]
     ma_don_hang?: StringFilter<"THANH_TOAN"> | string
     cong_thanh_toan?: StringFilter<"THANH_TOAN"> | string
-    ma_giao_dich?: StringFilter<"THANH_TOAN"> | string
     so_tien?: DecimalFilter<"THANH_TOAN"> | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFilter<"THANH_TOAN"> | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFilter<"THANH_TOAN"> | Date | string
@@ -20442,7 +20526,6 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     cong_thanh_toan?: SortOrder
-    ma_giao_dich?: SortOrder
     so_tien?: SortOrder
     trang_thai?: SortOrder
     ngay_tao?: SortOrder
@@ -20460,7 +20543,6 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"THANH_TOAN"> | string
     ma_don_hang?: StringWithAggregatesFilter<"THANH_TOAN"> | string
     cong_thanh_toan?: StringWithAggregatesFilter<"THANH_TOAN"> | string
-    ma_giao_dich?: StringWithAggregatesFilter<"THANH_TOAN"> | string
     so_tien?: DecimalWithAggregatesFilter<"THANH_TOAN"> | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANWithAggregatesFilter<"THANH_TOAN"> | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeWithAggregatesFilter<"THANH_TOAN"> | Date | string
@@ -20518,6 +20600,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20539,6 +20623,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20558,6 +20644,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20579,6 +20667,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20599,6 +20689,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20613,6 +20705,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20628,6 +20722,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20774,6 +20870,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENCreateInput = {
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20784,6 +20881,7 @@ export namespace Prisma {
     id?: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20793,6 +20891,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENUpdateInput = {
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20803,6 +20902,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20813,6 +20913,7 @@ export namespace Prisma {
     id?: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -20821,6 +20922,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENUpdateManyMutationInput = {
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20830,6 +20932,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -20852,7 +20955,6 @@ export namespace Prisma {
     ngay_xoa?: Date | string | null
     loai_su_kien: LOAI_SU_KIENCreateNestedOneWithoutSuKiensInput
     nguoi_tao: NHAN_VIENCreateNestedOneWithoutSuKiensInput
-    datVes?: DAT_VECreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENCreateNestedManyWithoutSu_kienInput
     ghes?: GHECreateNestedManyWithoutSuKienInput
@@ -20876,7 +20978,6 @@ export namespace Prisma {
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
-    datVes?: DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedCreateNestedManyWithoutSu_kienInput
     ghes?: GHEUncheckedCreateNestedManyWithoutSuKienInput
@@ -20899,7 +21000,6 @@ export namespace Prisma {
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loai_su_kien?: LOAI_SU_KIENUpdateOneRequiredWithoutSuKiensNestedInput
     nguoi_tao?: NHAN_VIENUpdateOneRequiredWithoutSuKiensNestedInput
-    datVes?: DAT_VEUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUpdateManyWithoutSuKienNestedInput
@@ -20923,7 +21023,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    datVes?: DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUncheckedUpdateManyWithoutSuKienNestedInput
@@ -21063,6 +21162,7 @@ export namespace Prisma {
     su_kien: SU_KIENCreateNestedOneWithoutPhienSuKiensInput
     loaiVes?: LOAI_VECreateNestedManyWithoutPhien_su_kienInput
     gheDats?: GHE_DATCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VECreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENUncheckedCreateInput = {
@@ -21074,6 +21174,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve: Date | string
     loaiVes?: LOAI_VEUncheckedCreateNestedManyWithoutPhien_su_kienInput
     gheDats?: GHE_DATUncheckedCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VEUncheckedCreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENUpdateInput = {
@@ -21085,6 +21186,7 @@ export namespace Prisma {
     su_kien?: SU_KIENUpdateOneRequiredWithoutPhienSuKiensNestedInput
     loaiVes?: LOAI_VEUpdateManyWithoutPhien_su_kienNestedInput
     gheDats?: GHE_DATUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type PHIEN_SU_KIENUncheckedUpdateInput = {
@@ -21096,6 +21198,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     loaiVes?: LOAI_VEUncheckedUpdateManyWithoutPhien_su_kienNestedInput
     gheDats?: GHE_DATUncheckedUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUncheckedUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type PHIEN_SU_KIENCreateManyInput = {
@@ -21210,7 +21313,7 @@ export namespace Prisma {
     ngay_tao?: Date | string
     het_han: Date | string
     trang_thai?: $Enums.TRANG_THAI_DON_HANG
-    su_kien: SU_KIENCreateNestedOneWithoutDatVesInput
+    phienSuKien: PHIEN_SU_KIENCreateNestedOneWithoutDatVesInput
     nguoi_dat_ve: KHACHCreateNestedOneWithoutDatVeInput
     chiTietDatVes?: CHI_TIET_DAT_VECreateNestedManyWithoutDatVeInput
     thanhToans?: THANH_TOANCreateNestedManyWithoutDatVeInput
@@ -21220,7 +21323,7 @@ export namespace Prisma {
     id?: number
     ma_don_hang?: string | null
     ma_khach: string
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
     het_han: Date | string
@@ -21235,7 +21338,7 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
     trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
-    su_kien?: SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
+    phienSuKien?: PHIEN_SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
     nguoi_dat_ve?: KHACHUpdateOneRequiredWithoutDatVeNestedInput
     chiTietDatVes?: CHI_TIET_DAT_VEUpdateManyWithoutDatVeNestedInput
     thanhToans?: THANH_TOANUpdateManyWithoutDatVeNestedInput
@@ -21245,7 +21348,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
     ma_khach?: StringFieldUpdateOperationsInput | string
-    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
     tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21258,7 +21361,7 @@ export namespace Prisma {
     id?: number
     ma_don_hang?: string | null
     ma_khach: string
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
     het_han: Date | string
@@ -21277,7 +21380,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
     ma_khach?: StringFieldUpdateOperationsInput | string
-    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
     tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21373,7 +21476,7 @@ export namespace Prisma {
   export type VECreateInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
     chiTietDatVe: CHI_TIET_DAT_VECreateNestedOneWithoutVesInput
@@ -21383,7 +21486,7 @@ export namespace Prisma {
     id_ve: string
     id_chi_tiet: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -21391,7 +21494,7 @@ export namespace Prisma {
   export type VEUpdateInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     chiTietDatVe?: CHI_TIET_DAT_VEUpdateOneRequiredWithoutVesNestedInput
@@ -21401,7 +21504,7 @@ export namespace Prisma {
     id_ve?: StringFieldUpdateOperationsInput | string
     id_chi_tiet?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21410,7 +21513,7 @@ export namespace Prisma {
     id_ve: string
     id_chi_tiet: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -21418,7 +21521,7 @@ export namespace Prisma {
   export type VEUpdateManyMutationInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21427,7 +21530,7 @@ export namespace Prisma {
     id_ve?: StringFieldUpdateOperationsInput | string
     id_chi_tiet?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -21514,6 +21617,8 @@ export namespace Prisma {
 
   export type GHE_DATCreateInput = {
     id?: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
     ghe: GHECreateNestedOneWithoutGheDatsInput
     phien_su_kien: PHIEN_SU_KIENCreateNestedOneWithoutGheDatsInput
   }
@@ -21522,10 +21627,14 @@ export namespace Prisma {
     id?: string
     id_ghe: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ghe?: GHEUpdateOneRequiredWithoutGheDatsNestedInput
     phien_su_kien?: PHIEN_SU_KIENUpdateOneRequiredWithoutGheDatsNestedInput
   }
@@ -21534,30 +21643,37 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATCreateManyInput = {
     id?: string
     id_ghe: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type THANH_TOANCreateInput = {
     id: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal | DecimalJsLike | number | string
-    trang_thai: $Enums.TRANG_THAI_THANH_TOAN
+    trang_thai?: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: Date | string
     datVe: DAT_VECreateNestedOneWithoutThanhToansInput
   }
@@ -21566,16 +21682,14 @@ export namespace Prisma {
     id: string
     ma_don_hang: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal | DecimalJsLike | number | string
-    trang_thai: $Enums.TRANG_THAI_THANH_TOAN
+    trang_thai?: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: Date | string
   }
 
   export type THANH_TOANUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21586,7 +21700,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ma_don_hang?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21596,16 +21709,14 @@ export namespace Prisma {
     id: string
     ma_don_hang: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal | DecimalJsLike | number | string
-    trang_thai: $Enums.TRANG_THAI_THANH_TOAN
+    trang_thai?: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: Date | string
   }
 
   export type THANH_TOANUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21615,7 +21726,6 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     ma_don_hang?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21838,6 +21948,8 @@ export namespace Prisma {
     ngay_sinh?: SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
+    anh_dai_dien?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -21857,6 +21969,8 @@ export namespace Prisma {
     ngay_sinh?: SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
+    anh_dai_dien?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -21872,6 +21986,8 @@ export namespace Prisma {
     ngay_sinh?: SortOrder
     gioi_tinh?: SortOrder
     da_xac_thuc?: SortOrder
+    dang_hoat_dong?: SortOrder
+    anh_dai_dien?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -22074,6 +22190,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -22087,6 +22204,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -22096,6 +22214,7 @@ export namespace Prisma {
     id?: SortOrder
     ten_loai_su_kien?: SortOrder
     duong_dan?: SortOrder
+    mo_ta?: SortOrder
     ngay_tao?: SortOrder
     ngay_cap_nhat?: SortOrder
     ngay_xoa?: SortOrder
@@ -22502,7 +22621,7 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     ma_khach?: SortOrder
-    ma_su_kien?: SortOrder
+    id_phien_su_kien?: SortOrder
     tong_tien?: SortOrder
     ngay_tao?: SortOrder
     het_han?: SortOrder
@@ -22518,7 +22637,7 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     ma_khach?: SortOrder
-    ma_su_kien?: SortOrder
+    id_phien_su_kien?: SortOrder
     tong_tien?: SortOrder
     ngay_tao?: SortOrder
     het_han?: SortOrder
@@ -22529,7 +22648,7 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     ma_khach?: SortOrder
-    ma_su_kien?: SortOrder
+    id_phien_su_kien?: SortOrder
     tong_tien?: SortOrder
     ngay_tao?: SortOrder
     het_han?: SortOrder
@@ -22727,6 +22846,13 @@ export namespace Prisma {
     gia?: SortOrder
   }
 
+  export type EnumTRANG_THAI_GHEFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+  }
+
   export type GHEScalarRelationFilter = {
     is?: GHEWhereInput
     isNot?: GHEWhereInput
@@ -22747,18 +22873,34 @@ export namespace Prisma {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrder
   }
 
   export type GHE_DATMaxOrderByAggregateInput = {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrder
   }
 
   export type GHE_DATMinOrderByAggregateInput = {
     id?: SortOrder
     id_ghe?: SortOrder
     id_phien_su_kien?: SortOrder
+    trang_thai?: SortOrder
+    het_han?: SortOrder
+  }
+
+  export type EnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
+    _max?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
   }
 
   export type EnumTRANG_THAI_THANH_TOANFilter<$PrismaModel = never> = {
@@ -22778,7 +22920,6 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     cong_thanh_toan?: SortOrder
-    ma_giao_dich?: SortOrder
     so_tien?: SortOrder
     trang_thai?: SortOrder
     ngay_tao?: SortOrder
@@ -22792,7 +22933,6 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     cong_thanh_toan?: SortOrder
-    ma_giao_dich?: SortOrder
     so_tien?: SortOrder
     trang_thai?: SortOrder
     ngay_tao?: SortOrder
@@ -22802,7 +22942,6 @@ export namespace Prisma {
     id?: SortOrder
     ma_don_hang?: SortOrder
     cong_thanh_toan?: SortOrder
-    ma_giao_dich?: SortOrder
     so_tien?: SortOrder
     trang_thai?: SortOrder
     ngay_tao?: SortOrder
@@ -23294,13 +23433,6 @@ export namespace Prisma {
     connect?: NHAN_VIENWhereUniqueInput
   }
 
-  export type DAT_VECreateNestedManyWithoutSu_kienInput = {
-    create?: XOR<DAT_VECreateWithoutSu_kienInput, DAT_VEUncheckedCreateWithoutSu_kienInput> | DAT_VECreateWithoutSu_kienInput[] | DAT_VEUncheckedCreateWithoutSu_kienInput[]
-    connectOrCreate?: DAT_VECreateOrConnectWithoutSu_kienInput | DAT_VECreateOrConnectWithoutSu_kienInput[]
-    createMany?: DAT_VECreateManySu_kienInputEnvelope
-    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-  }
-
   export type SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput = {
     create?: XOR<SU_KIEN_PHE_DUYETCreateWithoutSu_kienInput, SU_KIEN_PHE_DUYETUncheckedCreateWithoutSu_kienInput> | SU_KIEN_PHE_DUYETCreateWithoutSu_kienInput[] | SU_KIEN_PHE_DUYETUncheckedCreateWithoutSu_kienInput[]
     connectOrCreate?: SU_KIEN_PHE_DUYETCreateOrConnectWithoutSu_kienInput | SU_KIEN_PHE_DUYETCreateOrConnectWithoutSu_kienInput[]
@@ -23320,13 +23452,6 @@ export namespace Prisma {
     connectOrCreate?: GHECreateOrConnectWithoutSuKienInput | GHECreateOrConnectWithoutSuKienInput[]
     createMany?: GHECreateManySuKienInputEnvelope
     connect?: GHEWhereUniqueInput | GHEWhereUniqueInput[]
-  }
-
-  export type DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput = {
-    create?: XOR<DAT_VECreateWithoutSu_kienInput, DAT_VEUncheckedCreateWithoutSu_kienInput> | DAT_VECreateWithoutSu_kienInput[] | DAT_VEUncheckedCreateWithoutSu_kienInput[]
-    connectOrCreate?: DAT_VECreateOrConnectWithoutSu_kienInput | DAT_VECreateOrConnectWithoutSu_kienInput[]
-    createMany?: DAT_VECreateManySu_kienInputEnvelope
-    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
   }
 
   export type SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput = {
@@ -23378,20 +23503,6 @@ export namespace Prisma {
     update?: XOR<XOR<NHAN_VIENUpdateToOneWithWhereWithoutSuKiensInput, NHAN_VIENUpdateWithoutSuKiensInput>, NHAN_VIENUncheckedUpdateWithoutSuKiensInput>
   }
 
-  export type DAT_VEUpdateManyWithoutSu_kienNestedInput = {
-    create?: XOR<DAT_VECreateWithoutSu_kienInput, DAT_VEUncheckedCreateWithoutSu_kienInput> | DAT_VECreateWithoutSu_kienInput[] | DAT_VEUncheckedCreateWithoutSu_kienInput[]
-    connectOrCreate?: DAT_VECreateOrConnectWithoutSu_kienInput | DAT_VECreateOrConnectWithoutSu_kienInput[]
-    upsert?: DAT_VEUpsertWithWhereUniqueWithoutSu_kienInput | DAT_VEUpsertWithWhereUniqueWithoutSu_kienInput[]
-    createMany?: DAT_VECreateManySu_kienInputEnvelope
-    set?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    disconnect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    delete?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    update?: DAT_VEUpdateWithWhereUniqueWithoutSu_kienInput | DAT_VEUpdateWithWhereUniqueWithoutSu_kienInput[]
-    updateMany?: DAT_VEUpdateManyWithWhereWithoutSu_kienInput | DAT_VEUpdateManyWithWhereWithoutSu_kienInput[]
-    deleteMany?: DAT_VEScalarWhereInput | DAT_VEScalarWhereInput[]
-  }
-
   export type SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput = {
     create?: XOR<SU_KIEN_PHE_DUYETCreateWithoutSu_kienInput, SU_KIEN_PHE_DUYETUncheckedCreateWithoutSu_kienInput> | SU_KIEN_PHE_DUYETCreateWithoutSu_kienInput[] | SU_KIEN_PHE_DUYETUncheckedCreateWithoutSu_kienInput[]
     connectOrCreate?: SU_KIEN_PHE_DUYETCreateOrConnectWithoutSu_kienInput | SU_KIEN_PHE_DUYETCreateOrConnectWithoutSu_kienInput[]
@@ -23432,20 +23543,6 @@ export namespace Prisma {
     update?: GHEUpdateWithWhereUniqueWithoutSuKienInput | GHEUpdateWithWhereUniqueWithoutSuKienInput[]
     updateMany?: GHEUpdateManyWithWhereWithoutSuKienInput | GHEUpdateManyWithWhereWithoutSuKienInput[]
     deleteMany?: GHEScalarWhereInput | GHEScalarWhereInput[]
-  }
-
-  export type DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput = {
-    create?: XOR<DAT_VECreateWithoutSu_kienInput, DAT_VEUncheckedCreateWithoutSu_kienInput> | DAT_VECreateWithoutSu_kienInput[] | DAT_VEUncheckedCreateWithoutSu_kienInput[]
-    connectOrCreate?: DAT_VECreateOrConnectWithoutSu_kienInput | DAT_VECreateOrConnectWithoutSu_kienInput[]
-    upsert?: DAT_VEUpsertWithWhereUniqueWithoutSu_kienInput | DAT_VEUpsertWithWhereUniqueWithoutSu_kienInput[]
-    createMany?: DAT_VECreateManySu_kienInputEnvelope
-    set?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    disconnect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    delete?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
-    update?: DAT_VEUpdateWithWhereUniqueWithoutSu_kienInput | DAT_VEUpdateWithWhereUniqueWithoutSu_kienInput[]
-    updateMany?: DAT_VEUpdateManyWithWhereWithoutSu_kienInput | DAT_VEUpdateManyWithWhereWithoutSu_kienInput[]
-    deleteMany?: DAT_VEScalarWhereInput | DAT_VEScalarWhereInput[]
   }
 
   export type SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput = {
@@ -23544,6 +23641,13 @@ export namespace Prisma {
     connect?: GHE_DATWhereUniqueInput | GHE_DATWhereUniqueInput[]
   }
 
+  export type DAT_VECreateNestedManyWithoutPhienSuKienInput = {
+    create?: XOR<DAT_VECreateWithoutPhienSuKienInput, DAT_VEUncheckedCreateWithoutPhienSuKienInput> | DAT_VECreateWithoutPhienSuKienInput[] | DAT_VEUncheckedCreateWithoutPhienSuKienInput[]
+    connectOrCreate?: DAT_VECreateOrConnectWithoutPhienSuKienInput | DAT_VECreateOrConnectWithoutPhienSuKienInput[]
+    createMany?: DAT_VECreateManyPhienSuKienInputEnvelope
+    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+  }
+
   export type LOAI_VEUncheckedCreateNestedManyWithoutPhien_su_kienInput = {
     create?: XOR<LOAI_VECreateWithoutPhien_su_kienInput, LOAI_VEUncheckedCreateWithoutPhien_su_kienInput> | LOAI_VECreateWithoutPhien_su_kienInput[] | LOAI_VEUncheckedCreateWithoutPhien_su_kienInput[]
     connectOrCreate?: LOAI_VECreateOrConnectWithoutPhien_su_kienInput | LOAI_VECreateOrConnectWithoutPhien_su_kienInput[]
@@ -23556,6 +23660,13 @@ export namespace Prisma {
     connectOrCreate?: GHE_DATCreateOrConnectWithoutPhien_su_kienInput | GHE_DATCreateOrConnectWithoutPhien_su_kienInput[]
     createMany?: GHE_DATCreateManyPhien_su_kienInputEnvelope
     connect?: GHE_DATWhereUniqueInput | GHE_DATWhereUniqueInput[]
+  }
+
+  export type DAT_VEUncheckedCreateNestedManyWithoutPhienSuKienInput = {
+    create?: XOR<DAT_VECreateWithoutPhienSuKienInput, DAT_VEUncheckedCreateWithoutPhienSuKienInput> | DAT_VECreateWithoutPhienSuKienInput[] | DAT_VEUncheckedCreateWithoutPhienSuKienInput[]
+    connectOrCreate?: DAT_VECreateOrConnectWithoutPhienSuKienInput | DAT_VECreateOrConnectWithoutPhienSuKienInput[]
+    createMany?: DAT_VECreateManyPhienSuKienInputEnvelope
+    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
   }
 
   export type SU_KIENUpdateOneRequiredWithoutPhienSuKiensNestedInput = {
@@ -23594,6 +23705,20 @@ export namespace Prisma {
     deleteMany?: GHE_DATScalarWhereInput | GHE_DATScalarWhereInput[]
   }
 
+  export type DAT_VEUpdateManyWithoutPhienSuKienNestedInput = {
+    create?: XOR<DAT_VECreateWithoutPhienSuKienInput, DAT_VEUncheckedCreateWithoutPhienSuKienInput> | DAT_VECreateWithoutPhienSuKienInput[] | DAT_VEUncheckedCreateWithoutPhienSuKienInput[]
+    connectOrCreate?: DAT_VECreateOrConnectWithoutPhienSuKienInput | DAT_VECreateOrConnectWithoutPhienSuKienInput[]
+    upsert?: DAT_VEUpsertWithWhereUniqueWithoutPhienSuKienInput | DAT_VEUpsertWithWhereUniqueWithoutPhienSuKienInput[]
+    createMany?: DAT_VECreateManyPhienSuKienInputEnvelope
+    set?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    disconnect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    delete?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    update?: DAT_VEUpdateWithWhereUniqueWithoutPhienSuKienInput | DAT_VEUpdateWithWhereUniqueWithoutPhienSuKienInput[]
+    updateMany?: DAT_VEUpdateManyWithWhereWithoutPhienSuKienInput | DAT_VEUpdateManyWithWhereWithoutPhienSuKienInput[]
+    deleteMany?: DAT_VEScalarWhereInput | DAT_VEScalarWhereInput[]
+  }
+
   export type LOAI_VEUncheckedUpdateManyWithoutPhien_su_kienNestedInput = {
     create?: XOR<LOAI_VECreateWithoutPhien_su_kienInput, LOAI_VEUncheckedCreateWithoutPhien_su_kienInput> | LOAI_VECreateWithoutPhien_su_kienInput[] | LOAI_VEUncheckedCreateWithoutPhien_su_kienInput[]
     connectOrCreate?: LOAI_VECreateOrConnectWithoutPhien_su_kienInput | LOAI_VECreateOrConnectWithoutPhien_su_kienInput[]
@@ -23620,6 +23745,20 @@ export namespace Prisma {
     update?: GHE_DATUpdateWithWhereUniqueWithoutPhien_su_kienInput | GHE_DATUpdateWithWhereUniqueWithoutPhien_su_kienInput[]
     updateMany?: GHE_DATUpdateManyWithWhereWithoutPhien_su_kienInput | GHE_DATUpdateManyWithWhereWithoutPhien_su_kienInput[]
     deleteMany?: GHE_DATScalarWhereInput | GHE_DATScalarWhereInput[]
+  }
+
+  export type DAT_VEUncheckedUpdateManyWithoutPhienSuKienNestedInput = {
+    create?: XOR<DAT_VECreateWithoutPhienSuKienInput, DAT_VEUncheckedCreateWithoutPhienSuKienInput> | DAT_VECreateWithoutPhienSuKienInput[] | DAT_VEUncheckedCreateWithoutPhienSuKienInput[]
+    connectOrCreate?: DAT_VECreateOrConnectWithoutPhienSuKienInput | DAT_VECreateOrConnectWithoutPhienSuKienInput[]
+    upsert?: DAT_VEUpsertWithWhereUniqueWithoutPhienSuKienInput | DAT_VEUpsertWithWhereUniqueWithoutPhienSuKienInput[]
+    createMany?: DAT_VECreateManyPhienSuKienInputEnvelope
+    set?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    disconnect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    delete?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    connect?: DAT_VEWhereUniqueInput | DAT_VEWhereUniqueInput[]
+    update?: DAT_VEUpdateWithWhereUniqueWithoutPhienSuKienInput | DAT_VEUpdateWithWhereUniqueWithoutPhienSuKienInput[]
+    updateMany?: DAT_VEUpdateManyWithWhereWithoutPhienSuKienInput | DAT_VEUpdateManyWithWhereWithoutPhienSuKienInput[]
+    deleteMany?: DAT_VEScalarWhereInput | DAT_VEScalarWhereInput[]
   }
 
   export type PHIEN_SU_KIENCreateNestedOneWithoutLoaiVesInput = {
@@ -23686,10 +23825,10 @@ export namespace Prisma {
     deleteMany?: CHI_TIET_DAT_VEScalarWhereInput | CHI_TIET_DAT_VEScalarWhereInput[]
   }
 
-  export type SU_KIENCreateNestedOneWithoutDatVesInput = {
-    create?: XOR<SU_KIENCreateWithoutDatVesInput, SU_KIENUncheckedCreateWithoutDatVesInput>
-    connectOrCreate?: SU_KIENCreateOrConnectWithoutDatVesInput
-    connect?: SU_KIENWhereUniqueInput
+  export type PHIEN_SU_KIENCreateNestedOneWithoutDatVesInput = {
+    create?: XOR<PHIEN_SU_KIENCreateWithoutDatVesInput, PHIEN_SU_KIENUncheckedCreateWithoutDatVesInput>
+    connectOrCreate?: PHIEN_SU_KIENCreateOrConnectWithoutDatVesInput
+    connect?: PHIEN_SU_KIENWhereUniqueInput
   }
 
   export type KHACHCreateNestedOneWithoutDatVeInput = {
@@ -23730,12 +23869,12 @@ export namespace Prisma {
     set?: $Enums.TRANG_THAI_DON_HANG
   }
 
-  export type SU_KIENUpdateOneRequiredWithoutDatVesNestedInput = {
-    create?: XOR<SU_KIENCreateWithoutDatVesInput, SU_KIENUncheckedCreateWithoutDatVesInput>
-    connectOrCreate?: SU_KIENCreateOrConnectWithoutDatVesInput
-    upsert?: SU_KIENUpsertWithoutDatVesInput
-    connect?: SU_KIENWhereUniqueInput
-    update?: XOR<XOR<SU_KIENUpdateToOneWithWhereWithoutDatVesInput, SU_KIENUpdateWithoutDatVesInput>, SU_KIENUncheckedUpdateWithoutDatVesInput>
+  export type PHIEN_SU_KIENUpdateOneRequiredWithoutDatVesNestedInput = {
+    create?: XOR<PHIEN_SU_KIENCreateWithoutDatVesInput, PHIEN_SU_KIENUncheckedCreateWithoutDatVesInput>
+    connectOrCreate?: PHIEN_SU_KIENCreateOrConnectWithoutDatVesInput
+    upsert?: PHIEN_SU_KIENUpsertWithoutDatVesInput
+    connect?: PHIEN_SU_KIENWhereUniqueInput
+    update?: XOR<XOR<PHIEN_SU_KIENUpdateToOneWithWhereWithoutDatVesInput, PHIEN_SU_KIENUpdateWithoutDatVesInput>, PHIEN_SU_KIENUncheckedUpdateWithoutDatVesInput>
   }
 
   export type KHACHUpdateOneRequiredWithoutDatVeNestedInput = {
@@ -23958,6 +24097,10 @@ export namespace Prisma {
     create?: XOR<PHIEN_SU_KIENCreateWithoutGheDatsInput, PHIEN_SU_KIENUncheckedCreateWithoutGheDatsInput>
     connectOrCreate?: PHIEN_SU_KIENCreateOrConnectWithoutGheDatsInput
     connect?: PHIEN_SU_KIENWhereUniqueInput
+  }
+
+  export type EnumTRANG_THAI_GHEFieldUpdateOperationsInput = {
+    set?: $Enums.TRANG_THAI_GHE
   }
 
   export type GHEUpdateOneRequiredWithoutGheDatsNestedInput = {
@@ -24300,6 +24443,23 @@ export namespace Prisma {
     _max?: NestedEnumTRANG_THAI_VEFilter<$PrismaModel>
   }
 
+  export type NestedEnumTRANG_THAI_GHEFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+  }
+
+  export type NestedEnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TRANG_THAI_GHE | EnumTRANG_THAI_GHEFieldRefInput<$PrismaModel>
+    in?: $Enums.TRANG_THAI_GHE[]
+    notIn?: $Enums.TRANG_THAI_GHE[]
+    not?: NestedEnumTRANG_THAI_GHEWithAggregatesFilter<$PrismaModel> | $Enums.TRANG_THAI_GHE
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
+    _max?: NestedEnumTRANG_THAI_GHEFilter<$PrismaModel>
+  }
+
   export type NestedEnumTRANG_THAI_THANH_TOANFilter<$PrismaModel = never> = {
     equals?: $Enums.TRANG_THAI_THANH_TOAN | EnumTRANG_THAI_THANH_TOANFieldRefInput<$PrismaModel>
     in?: $Enums.TRANG_THAI_THANH_TOAN[]
@@ -24326,6 +24486,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24345,6 +24507,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24394,6 +24558,8 @@ export namespace Prisma {
     ngay_sinh?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFilter<"NGUOI_DUNG"> | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFilter<"NGUOI_DUNG"> | boolean
+    dang_hoat_dong?: BoolFilter<"NGUOI_DUNG"> | boolean
+    anh_dai_dien?: StringNullableFilter<"NGUOI_DUNG"> | string | null
     ngay_tao?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_cap_nhat?: DateTimeFilter<"NGUOI_DUNG"> | Date | string
     ngay_xoa?: DateTimeNullableFilter<"NGUOI_DUNG"> | Date | string | null
@@ -24680,6 +24846,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24700,6 +24868,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24734,6 +24904,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24754,6 +24926,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24769,7 +24943,7 @@ export namespace Prisma {
     ngay_tao?: Date | string
     het_han: Date | string
     trang_thai?: $Enums.TRANG_THAI_DON_HANG
-    su_kien: SU_KIENCreateNestedOneWithoutDatVesInput
+    phienSuKien: PHIEN_SU_KIENCreateNestedOneWithoutDatVesInput
     chiTietDatVes?: CHI_TIET_DAT_VECreateNestedManyWithoutDatVeInput
     thanhToans?: THANH_TOANCreateNestedManyWithoutDatVeInput
   }
@@ -24777,7 +24951,7 @@ export namespace Prisma {
   export type DAT_VEUncheckedCreateWithoutNguoi_dat_veInput = {
     id?: number
     ma_don_hang?: string | null
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
     het_han: Date | string
@@ -24805,6 +24979,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24825,6 +25001,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24862,7 +25040,7 @@ export namespace Prisma {
     id?: IntFilter<"DAT_VE"> | number
     ma_don_hang?: StringNullableFilter<"DAT_VE"> | string | null
     ma_khach?: StringFilter<"DAT_VE"> | string
-    ma_su_kien?: StringFilter<"DAT_VE"> | string
+    id_phien_su_kien?: StringFilter<"DAT_VE"> | string
     tong_tien?: DecimalFilter<"DAT_VE"> | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFilter<"DAT_VE"> | Date | string
     het_han?: DateTimeFilter<"DAT_VE"> | Date | string
@@ -24889,6 +25067,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24909,6 +25089,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -24927,6 +25109,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24947,6 +25131,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24970,6 +25156,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -24990,6 +25178,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25020,7 +25210,6 @@ export namespace Prisma {
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
     loai_su_kien: LOAI_SU_KIENCreateNestedOneWithoutSuKiensInput
-    datVes?: DAT_VECreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENCreateNestedManyWithoutSu_kienInput
     ghes?: GHECreateNestedManyWithoutSuKienInput
@@ -25043,7 +25232,6 @@ export namespace Prisma {
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
-    datVes?: DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedCreateNestedManyWithoutSu_kienInput
     ghes?: GHEUncheckedCreateNestedManyWithoutSuKienInput
@@ -25079,6 +25267,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25099,6 +25289,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25128,6 +25320,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25148,6 +25342,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25212,7 +25408,6 @@ export namespace Prisma {
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
     nguoi_tao: NHAN_VIENCreateNestedOneWithoutSuKiensInput
-    datVes?: DAT_VECreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENCreateNestedManyWithoutSu_kienInput
     ghes?: GHECreateNestedManyWithoutSuKienInput
@@ -25235,7 +25430,6 @@ export namespace Prisma {
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
-    datVes?: DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedCreateNestedManyWithoutSu_kienInput
     ghes?: GHEUncheckedCreateNestedManyWithoutSuKienInput
@@ -25270,6 +25464,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENCreateWithoutSuKiensInput = {
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25279,6 +25474,7 @@ export namespace Prisma {
     id?: number
     ten_loai_su_kien: string
     duong_dan: string
+    mo_ta?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25305,39 +25501,6 @@ export namespace Prisma {
   export type NHAN_VIENCreateOrConnectWithoutSuKiensInput = {
     where: NHAN_VIENWhereUniqueInput
     create: XOR<NHAN_VIENCreateWithoutSuKiensInput, NHAN_VIENUncheckedCreateWithoutSuKiensInput>
-  }
-
-  export type DAT_VECreateWithoutSu_kienInput = {
-    ma_don_hang?: string | null
-    tong_tien: Decimal | DecimalJsLike | number | string
-    ngay_tao?: Date | string
-    het_han: Date | string
-    trang_thai?: $Enums.TRANG_THAI_DON_HANG
-    nguoi_dat_ve: KHACHCreateNestedOneWithoutDatVeInput
-    chiTietDatVes?: CHI_TIET_DAT_VECreateNestedManyWithoutDatVeInput
-    thanhToans?: THANH_TOANCreateNestedManyWithoutDatVeInput
-  }
-
-  export type DAT_VEUncheckedCreateWithoutSu_kienInput = {
-    id?: number
-    ma_don_hang?: string | null
-    ma_khach: string
-    tong_tien: Decimal | DecimalJsLike | number | string
-    ngay_tao?: Date | string
-    het_han: Date | string
-    trang_thai?: $Enums.TRANG_THAI_DON_HANG
-    chiTietDatVes?: CHI_TIET_DAT_VEUncheckedCreateNestedManyWithoutDatVeInput
-    thanhToans?: THANH_TOANUncheckedCreateNestedManyWithoutDatVeInput
-  }
-
-  export type DAT_VECreateOrConnectWithoutSu_kienInput = {
-    where: DAT_VEWhereUniqueInput
-    create: XOR<DAT_VECreateWithoutSu_kienInput, DAT_VEUncheckedCreateWithoutSu_kienInput>
-  }
-
-  export type DAT_VECreateManySu_kienInputEnvelope = {
-    data: DAT_VECreateManySu_kienInput | DAT_VECreateManySu_kienInput[]
-    skipDuplicates?: boolean
   }
 
   export type SU_KIEN_PHE_DUYETCreateWithoutSu_kienInput = {
@@ -25376,6 +25539,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve: Date | string
     loaiVes?: LOAI_VECreateNestedManyWithoutPhien_su_kienInput
     gheDats?: GHE_DATCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VECreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENUncheckedCreateWithoutSu_kienInput = {
@@ -25386,6 +25550,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve: Date | string
     loaiVes?: LOAI_VEUncheckedCreateNestedManyWithoutPhien_su_kienInput
     gheDats?: GHE_DATUncheckedCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VEUncheckedCreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENCreateOrConnectWithoutSu_kienInput = {
@@ -25444,6 +25609,7 @@ export namespace Prisma {
   export type LOAI_SU_KIENUpdateWithoutSuKiensInput = {
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25453,6 +25619,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ten_loai_su_kien?: StringFieldUpdateOperationsInput | string
     duong_dan?: StringFieldUpdateOperationsInput | string
+    mo_ta?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25480,22 +25647,6 @@ export namespace Prisma {
     ma_nhan_vien?: NullableStringFieldUpdateOperationsInput | string | null
     id_nguoi_dung?: StringFieldUpdateOperationsInput | string
     id_admin?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type DAT_VEUpsertWithWhereUniqueWithoutSu_kienInput = {
-    where: DAT_VEWhereUniqueInput
-    update: XOR<DAT_VEUpdateWithoutSu_kienInput, DAT_VEUncheckedUpdateWithoutSu_kienInput>
-    create: XOR<DAT_VECreateWithoutSu_kienInput, DAT_VEUncheckedCreateWithoutSu_kienInput>
-  }
-
-  export type DAT_VEUpdateWithWhereUniqueWithoutSu_kienInput = {
-    where: DAT_VEWhereUniqueInput
-    data: XOR<DAT_VEUpdateWithoutSu_kienInput, DAT_VEUncheckedUpdateWithoutSu_kienInput>
-  }
-
-  export type DAT_VEUpdateManyWithWhereWithoutSu_kienInput = {
-    where: DAT_VEScalarWhereInput
-    data: XOR<DAT_VEUpdateManyMutationInput, DAT_VEUncheckedUpdateManyWithoutSu_kienInput>
   }
 
   export type SU_KIEN_PHE_DUYETUpsertWithWhereUniqueWithoutSu_kienInput = {
@@ -25589,7 +25740,6 @@ export namespace Prisma {
     ngay_xoa?: Date | string | null
     loai_su_kien: LOAI_SU_KIENCreateNestedOneWithoutSuKiensInput
     nguoi_tao: NHAN_VIENCreateNestedOneWithoutSuKiensInput
-    datVes?: DAT_VECreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENCreateNestedManyWithoutSu_kienInput
     ghes?: GHECreateNestedManyWithoutSuKienInput
   }
@@ -25612,7 +25762,6 @@ export namespace Prisma {
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
-    datVes?: DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedCreateNestedManyWithoutSu_kienInput
     ghes?: GHEUncheckedCreateNestedManyWithoutSuKienInput
   }
@@ -25631,6 +25780,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25651,6 +25802,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -25693,7 +25846,6 @@ export namespace Prisma {
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loai_su_kien?: LOAI_SU_KIENUpdateOneRequiredWithoutSuKiensNestedInput
     nguoi_tao?: NHAN_VIENUpdateOneRequiredWithoutSuKiensNestedInput
-    datVes?: DAT_VEUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUpdateManyWithoutSuKienNestedInput
   }
@@ -25716,7 +25868,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    datVes?: DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUncheckedUpdateManyWithoutSuKienNestedInput
   }
@@ -25741,6 +25892,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25761,6 +25914,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -25787,7 +25942,6 @@ export namespace Prisma {
     ngay_xoa?: Date | string | null
     loai_su_kien: LOAI_SU_KIENCreateNestedOneWithoutSuKiensInput
     nguoi_tao: NHAN_VIENCreateNestedOneWithoutSuKiensInput
-    datVes?: DAT_VECreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput
     ghes?: GHECreateNestedManyWithoutSuKienInput
   }
@@ -25810,7 +25964,6 @@ export namespace Prisma {
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
-    datVes?: DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput
     ghes?: GHEUncheckedCreateNestedManyWithoutSuKienInput
   }
@@ -25854,12 +26007,16 @@ export namespace Prisma {
 
   export type GHE_DATCreateWithoutPhien_su_kienInput = {
     id?: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
     ghe: GHECreateNestedOneWithoutGheDatsInput
   }
 
   export type GHE_DATUncheckedCreateWithoutPhien_su_kienInput = {
     id?: string
     id_ghe: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATCreateOrConnectWithoutPhien_su_kienInput = {
@@ -25869,6 +26026,39 @@ export namespace Prisma {
 
   export type GHE_DATCreateManyPhien_su_kienInputEnvelope = {
     data: GHE_DATCreateManyPhien_su_kienInput | GHE_DATCreateManyPhien_su_kienInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DAT_VECreateWithoutPhienSuKienInput = {
+    ma_don_hang?: string | null
+    tong_tien: Decimal | DecimalJsLike | number | string
+    ngay_tao?: Date | string
+    het_han: Date | string
+    trang_thai?: $Enums.TRANG_THAI_DON_HANG
+    nguoi_dat_ve: KHACHCreateNestedOneWithoutDatVeInput
+    chiTietDatVes?: CHI_TIET_DAT_VECreateNestedManyWithoutDatVeInput
+    thanhToans?: THANH_TOANCreateNestedManyWithoutDatVeInput
+  }
+
+  export type DAT_VEUncheckedCreateWithoutPhienSuKienInput = {
+    id?: number
+    ma_don_hang?: string | null
+    ma_khach: string
+    tong_tien: Decimal | DecimalJsLike | number | string
+    ngay_tao?: Date | string
+    het_han: Date | string
+    trang_thai?: $Enums.TRANG_THAI_DON_HANG
+    chiTietDatVes?: CHI_TIET_DAT_VEUncheckedCreateNestedManyWithoutDatVeInput
+    thanhToans?: THANH_TOANUncheckedCreateNestedManyWithoutDatVeInput
+  }
+
+  export type DAT_VECreateOrConnectWithoutPhienSuKienInput = {
+    where: DAT_VEWhereUniqueInput
+    create: XOR<DAT_VECreateWithoutPhienSuKienInput, DAT_VEUncheckedCreateWithoutPhienSuKienInput>
+  }
+
+  export type DAT_VECreateManyPhienSuKienInputEnvelope = {
+    data: DAT_VECreateManyPhienSuKienInput | DAT_VECreateManyPhienSuKienInput[]
     skipDuplicates?: boolean
   }
 
@@ -25900,7 +26090,6 @@ export namespace Prisma {
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loai_su_kien?: LOAI_SU_KIENUpdateOneRequiredWithoutSuKiensNestedInput
     nguoi_tao?: NHAN_VIENUpdateOneRequiredWithoutSuKiensNestedInput
-    datVes?: DAT_VEUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUpdateManyWithoutSuKienNestedInput
   }
@@ -25923,7 +26112,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    datVes?: DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUncheckedUpdateManyWithoutSuKienNestedInput
   }
@@ -25981,6 +26169,24 @@ export namespace Prisma {
     id?: StringFilter<"GHE_DAT"> | string
     id_ghe?: StringFilter<"GHE_DAT"> | string
     id_phien_su_kien?: StringFilter<"GHE_DAT"> | string
+    trang_thai?: EnumTRANG_THAI_GHEFilter<"GHE_DAT"> | $Enums.TRANG_THAI_GHE
+    het_han?: DateTimeNullableFilter<"GHE_DAT"> | Date | string | null
+  }
+
+  export type DAT_VEUpsertWithWhereUniqueWithoutPhienSuKienInput = {
+    where: DAT_VEWhereUniqueInput
+    update: XOR<DAT_VEUpdateWithoutPhienSuKienInput, DAT_VEUncheckedUpdateWithoutPhienSuKienInput>
+    create: XOR<DAT_VECreateWithoutPhienSuKienInput, DAT_VEUncheckedCreateWithoutPhienSuKienInput>
+  }
+
+  export type DAT_VEUpdateWithWhereUniqueWithoutPhienSuKienInput = {
+    where: DAT_VEWhereUniqueInput
+    data: XOR<DAT_VEUpdateWithoutPhienSuKienInput, DAT_VEUncheckedUpdateWithoutPhienSuKienInput>
+  }
+
+  export type DAT_VEUpdateManyWithWhereWithoutPhienSuKienInput = {
+    where: DAT_VEScalarWhereInput
+    data: XOR<DAT_VEUpdateManyMutationInput, DAT_VEUncheckedUpdateManyWithoutPhienSuKienInput>
   }
 
   export type PHIEN_SU_KIENCreateWithoutLoaiVesInput = {
@@ -25991,6 +26197,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve: Date | string
     su_kien: SU_KIENCreateNestedOneWithoutPhienSuKiensInput
     gheDats?: GHE_DATCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VECreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENUncheckedCreateWithoutLoaiVesInput = {
@@ -26001,6 +26208,7 @@ export namespace Prisma {
     thoi_gian_mo_dat_ve: Date | string
     thoi_gian_dong_dat_ve: Date | string
     gheDats?: GHE_DATUncheckedCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VEUncheckedCreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENCreateOrConnectWithoutLoaiVesInput = {
@@ -26061,6 +26269,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     su_kien?: SU_KIENUpdateOneRequiredWithoutPhienSuKiensNestedInput
     gheDats?: GHE_DATUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type PHIEN_SU_KIENUncheckedUpdateWithoutLoaiVesInput = {
@@ -26071,6 +26280,7 @@ export namespace Prisma {
     thoi_gian_mo_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     gheDats?: GHE_DATUncheckedUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUncheckedUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type CHI_TIET_DAT_VEUpsertWithWhereUniqueWithoutLoai_veInput = {
@@ -26104,54 +26314,31 @@ export namespace Prisma {
     thanh_tien?: DecimalFilter<"CHI_TIET_DAT_VE"> | Decimal | DecimalJsLike | number | string
   }
 
-  export type SU_KIENCreateWithoutDatVesInput = {
-    ma_su_kien?: string | null
-    ten_su_kien: string
-    mo_ta: string
-    ngay_bat_dau: Date | string
-    ngay_ket_thuc: Date | string
-    dia_diem: string
-    kinh_do: number
-    vi_do: number
-    trang_thai?: $Enums.ENUM_SU_KIEN
-    hinh_anh: string
-    duong_dan: string
-    ngay_tao?: Date | string
-    ngay_cap_nhat?: Date | string
-    ngay_xoa?: Date | string | null
-    loai_su_kien: LOAI_SU_KIENCreateNestedOneWithoutSuKiensInput
-    nguoi_tao: NHAN_VIENCreateNestedOneWithoutSuKiensInput
-    suKienPheDuyets?: SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput
-    phienSuKiens?: PHIEN_SU_KIENCreateNestedManyWithoutSu_kienInput
-    ghes?: GHECreateNestedManyWithoutSuKienInput
+  export type PHIEN_SU_KIENCreateWithoutDatVesInput = {
+    id_phien_su_kien?: string
+    thoi_gian_bat_dau: Date | string
+    thoi_gian_ket_thuc: Date | string
+    thoi_gian_mo_dat_ve: Date | string
+    thoi_gian_dong_dat_ve: Date | string
+    su_kien: SU_KIENCreateNestedOneWithoutPhienSuKiensInput
+    loaiVes?: LOAI_VECreateNestedManyWithoutPhien_su_kienInput
+    gheDats?: GHE_DATCreateNestedManyWithoutPhien_su_kienInput
   }
 
-  export type SU_KIENUncheckedCreateWithoutDatVesInput = {
-    id?: number
-    id_loai_su_kien: number
-    ma_su_kien?: string | null
-    ma_nhan_vien: string
-    ten_su_kien: string
-    mo_ta: string
-    ngay_bat_dau: Date | string
-    ngay_ket_thuc: Date | string
-    dia_diem: string
-    kinh_do: number
-    vi_do: number
-    trang_thai?: $Enums.ENUM_SU_KIEN
-    hinh_anh: string
-    duong_dan: string
-    ngay_tao?: Date | string
-    ngay_cap_nhat?: Date | string
-    ngay_xoa?: Date | string | null
-    suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput
-    phienSuKiens?: PHIEN_SU_KIENUncheckedCreateNestedManyWithoutSu_kienInput
-    ghes?: GHEUncheckedCreateNestedManyWithoutSuKienInput
+  export type PHIEN_SU_KIENUncheckedCreateWithoutDatVesInput = {
+    id_phien_su_kien?: string
+    ma_su_kien: string
+    thoi_gian_bat_dau: Date | string
+    thoi_gian_ket_thuc: Date | string
+    thoi_gian_mo_dat_ve: Date | string
+    thoi_gian_dong_dat_ve: Date | string
+    loaiVes?: LOAI_VEUncheckedCreateNestedManyWithoutPhien_su_kienInput
+    gheDats?: GHE_DATUncheckedCreateNestedManyWithoutPhien_su_kienInput
   }
 
-  export type SU_KIENCreateOrConnectWithoutDatVesInput = {
-    where: SU_KIENWhereUniqueInput
-    create: XOR<SU_KIENCreateWithoutDatVesInput, SU_KIENUncheckedCreateWithoutDatVesInput>
+  export type PHIEN_SU_KIENCreateOrConnectWithoutDatVesInput = {
+    where: PHIEN_SU_KIENWhereUniqueInput
+    create: XOR<PHIEN_SU_KIENCreateWithoutDatVesInput, PHIEN_SU_KIENUncheckedCreateWithoutDatVesInput>
   }
 
   export type KHACHCreateWithoutDatVeInput = {
@@ -26207,18 +26394,16 @@ export namespace Prisma {
   export type THANH_TOANCreateWithoutDatVeInput = {
     id: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal | DecimalJsLike | number | string
-    trang_thai: $Enums.TRANG_THAI_THANH_TOAN
+    trang_thai?: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: Date | string
   }
 
   export type THANH_TOANUncheckedCreateWithoutDatVeInput = {
     id: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal | DecimalJsLike | number | string
-    trang_thai: $Enums.TRANG_THAI_THANH_TOAN
+    trang_thai?: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: Date | string
   }
 
@@ -26232,60 +26417,37 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type SU_KIENUpsertWithoutDatVesInput = {
-    update: XOR<SU_KIENUpdateWithoutDatVesInput, SU_KIENUncheckedUpdateWithoutDatVesInput>
-    create: XOR<SU_KIENCreateWithoutDatVesInput, SU_KIENUncheckedCreateWithoutDatVesInput>
-    where?: SU_KIENWhereInput
+  export type PHIEN_SU_KIENUpsertWithoutDatVesInput = {
+    update: XOR<PHIEN_SU_KIENUpdateWithoutDatVesInput, PHIEN_SU_KIENUncheckedUpdateWithoutDatVesInput>
+    create: XOR<PHIEN_SU_KIENCreateWithoutDatVesInput, PHIEN_SU_KIENUncheckedCreateWithoutDatVesInput>
+    where?: PHIEN_SU_KIENWhereInput
   }
 
-  export type SU_KIENUpdateToOneWithWhereWithoutDatVesInput = {
-    where?: SU_KIENWhereInput
-    data: XOR<SU_KIENUpdateWithoutDatVesInput, SU_KIENUncheckedUpdateWithoutDatVesInput>
+  export type PHIEN_SU_KIENUpdateToOneWithWhereWithoutDatVesInput = {
+    where?: PHIEN_SU_KIENWhereInput
+    data: XOR<PHIEN_SU_KIENUpdateWithoutDatVesInput, PHIEN_SU_KIENUncheckedUpdateWithoutDatVesInput>
   }
 
-  export type SU_KIENUpdateWithoutDatVesInput = {
-    ma_su_kien?: NullableStringFieldUpdateOperationsInput | string | null
-    ten_su_kien?: StringFieldUpdateOperationsInput | string
-    mo_ta?: StringFieldUpdateOperationsInput | string
-    ngay_bat_dau?: DateTimeFieldUpdateOperationsInput | Date | string
-    ngay_ket_thuc?: DateTimeFieldUpdateOperationsInput | Date | string
-    dia_diem?: StringFieldUpdateOperationsInput | string
-    kinh_do?: FloatFieldUpdateOperationsInput | number
-    vi_do?: FloatFieldUpdateOperationsInput | number
-    trang_thai?: EnumENUM_SU_KIENFieldUpdateOperationsInput | $Enums.ENUM_SU_KIEN
-    hinh_anh?: StringFieldUpdateOperationsInput | string
-    duong_dan?: StringFieldUpdateOperationsInput | string
-    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
-    ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
-    ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    loai_su_kien?: LOAI_SU_KIENUpdateOneRequiredWithoutSuKiensNestedInput
-    nguoi_tao?: NHAN_VIENUpdateOneRequiredWithoutSuKiensNestedInput
-    suKienPheDuyets?: SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput
-    phienSuKiens?: PHIEN_SU_KIENUpdateManyWithoutSu_kienNestedInput
-    ghes?: GHEUpdateManyWithoutSuKienNestedInput
+  export type PHIEN_SU_KIENUpdateWithoutDatVesInput = {
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    thoi_gian_bat_dau?: DateTimeFieldUpdateOperationsInput | Date | string
+    thoi_gian_ket_thuc?: DateTimeFieldUpdateOperationsInput | Date | string
+    thoi_gian_mo_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
+    thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
+    su_kien?: SU_KIENUpdateOneRequiredWithoutPhienSuKiensNestedInput
+    loaiVes?: LOAI_VEUpdateManyWithoutPhien_su_kienNestedInput
+    gheDats?: GHE_DATUpdateManyWithoutPhien_su_kienNestedInput
   }
 
-  export type SU_KIENUncheckedUpdateWithoutDatVesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    id_loai_su_kien?: IntFieldUpdateOperationsInput | number
-    ma_su_kien?: NullableStringFieldUpdateOperationsInput | string | null
-    ma_nhan_vien?: StringFieldUpdateOperationsInput | string
-    ten_su_kien?: StringFieldUpdateOperationsInput | string
-    mo_ta?: StringFieldUpdateOperationsInput | string
-    ngay_bat_dau?: DateTimeFieldUpdateOperationsInput | Date | string
-    ngay_ket_thuc?: DateTimeFieldUpdateOperationsInput | Date | string
-    dia_diem?: StringFieldUpdateOperationsInput | string
-    kinh_do?: FloatFieldUpdateOperationsInput | number
-    vi_do?: FloatFieldUpdateOperationsInput | number
-    trang_thai?: EnumENUM_SU_KIENFieldUpdateOperationsInput | $Enums.ENUM_SU_KIEN
-    hinh_anh?: StringFieldUpdateOperationsInput | string
-    duong_dan?: StringFieldUpdateOperationsInput | string
-    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
-    ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
-    ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput
-    phienSuKiens?: PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienNestedInput
-    ghes?: GHEUncheckedUpdateManyWithoutSuKienNestedInput
+  export type PHIEN_SU_KIENUncheckedUpdateWithoutDatVesInput = {
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    thoi_gian_bat_dau?: DateTimeFieldUpdateOperationsInput | Date | string
+    thoi_gian_ket_thuc?: DateTimeFieldUpdateOperationsInput | Date | string
+    thoi_gian_mo_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
+    thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
+    loaiVes?: LOAI_VEUncheckedUpdateManyWithoutPhien_su_kienNestedInput
+    gheDats?: GHE_DATUncheckedUpdateManyWithoutPhien_su_kienNestedInput
   }
 
   export type KHACHUpsertWithoutDatVeInput = {
@@ -26349,7 +26511,6 @@ export namespace Prisma {
     id?: StringFilter<"THANH_TOAN"> | string
     ma_don_hang?: StringFilter<"THANH_TOAN"> | string
     cong_thanh_toan?: StringFilter<"THANH_TOAN"> | string
-    ma_giao_dich?: StringFilter<"THANH_TOAN"> | string
     so_tien?: DecimalFilter<"THANH_TOAN"> | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFilter<"THANH_TOAN"> | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFilter<"THANH_TOAN"> | Date | string
@@ -26361,7 +26522,7 @@ export namespace Prisma {
     ngay_tao?: Date | string
     het_han: Date | string
     trang_thai?: $Enums.TRANG_THAI_DON_HANG
-    su_kien: SU_KIENCreateNestedOneWithoutDatVesInput
+    phienSuKien: PHIEN_SU_KIENCreateNestedOneWithoutDatVesInput
     nguoi_dat_ve: KHACHCreateNestedOneWithoutDatVeInput
     thanhToans?: THANH_TOANCreateNestedManyWithoutDatVeInput
   }
@@ -26370,7 +26531,7 @@ export namespace Prisma {
     id?: number
     ma_don_hang?: string | null
     ma_khach: string
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
     het_han: Date | string
@@ -26413,7 +26574,7 @@ export namespace Prisma {
   export type VECreateWithoutChiTietDatVeInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -26421,7 +26582,7 @@ export namespace Prisma {
   export type VEUncheckedCreateWithoutChiTietDatVeInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -26453,7 +26614,7 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
     trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
-    su_kien?: SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
+    phienSuKien?: PHIEN_SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
     nguoi_dat_ve?: KHACHUpdateOneRequiredWithoutDatVeNestedInput
     thanhToans?: THANH_TOANUpdateManyWithoutDatVeNestedInput
   }
@@ -26462,7 +26623,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
     ma_khach?: StringFieldUpdateOperationsInput | string
-    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
     tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26526,7 +26687,7 @@ export namespace Prisma {
     id_ve?: StringFilter<"VE"> | string
     id_chi_tiet?: StringFilter<"VE"> | string
     trang_thai?: EnumTRANG_THAI_VEFilter<"VE"> | $Enums.TRANG_THAI_VE
-    QR_code?: StringFilter<"VE"> | string
+    QR_code?: StringNullableFilter<"VE"> | string | null
     ngay_phat_hanh?: DateTimeFilter<"VE"> | Date | string
     ngay_check_in?: DateTimeNullableFilter<"VE"> | Date | string | null
   }
@@ -26612,7 +26773,6 @@ export namespace Prisma {
     ngay_xoa?: Date | string | null
     loai_su_kien: LOAI_SU_KIENCreateNestedOneWithoutSuKiensInput
     nguoi_tao: NHAN_VIENCreateNestedOneWithoutSuKiensInput
-    datVes?: DAT_VECreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENCreateNestedManyWithoutSu_kienInput
   }
@@ -26635,7 +26795,6 @@ export namespace Prisma {
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
-    datVes?: DAT_VEUncheckedCreateNestedManyWithoutSu_kienInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedCreateNestedManyWithoutSu_kienInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedCreateNestedManyWithoutSu_kienInput
   }
@@ -26647,12 +26806,16 @@ export namespace Prisma {
 
   export type GHE_DATCreateWithoutGheInput = {
     id?: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
     phien_su_kien: PHIEN_SU_KIENCreateNestedOneWithoutGheDatsInput
   }
 
   export type GHE_DATUncheckedCreateWithoutGheInput = {
     id?: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATCreateOrConnectWithoutGheInput = {
@@ -26693,7 +26856,6 @@ export namespace Prisma {
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loai_su_kien?: LOAI_SU_KIENUpdateOneRequiredWithoutSuKiensNestedInput
     nguoi_tao?: NHAN_VIENUpdateOneRequiredWithoutSuKiensNestedInput
-    datVes?: DAT_VEUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUpdateManyWithoutSu_kienNestedInput
   }
@@ -26716,7 +26878,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    datVes?: DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienNestedInput
   }
@@ -26772,6 +26933,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve: Date | string
     su_kien: SU_KIENCreateNestedOneWithoutPhienSuKiensInput
     loaiVes?: LOAI_VECreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VECreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENUncheckedCreateWithoutGheDatsInput = {
@@ -26782,6 +26944,7 @@ export namespace Prisma {
     thoi_gian_mo_dat_ve: Date | string
     thoi_gian_dong_dat_ve: Date | string
     loaiVes?: LOAI_VEUncheckedCreateNestedManyWithoutPhien_su_kienInput
+    datVes?: DAT_VEUncheckedCreateNestedManyWithoutPhienSuKienInput
   }
 
   export type PHIEN_SU_KIENCreateOrConnectWithoutGheDatsInput = {
@@ -26841,6 +27004,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     su_kien?: SU_KIENUpdateOneRequiredWithoutPhienSuKiensNestedInput
     loaiVes?: LOAI_VEUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type PHIEN_SU_KIENUncheckedUpdateWithoutGheDatsInput = {
@@ -26851,6 +27015,7 @@ export namespace Prisma {
     thoi_gian_mo_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     loaiVes?: LOAI_VEUncheckedUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUncheckedUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type DAT_VECreateWithoutThanhToansInput = {
@@ -26859,7 +27024,7 @@ export namespace Prisma {
     ngay_tao?: Date | string
     het_han: Date | string
     trang_thai?: $Enums.TRANG_THAI_DON_HANG
-    su_kien: SU_KIENCreateNestedOneWithoutDatVesInput
+    phienSuKien: PHIEN_SU_KIENCreateNestedOneWithoutDatVesInput
     nguoi_dat_ve: KHACHCreateNestedOneWithoutDatVeInput
     chiTietDatVes?: CHI_TIET_DAT_VECreateNestedManyWithoutDatVeInput
   }
@@ -26868,7 +27033,7 @@ export namespace Prisma {
     id?: number
     ma_don_hang?: string | null
     ma_khach: string
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
     het_han: Date | string
@@ -26898,7 +27063,7 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
     trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
-    su_kien?: SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
+    phienSuKien?: PHIEN_SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
     nguoi_dat_ve?: KHACHUpdateOneRequiredWithoutDatVeNestedInput
     chiTietDatVes?: CHI_TIET_DAT_VEUpdateManyWithoutDatVeNestedInput
   }
@@ -26907,7 +27072,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
     ma_khach?: StringFieldUpdateOperationsInput | string
-    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
     tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -26924,6 +27089,8 @@ export namespace Prisma {
     ngay_sinh?: Date | string | null
     gioi_tinh?: $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: boolean
+    dang_hoat_dong?: boolean
+    anh_dai_dien?: string | null
     ngay_tao?: Date | string
     ngay_cap_nhat?: Date | string
     ngay_xoa?: Date | string | null
@@ -26938,6 +27105,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26957,6 +27126,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -26976,6 +27147,8 @@ export namespace Prisma {
     ngay_sinh?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gioi_tinh?: EnumENUM_GIOI_TINHFieldUpdateOperationsInput | $Enums.ENUM_GIOI_TINH
     da_xac_thuc?: BoolFieldUpdateOperationsInput | boolean
+    dang_hoat_dong?: BoolFieldUpdateOperationsInput | boolean
+    anh_dai_dien?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -27069,7 +27242,7 @@ export namespace Prisma {
   export type DAT_VECreateManyNguoi_dat_veInput = {
     id?: number
     ma_don_hang?: string | null
-    ma_su_kien: string
+    id_phien_su_kien: string
     tong_tien: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
     het_han: Date | string
@@ -27082,7 +27255,7 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
     trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
-    su_kien?: SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
+    phienSuKien?: PHIEN_SU_KIENUpdateOneRequiredWithoutDatVesNestedInput
     chiTietDatVes?: CHI_TIET_DAT_VEUpdateManyWithoutDatVeNestedInput
     thanhToans?: THANH_TOANUpdateManyWithoutDatVeNestedInput
   }
@@ -27090,7 +27263,7 @@ export namespace Prisma {
   export type DAT_VEUncheckedUpdateWithoutNguoi_dat_veInput = {
     id?: IntFieldUpdateOperationsInput | number
     ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
-    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
     tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27102,7 +27275,7 @@ export namespace Prisma {
   export type DAT_VEUncheckedUpdateManyWithoutNguoi_dat_veInput = {
     id?: IntFieldUpdateOperationsInput | number
     ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
-    ma_su_kien?: StringFieldUpdateOperationsInput | string
+    id_phien_su_kien?: StringFieldUpdateOperationsInput | string
     tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     het_han?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27144,7 +27317,6 @@ export namespace Prisma {
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     loai_su_kien?: LOAI_SU_KIENUpdateOneRequiredWithoutSuKiensNestedInput
-    datVes?: DAT_VEUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUpdateManyWithoutSuKienNestedInput
@@ -27167,7 +27339,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    datVes?: DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUncheckedUpdateManyWithoutSuKienNestedInput
@@ -27227,7 +27398,6 @@ export namespace Prisma {
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     nguoi_tao?: NHAN_VIENUpdateOneRequiredWithoutSuKiensNestedInput
-    datVes?: DAT_VEUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUpdateManyWithoutSuKienNestedInput
@@ -27250,7 +27420,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    datVes?: DAT_VEUncheckedUpdateManyWithoutSu_kienNestedInput
     suKienPheDuyets?: SU_KIEN_PHE_DUYETUncheckedUpdateManyWithoutSu_kienNestedInput
     phienSuKiens?: PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienNestedInput
     ghes?: GHEUncheckedUpdateManyWithoutSuKienNestedInput
@@ -27273,16 +27442,6 @@ export namespace Prisma {
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_cap_nhat?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_xoa?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type DAT_VECreateManySu_kienInput = {
-    id?: number
-    ma_don_hang?: string | null
-    ma_khach: string
-    tong_tien: Decimal | DecimalJsLike | number | string
-    ngay_tao?: Date | string
-    het_han: Date | string
-    trang_thai?: $Enums.TRANG_THAI_DON_HANG
   }
 
   export type SU_KIEN_PHE_DUYETCreateManySu_kienInput = {
@@ -27310,39 +27469,6 @@ export namespace Prisma {
     loai_ghe: string
     gia: Decimal | DecimalJsLike | number | string
     ngay_tao?: Date | string
-  }
-
-  export type DAT_VEUpdateWithoutSu_kienInput = {
-    ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
-    tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
-    het_han?: DateTimeFieldUpdateOperationsInput | Date | string
-    trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
-    nguoi_dat_ve?: KHACHUpdateOneRequiredWithoutDatVeNestedInput
-    chiTietDatVes?: CHI_TIET_DAT_VEUpdateManyWithoutDatVeNestedInput
-    thanhToans?: THANH_TOANUpdateManyWithoutDatVeNestedInput
-  }
-
-  export type DAT_VEUncheckedUpdateWithoutSu_kienInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
-    ma_khach?: StringFieldUpdateOperationsInput | string
-    tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
-    het_han?: DateTimeFieldUpdateOperationsInput | Date | string
-    trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
-    chiTietDatVes?: CHI_TIET_DAT_VEUncheckedUpdateManyWithoutDatVeNestedInput
-    thanhToans?: THANH_TOANUncheckedUpdateManyWithoutDatVeNestedInput
-  }
-
-  export type DAT_VEUncheckedUpdateManyWithoutSu_kienInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
-    ma_khach?: StringFieldUpdateOperationsInput | string
-    tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
-    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
-    het_han?: DateTimeFieldUpdateOperationsInput | Date | string
-    trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
   }
 
   export type SU_KIEN_PHE_DUYETUpdateWithoutSu_kienInput = {
@@ -27380,6 +27506,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     loaiVes?: LOAI_VEUpdateManyWithoutPhien_su_kienNestedInput
     gheDats?: GHE_DATUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type PHIEN_SU_KIENUncheckedUpdateWithoutSu_kienInput = {
@@ -27390,6 +27517,7 @@ export namespace Prisma {
     thoi_gian_dong_dat_ve?: DateTimeFieldUpdateOperationsInput | Date | string
     loaiVes?: LOAI_VEUncheckedUpdateManyWithoutPhien_su_kienNestedInput
     gheDats?: GHE_DATUncheckedUpdateManyWithoutPhien_su_kienNestedInput
+    datVes?: DAT_VEUncheckedUpdateManyWithoutPhienSuKienNestedInput
   }
 
   export type PHIEN_SU_KIENUncheckedUpdateManyWithoutSu_kienInput = {
@@ -27445,6 +27573,18 @@ export namespace Prisma {
   export type GHE_DATCreateManyPhien_su_kienInput = {
     id?: string
     id_ghe: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
+  }
+
+  export type DAT_VECreateManyPhienSuKienInput = {
+    id?: number
+    ma_don_hang?: string | null
+    ma_khach: string
+    tong_tien: Decimal | DecimalJsLike | number | string
+    ngay_tao?: Date | string
+    het_han: Date | string
+    trang_thai?: $Enums.TRANG_THAI_DON_HANG
   }
 
   export type LOAI_VEUpdateWithoutPhien_su_kienInput = {
@@ -27481,17 +27621,56 @@ export namespace Prisma {
 
   export type GHE_DATUpdateWithoutPhien_su_kienInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     ghe?: GHEUpdateOneRequiredWithoutGheDatsNestedInput
   }
 
   export type GHE_DATUncheckedUpdateWithoutPhien_su_kienInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATUncheckedUpdateManyWithoutPhien_su_kienInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_ghe?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type DAT_VEUpdateWithoutPhienSuKienInput = {
+    ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
+    tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
+    het_han?: DateTimeFieldUpdateOperationsInput | Date | string
+    trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
+    nguoi_dat_ve?: KHACHUpdateOneRequiredWithoutDatVeNestedInput
+    chiTietDatVes?: CHI_TIET_DAT_VEUpdateManyWithoutDatVeNestedInput
+    thanhToans?: THANH_TOANUpdateManyWithoutDatVeNestedInput
+  }
+
+  export type DAT_VEUncheckedUpdateWithoutPhienSuKienInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
+    ma_khach?: StringFieldUpdateOperationsInput | string
+    tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
+    het_han?: DateTimeFieldUpdateOperationsInput | Date | string
+    trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
+    chiTietDatVes?: CHI_TIET_DAT_VEUncheckedUpdateManyWithoutDatVeNestedInput
+    thanhToans?: THANH_TOANUncheckedUpdateManyWithoutDatVeNestedInput
+  }
+
+  export type DAT_VEUncheckedUpdateManyWithoutPhienSuKienInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    ma_don_hang?: NullableStringFieldUpdateOperationsInput | string | null
+    ma_khach?: StringFieldUpdateOperationsInput | string
+    tong_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
+    ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
+    het_han?: DateTimeFieldUpdateOperationsInput | Date | string
+    trang_thai?: EnumTRANG_THAI_DON_HANGFieldUpdateOperationsInput | $Enums.TRANG_THAI_DON_HANG
   }
 
   export type CHI_TIET_DAT_VECreateManyLoai_veInput = {
@@ -27554,9 +27733,8 @@ export namespace Prisma {
   export type THANH_TOANCreateManyDatVeInput = {
     id: string
     cong_thanh_toan: string
-    ma_giao_dich: string
     so_tien: Decimal | DecimalJsLike | number | string
-    trang_thai: $Enums.TRANG_THAI_THANH_TOAN
+    trang_thai?: $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: Date | string
   }
 
@@ -27598,7 +27776,6 @@ export namespace Prisma {
   export type THANH_TOANUpdateWithoutDatVeInput = {
     id?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27607,7 +27784,6 @@ export namespace Prisma {
   export type THANH_TOANUncheckedUpdateWithoutDatVeInput = {
     id?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27616,7 +27792,6 @@ export namespace Prisma {
   export type THANH_TOANUncheckedUpdateManyWithoutDatVeInput = {
     id?: StringFieldUpdateOperationsInput | string
     cong_thanh_toan?: StringFieldUpdateOperationsInput | string
-    ma_giao_dich?: StringFieldUpdateOperationsInput | string
     so_tien?: DecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string
     trang_thai?: EnumTRANG_THAI_THANH_TOANFieldUpdateOperationsInput | $Enums.TRANG_THAI_THANH_TOAN
     ngay_tao?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27625,7 +27800,7 @@ export namespace Prisma {
   export type VECreateManyChiTietDatVeInput = {
     id_ve: string
     trang_thai?: $Enums.TRANG_THAI_VE
-    QR_code: string
+    QR_code?: string | null
     ngay_phat_hanh?: Date | string
     ngay_check_in?: Date | string | null
   }
@@ -27633,7 +27808,7 @@ export namespace Prisma {
   export type VEUpdateWithoutChiTietDatVeInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -27641,7 +27816,7 @@ export namespace Prisma {
   export type VEUncheckedUpdateWithoutChiTietDatVeInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -27649,7 +27824,7 @@ export namespace Prisma {
   export type VEUncheckedUpdateManyWithoutChiTietDatVeInput = {
     id_ve?: StringFieldUpdateOperationsInput | string
     trang_thai?: EnumTRANG_THAI_VEFieldUpdateOperationsInput | $Enums.TRANG_THAI_VE
-    QR_code?: StringFieldUpdateOperationsInput | string
+    QR_code?: NullableStringFieldUpdateOperationsInput | string | null
     ngay_phat_hanh?: DateTimeFieldUpdateOperationsInput | Date | string
     ngay_check_in?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -27657,21 +27832,29 @@ export namespace Prisma {
   export type GHE_DATCreateManyGheInput = {
     id?: string
     id_phien_su_kien: string
+    trang_thai?: $Enums.TRANG_THAI_GHE
+    het_han?: Date | string | null
   }
 
   export type GHE_DATUpdateWithoutGheInput = {
     id?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     phien_su_kien?: PHIEN_SU_KIENUpdateOneRequiredWithoutGheDatsNestedInput
   }
 
   export type GHE_DATUncheckedUpdateWithoutGheInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type GHE_DATUncheckedUpdateManyWithoutGheInput = {
     id?: StringFieldUpdateOperationsInput | string
     id_phien_su_kien?: StringFieldUpdateOperationsInput | string
+    trang_thai?: EnumTRANG_THAI_GHEFieldUpdateOperationsInput | $Enums.TRANG_THAI_GHE
+    het_han?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

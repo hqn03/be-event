@@ -29,15 +29,9 @@ const eventApprovalService = {
       });
 
       return await tx.sU_KIEN.update({
-        where: {
-          ma_su_kien,
-        },
-        data: {
-          trang_thai: "DANG_DUYET",
-        },
-        include: {
-          loai_su_kien: true,
-        },
+        where: { ma_su_kien },
+        data: { trang_thai: "DANG_XU_LY" },
+        include: { loai_su_kien: true },
       });
     });
 
@@ -49,13 +43,7 @@ const eventApprovalService = {
       where: {
         trang_thai: "DANG_XU_LY",
       },
-      include: {
-        su_kien: {
-          select: {
-            ten_su_kien: true,
-          },
-        },
-      },
+      include: { su_kien: { select: { ten_su_kien: true } } },
     });
   },
 
@@ -75,7 +63,8 @@ const eventApprovalService = {
           ma_su_kien: approval.ma_su_kien,
         },
         data: {
-          trang_thai: approval.trang_thai === "TU_CHOI" ? "NHAP" : "DA_DUYET",
+          trang_thai:
+            approval.trang_thai === "TU_CHOI" ? "NHAP" : "SAP_DIEN_RA",
         },
       });
 

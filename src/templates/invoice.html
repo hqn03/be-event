@@ -1,0 +1,148 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: DejaVu Sans, Arial, sans-serif;
+        padding: 20px 40px;
+        color: #003399;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .company {
+        font-size: 16px;
+        line-height: 20px;
+        color: #003399;
+      }
+
+      .invoice-title {
+        font-size: 26px;
+        font-weight: bold;
+        margin-top: 10px;
+      }
+
+      .invoice-number {
+        color: red;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .row {
+        margin: 10px 0;
+        font-size: 15px;
+        color: #003399;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      th, td {
+        border: 1px solid #003399;
+        padding: 5px 8px;
+        height: 35px;
+      }
+
+      th {
+        background: #eef3ff;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .total {
+        font-weight: bold;
+        font-size: 16px;
+      }
+
+      .footer {
+        margin-top: 40px;
+        font-size: 14px;
+        color: #003399;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="header">
+      <img src="{{LOGO}}" width="120" style="margin-bottom:10px" />
+      <div class="company">
+        CÔNG TY TNHH 1 thành viên NHATEVENT <br />
+        Điện thoại: 0789.468.060 — Email: nhatld1410@gmail.com <br />
+        <!-- - Bình nóng lạnh: Ferroli - Ariston - Rossi <br />
+        - Bồn nước: Sơn Hà - Tân Á - Tân Mỹ <br />
+        - Chậu rửa Inox 304, Chậu đúc Picenza 304, Sen vòi cao cấp Ferrari <br />
+        Cơ sở 1: Số nhà 40 Đường Nội 2 - Đức Thượng - Hoài Đức - Hà Nội <br />
+        Cơ sở 2: KĐT Văn La - Quang Trung - Hà Đông - Hà Nội <br />
+        Điện thoại: 0977.65.8788 - 098 228 3054 — Email: baotnbvs@gmail.com <br />
+        STK: 1903 484 5505015 — Nguyễn Thị Nga — Techcombank -->
+      </div>
+
+      <div class="invoice-title">HÓA ĐƠN ĐẶT VÉ</div>
+      <div class="invoice-number">Số HĐ: {{INVOICE_NO}}</div>
+    </div>
+
+    <div class="row">
+      Tên sự kiện: {{EVENT}}
+    </div>
+    <div class="row">
+        Thời gian: {{TIME}}
+    </div>
+    <div class="row">
+      Địa điểm: {{PLACE}}
+    </div>
+
+    <div class="row">
+      Khách hàng: {{CUSTOMER}} &nbsp;&nbsp;&nbsp;&nbsp;
+      Email: {{EMAIL}} &nbsp;&nbsp;&nbsp;&nbsp;
+      SĐT: {{PHONE}}
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Tên sản phẩm</th>
+          <th>ĐVT</th>
+          <th>SL</th>
+          <th>Đơn giá</th>
+          <th>Thành tiền</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{ROWS}}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="5" class="total">Tổng</td>
+          <td class="total">{{TOTAL}}</td>
+        </tr>
+      </tfoot>
+    </table>
+
+    <div class="row">
+      Bằng chữ: {{TOTAL_TEXT}}
+    </div>
+
+    <div class="footer">
+        <div style="width:100%; text-align:right; ">
+            Đà Nẵng, ngày {{DAY}} tháng {{MONTH}} năm {{YEAR}}<br /><br />
+        </div>
+      <div style="float:right; text-align:center;">
+        Người bán hàng<br /><br /><br />
+        (Ký, ghi rõ họ tên)
+      </div>
+      <div style="text-align:center;">
+        Người mua hàng<br /><br /><br />
+        (Ký, ghi rõ họ tên)
+      </div>
+    </div>
+
+  </body>
+</html>

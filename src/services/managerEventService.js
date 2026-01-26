@@ -7,12 +7,8 @@ const managerEventService = {
   async getEvents({ status, user }) {
     return await mysql.sU_KIEN.findMany({
       where: { ma_nhan_vien: user.id, trang_thai: status, ngay_xoa: null },
-      include: {
-        loai_su_kien: true,
-      },
-      orderBy: {
-        ngay_tao: "desc",
-      },
+      include: { loai_su_kien: true },
+      orderBy: { ngay_tao: "asc" },
     });
   },
 
@@ -55,7 +51,6 @@ const managerEventService = {
   async updateEvent({
     id,
     id_loai_su_kien,
-    ma_nhan_vien,
     ten_su_kien,
     mo_ta,
     vi_do,
@@ -65,7 +60,11 @@ const managerEventService = {
     ngay_ket_thuc,
     user,
   }) {
-    if (user.id !== ma_nhan_vien) {
+    const suKien = await mysql.sU_KIEN.findUnique({
+      where: { ma_su_kien: id },
+    });
+
+    if (user.id !== suKien.ma_nhan_vien) {
       throw new Error("Bạn không có quyền chỉnh sửa");
     }
 
@@ -94,7 +93,9 @@ const managerEventService = {
           },
         },
         loai_su_kien: true,
-        ghes: true,
+        ghes: {
+          orderBy: { ngay_tao: "asc" },
+        },
       },
     });
 
@@ -102,7 +103,7 @@ const managerEventService = {
       throw new Error("Không tìm thấy sự kiện");
     }
 
-    if (["NHAP", "DANG_DUYET"].includes(event.trang_thai)) {
+    if (["NHAP", "DANG_XU_LY"].includes(event.trang_thai)) {
       console.log("[EVENT SERVICE] GET EVENT");
     }
 
@@ -145,7 +146,7 @@ const managerEventService = {
       return await tx.sU_KIEN.update({
         where: { ma_su_kien: idEvent },
         data: {
-          trang_thai: "DANG_DUYET",
+          trang_thai: "DANG_XU_LY",
         },
         select: {
           trang_thai: true,

@@ -137,6 +137,8 @@ exports.Prisma.NGUOI_DUNGScalarFieldEnum = {
   ngay_sinh: 'ngay_sinh',
   gioi_tinh: 'gioi_tinh',
   da_xac_thuc: 'da_xac_thuc',
+  dang_hoat_dong: 'dang_hoat_dong',
+  anh_dai_dien: 'anh_dai_dien',
   ngay_tao: 'ngay_tao',
   ngay_cap_nhat: 'ngay_cap_nhat',
   ngay_xoa: 'ngay_xoa'
@@ -166,6 +168,7 @@ exports.Prisma.LOAI_SU_KIENScalarFieldEnum = {
   id: 'id',
   ten_loai_su_kien: 'ten_loai_su_kien',
   duong_dan: 'duong_dan',
+  mo_ta: 'mo_ta',
   ngay_tao: 'ngay_tao',
   ngay_cap_nhat: 'ngay_cap_nhat',
   ngay_xoa: 'ngay_xoa'
@@ -225,7 +228,7 @@ exports.Prisma.DAT_VEScalarFieldEnum = {
   id: 'id',
   ma_don_hang: 'ma_don_hang',
   ma_khach: 'ma_khach',
-  ma_su_kien: 'ma_su_kien',
+  id_phien_su_kien: 'id_phien_su_kien',
   tong_tien: 'tong_tien',
   ngay_tao: 'ngay_tao',
   het_han: 'het_han',
@@ -267,14 +270,15 @@ exports.Prisma.GHEScalarFieldEnum = {
 exports.Prisma.GHE_DATScalarFieldEnum = {
   id: 'id',
   id_ghe: 'id_ghe',
-  id_phien_su_kien: 'id_phien_su_kien'
+  id_phien_su_kien: 'id_phien_su_kien',
+  trang_thai: 'trang_thai',
+  het_han: 'het_han'
 };
 
 exports.Prisma.THANH_TOANScalarFieldEnum = {
   id: 'id',
   ma_don_hang: 'ma_don_hang',
   cong_thanh_toan: 'cong_thanh_toan',
-  ma_giao_dich: 'ma_giao_dich',
   so_tien: 'so_tien',
   trang_thai: 'trang_thai',
   ngay_tao: 'ngay_tao'
@@ -300,7 +304,8 @@ exports.Prisma.NGUOI_DUNGOrderByRelevanceFieldEnum = {
   ho_ten: 'ho_ten',
   email: 'email',
   mat_khau: 'mat_khau',
-  so_dien_thoai: 'so_dien_thoai'
+  so_dien_thoai: 'so_dien_thoai',
+  anh_dai_dien: 'anh_dai_dien'
 };
 
 exports.Prisma.TOKEN_XAC_THUCOrderByRelevanceFieldEnum = {
@@ -322,7 +327,8 @@ exports.Prisma.NHAN_VIENOrderByRelevanceFieldEnum = {
 
 exports.Prisma.LOAI_SU_KIENOrderByRelevanceFieldEnum = {
   ten_loai_su_kien: 'ten_loai_su_kien',
-  duong_dan: 'duong_dan'
+  duong_dan: 'duong_dan',
+  mo_ta: 'mo_ta'
 };
 
 exports.Prisma.SU_KIENOrderByRelevanceFieldEnum = {
@@ -357,7 +363,7 @@ exports.Prisma.LOAI_VEOrderByRelevanceFieldEnum = {
 exports.Prisma.DAT_VEOrderByRelevanceFieldEnum = {
   ma_don_hang: 'ma_don_hang',
   ma_khach: 'ma_khach',
-  ma_su_kien: 'ma_su_kien'
+  id_phien_su_kien: 'id_phien_su_kien'
 };
 
 exports.Prisma.CHI_TIET_DAT_VEOrderByRelevanceFieldEnum = {
@@ -393,8 +399,7 @@ exports.Prisma.GHE_DATOrderByRelevanceFieldEnum = {
 exports.Prisma.THANH_TOANOrderByRelevanceFieldEnum = {
   id: 'id',
   ma_don_hang: 'ma_don_hang',
-  cong_thanh_toan: 'cong_thanh_toan',
-  ma_giao_dich: 'ma_giao_dich'
+  cong_thanh_toan: 'cong_thanh_toan'
 };
 exports.ENUM_GIOI_TINH = exports.$Enums.ENUM_GIOI_TINH = {
   NAM: 'NAM',
@@ -405,6 +410,9 @@ exports.ENUM_GIOI_TINH = exports.$Enums.ENUM_GIOI_TINH = {
 exports.ENUM_SU_KIEN = exports.$Enums.ENUM_SU_KIEN = {
   NHAP: 'NHAP',
   DANG_DUYET: 'DANG_DUYET',
+  DANG_XU_LY: 'DANG_XU_LY',
+  SAP_DIEN_RA: 'SAP_DIEN_RA',
+  DANG_DIEN_RA: 'DANG_DIEN_RA',
   DA_DUYET: 'DA_DUYET',
   KET_THUC: 'KET_THUC'
 };
@@ -423,10 +431,18 @@ exports.TRANG_THAI_DON_HANG = exports.$Enums.TRANG_THAI_DON_HANG = {
 
 exports.TRANG_THAI_VE = exports.$Enums.TRANG_THAI_VE = {
   CHUA_CHECK_IN: 'CHUA_CHECK_IN',
-  DA_CHECK_IN: 'DA_CHECK_IN'
+  CHECKED_IN: 'CHECKED_IN',
+  USED: 'USED',
+  EXPIRED: 'EXPIRED'
+};
+
+exports.TRANG_THAI_GHE = exports.$Enums.TRANG_THAI_GHE = {
+  GIU_CHO: 'GIU_CHO',
+  THANH_TOAN: 'THANH_TOAN'
 };
 
 exports.TRANG_THAI_THANH_TOAN = exports.$Enums.TRANG_THAI_THANH_TOAN = {
+  DANG_XU_LY: 'DANG_XU_LY',
   THANH_CONG: 'THANH_CONG',
   THAT_BAI: 'THAT_BAI'
 };

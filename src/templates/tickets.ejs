@@ -1,19 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8" />
-</head>
 <body style="font-family: sans-serif; padding: 20px">
-  <h2>Cảm ơn bạn đã đặt vé 🎟️</h2>
+  <h2 style="margin: 0 0 10px 0; color: #111827">Cảm ơn bạn đã đặt vé!</h2>
+  <p style="margin: 0 0 12px 0">Xin chào <strong><%= ten_khach %></strong>,</p>
+  <p style="margin: 0 0 12px 0">
+    Đơn hàng <strong>#<%= ma_don_hang %></strong> của bạn đã được tạo thành
+    công.
+  </p>
+  <br />
+
   <p>Dưới đây là danh sách vé của bạn:</p>
-  
   <% tickets.forEach(ticket => { %>
-    <div style="margin-bottom: 25px; text-align: center;">
-      <p><b>Mã vé:</b> <%= ticket.id_ve %></p>
-      <img src="<%= ticket.QR_code %>" style="width:180px; border:1px solid #ddd; border-radius:8px;" />
+  <div
+    style="
+      width: 600px;
+      display: flex;
+      align-items: center;
+      border: 1px solid black;
+      padding: 8px;
+    "
+  >
+    <div style="flex: 1">
+      <p><b><%= ten_su_kien %></b></p>
+      <p>Thời gian: <%= thoi_gian %></p>
+      <p>Địa điểm: <%= dia_diem %></p>
+      <p>Loại vé: <%= ticket.ten_loai_ve %></p>
+      <% if (ticket.ma_ghe) { %>
+      <p>Ghế: <%= ticket.ma_ghe %></p>
+      <% } %>
     </div>
+    <img
+      src="<%= ticket.QR_code %>"
+      style="width: 180px; border: 1px solid #ddd; border-radius: 8px"
+    />
+  </div>
   <% }) %>
 
-  <p style="margin-top: 30px;">Vui lòng đưa QR khi check-in.</p>
+  <p>Vui lòng đưa QR khi check-in.</p>
+  <div style="font-size: 13px; color: #6b7280">
+    Trân trọng,<br />
+    NHATEVENT
+  </div>
 </body>
-</html>

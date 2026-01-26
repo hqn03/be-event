@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `ghe_dat` ADD COLUMN `trang_thai` ENUM('GIU_CHO', 'THANH_TOAN') NOT NULL DEFAULT 'GIU_CHO';

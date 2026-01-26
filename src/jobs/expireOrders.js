@@ -3,51 +3,56 @@ import { PrismaClient as MySQLClient } from "../generated/mysql/index.js";
 const mysql = new MySQLClient();
 
 export function startExpireOrders() {
-  // 1 phút mỗi ngày
-  cron.schedule("*/1 * * * *", async () => {
+  // 1 phút
+  cron.schedule("* * * * *", async () => {
     const now = new Date();
-    await mysql.$transaction(async (tx) => {
-      const datVes = await tx.dAT_VE.findMany({
-        where: {
-          trang_thai: "CHO_THANH_TOAN",
-          het_han: { lt: now },
-        },
-        include: {
-          chiTietDatVes: true,
-        },
-      });
 
-      for (const datVe of datVes) {
-        for (const chiTiet of datVe.chiTietDatVes) {
-          if (chiTiet.id_ghe_dat) {
-            await tx.gHE_DAT.delete({
-              where: { id: chiTiet.id_ghe_dat },
-            });
+    // Lấy danh sách hết hạn
+    const datVes = await mysql.dAT_VE.findMany({
+      where: {
+        trang_thai: "CHO_THANH_TOAN",
+        het_han: { lt: now },
+      },
+      include: { chiTietDatVes: true },
+    });
+
+    if (datVes.length === 0) return;
+
+    for (const datVe of datVes) {
+      // 1 transaction nhỏ cho từng order
+      await mysql.$transaction(async (tx) => {
+        const tasks = [];
+
+        for (const ct of datVe.chiTietDatVes) {
+          // delete ghế
+          if (ct.id_ghe_dat) {
+            tasks.push(
+              tx.gHE_DAT.deleteMany({
+                where: { id: ct.id_ghe_dat },
+              })
+            );
           }
 
-          if (chiTiet.id_loai_ve) {
-            await tx.lOAI_VE.update({
-              where: {
-                id_loai_ve: chiTiet.id_loai_ve,
-              },
-              data: {
-                so_luong_con: {
-                  increment: chiTiet.so_luong,
-                },
-              },
-            });
+          // trả lại số lượng vé
+          if (ct.id_loai_ve) {
+            tasks.push(
+              tx.lOAI_VE.update({
+                where: { id_loai_ve: ct.id_loai_ve },
+                data: { so_luong_con: { increment: ct.so_luong } },
+              })
+            );
           }
         }
 
+        // chạy song song trong transaction
+        await Promise.all(tasks);
+
+        // update trạng thái
         await tx.dAT_VE.update({
-          where: {
-            id: datVe.id,
-          },
-          data: {
-            trang_thai: "HUY",
-          },
+          where: { id: datVe.id },
+          data: { trang_thai: "HUY" },
         });
-      }
-    });
+      });
+    }
   });
 }

@@ -28,19 +28,21 @@ enum ENUM_GIOI_TINH {
 }
 
 model NGUOI_DUNG {
-  id_nguoi_dung String         @id @default(uuid())
-  id_vai_tro    Int
-  ho_ten        String?
-  email         String         @unique
-  mat_khau      String
-  so_dien_thoai String?        @db.Char(10)
-  ngay_sinh     DateTime?      @db.Date
-  gioi_tinh     ENUM_GIOI_TINH @default(NAM)
-  da_xac_thuc   Boolean        @default(false)
-  ngay_tao      DateTime       @default(now())
-  ngay_cap_nhat DateTime       @updatedAt
-  ngay_xoa      DateTime?
-  vai_tro       VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
+  id_nguoi_dung  String         @id @default(uuid())
+  id_vai_tro     Int
+  ho_ten         String?
+  email          String         @unique
+  mat_khau       String
+  so_dien_thoai  String?        @db.Char(10)
+  ngay_sinh      DateTime?      @db.Date
+  gioi_tinh      ENUM_GIOI_TINH @default(NAM)
+  da_xac_thuc    Boolean        @default(false)
+  dang_hoat_dong Boolean        @default(true)
+  anh_dai_dien   String?        @db.Text
+  ngay_tao       DateTime       @default(now())
+  ngay_cap_nhat  DateTime       @updatedAt
+  ngay_xoa       DateTime?
+  vai_tro        VAI_TRO        @relation(fields: [id_vai_tro], references: [id_vai_tro])
 
   khach           KHACH?
   nhanVien        NHAN_VIEN?
@@ -79,6 +81,9 @@ model NHAN_VIEN {
 enum ENUM_SU_KIEN {
   NHAP
   DANG_DUYET
+  DANG_XU_LY
+  SAP_DIEN_RA
+  DANG_DIEN_RA
   DA_DUYET
   KET_THUC
 }
@@ -87,6 +92,7 @@ model LOAI_SU_KIEN {
   id               Int       @id @default(autoincrement())
   ten_loai_su_kien String
   duong_dan        String
+  mo_ta            String?
   suKiens          SU_KIEN[]
   ngay_tao         DateTime  @default(now())
   ngay_cap_nhat    DateTime  @updatedAt
@@ -115,7 +121,6 @@ model SU_KIEN {
   loai_su_kien LOAI_SU_KIEN @relation(fields: [id_loai_su_kien], references: [id])
   nguoi_tao    NHAN_VIEN    @relation(fields: [ma_nhan_vien], references: [ma_nhan_vien])
 
-  datVes          DAT_VE[]
   suKienPheDuyets SU_KIEN_PHE_DUYET[]
   phienSuKiens    PHIEN_SU_KIEN[]
   ghes            GHE[]
@@ -153,6 +158,7 @@ model PHIEN_SU_KIEN {
   su_kien SU_KIEN   @relation(fields: [ma_su_kien], references: [ma_su_kien])
   loaiVes LOAI_VE[]
   gheDats GHE_DAT[]
+  datVes  DAT_VE[]
 }
 
 model LOAI_VE {
@@ -176,16 +182,16 @@ enum TRANG_THAI_DON_HANG {
 }
 
 model DAT_VE {
-  id          Int                 @id @default(autoincrement())
-  ma_don_hang String?             @unique @db.Char(10)
-  ma_khach    String              @db.Char(7)
-  ma_su_kien  String              @db.Char(7)
-  tong_tien   Decimal
-  ngay_tao    DateTime            @default(now())
-  het_han     DateTime
-  trang_thai  TRANG_THAI_DON_HANG @default(CHO_THANH_TOAN)
+  id               Int                 @id @default(autoincrement())
+  ma_don_hang      String?             @unique @db.Char(10)
+  ma_khach         String              @db.Char(7)
+  id_phien_su_kien String
+  tong_tien        Decimal
+  ngay_tao         DateTime            @default(now())
+  het_han          DateTime
+  trang_thai       TRANG_THAI_DON_HANG @default(CHO_THANH_TOAN)
 
-  su_kien       SU_KIEN           @relation(fields: [ma_su_kien], references: [ma_su_kien])
+  phienSuKien   PHIEN_SU_KIEN     @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
   nguoi_dat_ve  KHACH             @relation(fields: [ma_khach], references: [ma_khach])
   chiTietDatVes CHI_TIET_DAT_VE[]
   thanhToans    THANH_TOAN[]
@@ -209,14 +215,16 @@ model CHI_TIET_DAT_VE {
 
 enum TRANG_THAI_VE {
   CHUA_CHECK_IN
-  DA_CHECK_IN
+  CHECKED_IN
+  USED
+  EXPIRED
 }
 
 model VE {
   id_ve          String        @id
   id_chi_tiet    String
   trang_thai     TRANG_THAI_VE @default(CHUA_CHECK_IN)
-  QR_code        String        @db.Text
+  QR_code        String?       @db.Text
   ngay_phat_hanh DateTime      @default(now())
   ngay_check_in  DateTime?
 
@@ -238,21 +246,24 @@ model GHE {
 }
 
 enum TRANG_THAI_GHE {
-  CHUA_THANH_TOAN
+  GIU_CHO
   THANH_TOAN
 }
 
 model GHE_DAT {
-  id               String        @id @default(nanoid())
+  id               String         @id @default(nanoid())
   id_ghe           String
   id_phien_su_kien String
-  ghe              GHE           @relation(fields: [id_ghe], references: [id])
-  phien_su_kien    PHIEN_SU_KIEN @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
+  trang_thai       TRANG_THAI_GHE @default(GIU_CHO)
+  ghe              GHE            @relation(fields: [id_ghe], references: [id])
+  het_han          DateTime?
+  phien_su_kien    PHIEN_SU_KIEN  @relation(fields: [id_phien_su_kien], references: [id_phien_su_kien])
 
   @@unique([id_ghe, id_phien_su_kien])
 }
 
 enum TRANG_THAI_THANH_TOAN {
+  DANG_XU_LY
   THANH_CONG
   THAT_BAI
 }
@@ -261,9 +272,8 @@ model THANH_TOAN {
   id              String                @id
   ma_don_hang     String                @db.Char(10)
   cong_thanh_toan String
-  ma_giao_dich    String
   so_tien         Decimal               @db.Decimal(10, 0)
-  trang_thai      TRANG_THAI_THANH_TOAN
+  trang_thai      TRANG_THAI_THANH_TOAN @default(DANG_XU_LY)
   ngay_tao        DateTime              @default(now())
 
   datVe DAT_VE @relation(fields: [ma_don_hang], references: [ma_don_hang])

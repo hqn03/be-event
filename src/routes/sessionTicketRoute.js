@@ -14,9 +14,7 @@ sessionTicketRoute.delete("/:sessionId", async (req, res) => {
   try {
     const { sessionId } = req.params;
     const result = await mysql.pHIEN_SU_KIEN.delete({
-      where: {
-        id_phien_su_kien: sessionId,
-      },
+      where: { id_phien_su_kien: sessionId },
     });
     return res.status(200).json(result);
   } catch (error) {
@@ -47,15 +45,29 @@ sessionTicketRoute.get("/:sessionId/ordered-seats", async (req, res) => {
   try {
     const { sessionId } = req.params;
     const result = await mysql.gHE_DAT.findMany({
+      where: { id_phien_su_kien: sessionId },
+      select: { id_ghe: true, trang_thai: true, het_han: true },
+    });
+    return res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json(error.message);
+  }
+});
+
+sessionTicketRoute.get("/:sessionId/order", async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const user = req.user;
+    const result = await mysql.dAT_VE.findFirst({
       where: {
         id_phien_su_kien: sessionId,
-      },
-      select: {
-        id_ghe: true,
+        trang_thai: "CHO_THANH_TOAN",
+        ma_khach: user.id,
+        het_han: { gte: new Date() },
       },
     });
-    const finalResult = result.map((i) => i.id_ghe);
-    return res.status(200).json(finalResult);
+    return res.status(200).json(result);
   } catch (error) {
     console.log(error);
     return res.status(400).json(error.message);
